@@ -40,7 +40,6 @@
                                     <input  type="text" class="form-control" 
                                     id="Inputnombre" [(ngModel)]="nuevoNombre" placeholder="{{nombre}}"  [attr.disabled]="!modo_edicion?'':null" >
                                 </div>
-                               
                                 <div class="form-group">
                                     <label for="InputEmail1">Email </label>
                                     <input  [(ngModel)]="nuevoEmail" type="email" class="form-control" id="InputEmail1" placeholder="{{email}}" [attr.disabled]="!modo_edicion?'':null" >
@@ -54,15 +53,10 @@
                                     <input  [(ngModel)]="password2" type="password" class="form-control" id="InputPassword2" placeholder="Confirm Password" [attr.disabled]="!modo_edicion?'':null" (input)="onSearchChange($event.target.value)" >
                                 </div>
                                 <div class="form-group" *ngIf="password_igual"  >
-                            
                                         <p class="text-danger" >
                                             El password debe ser igual 
                                         </p>
-                                    
-                                </div>
-        
-                                                       
-                            
+                                </div>                        
                                 <div class="padre">
                                     <div class="hijo"> 
                                         <button type="submit" (click)="actualizarUsuari()" class="btn btn-success waves-effect waves-light m-r-10" *ngIf="modo_edicion">Guardar</button>
@@ -79,31 +73,29 @@
                     </div>
                     
         </div>
-        <div  >
-                <div class="card">
-                    <div class="card-body" align="center">
+        <div >
+            <div class="card">
+                <div class="card-body" >
+                    <div align="center">
                         <h4 class="card-title">Fotografía del usuario</h4>
                         <h6 class="card-subtitle"> nombre usuario </h6>
-        
-                        <!-- <img *ngIf="!imagenTemp" [src]="usuario.img | imagen" class="w150">
-                        <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150"> -->
                         <img  *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
-                    
-        
-                        <!-- <input (change)="seleccionImage($event.target.files[0])" type="file"> -->
-                        <input  type="file" (change)="selecionarArchivo($event.target.files)">
+                    </div>
+                    <br>
+                        <label class="custom-file col-md-12" >     
+                        <input  type="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                        <span class="custom-file-control">{{labelImagen}}</span>
+                        </label>
                         <br><br>
-        
-                        <!-- <button (click)="cambiarImagen()" [disabled]="!imagenSubir" type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">
-                            <i class="fa fa-save"></i>
-                            Actualizar Foto
-                        </button> -->
+                    <div align="center">
                         <button type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10" (click)="actualizarImagen()" *ngIf="imagenaSubir" >
                                 <i class="fa fa-save"></i>
                                 Actualizar Foto
                         </button>
                     </div>
                 </div>
+
+                
         </div>
         
     </div>

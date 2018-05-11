@@ -10,10 +10,20 @@ export class SidebarService {
       icon: 'mdi mdi-gauge',
       submenu:[
         {titulo: 'Dashboard', url:'/dashboard'},
-        {titulo: 'Progress', url:'/progress'},
+        {titulo: 'Usuarios', url:'/progress'},
         {titulo: 'Graficas', url:'/grafica'},
-        {titulo: 'Promesas', url:'/promesas'},
-        {titulo: 'Rxjs', url:'/rxjs'}
+        // {titulo: 'Promesas', url:'/promesas'},
+        // {titulo: 'Rxjs', url:'/rxjs'}
+
+      ]
+    },
+    {
+      titulo: 'Atractivos',
+      icon: 'mdi mdi-gauge',
+      submenu:[
+        {titulo: 'Atractivos', url:'/atractivo'},
+        {titulo: 'Registrar', url:'/crear-atractivo'},
+
 
       ]
     }

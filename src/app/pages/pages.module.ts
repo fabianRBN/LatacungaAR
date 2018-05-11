@@ -16,6 +16,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
 import { CommonModule } from "@angular/common";
+import { AtractivoComponent } from './atractivo/atractivo/atractivo.component';
+import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atractivo.component';
 
 
 @NgModule({
@@ -31,7 +33,10 @@ import { CommonModule } from "@angular/common";
     AccountSettingsComponent,
     PromesasComponent,
     RxjsComponent,
-    PerfilComponent
+    PerfilComponent,
+    AtractivoComponent,
+    CrearAtractivoComponent
+    
   ],
   exports:[
     

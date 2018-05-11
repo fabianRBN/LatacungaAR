@@ -83,7 +83,7 @@ export class PerfilComponent implements OnInit {
             this.nuevoNombre =  this.nombreU;
             this.photoUrl = auth.photoURL;
             this.proveedor = auth.providerData[0].providerId.split('.')[0];
-            this.labelImagen = 'Elija el archivo';
+            this.labelImagen = '';
      
         }
       }

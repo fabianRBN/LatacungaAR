@@ -9,6 +9,8 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
+import { AtractivoComponent } from './atractivo/atractivo/atractivo.component';
+import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atractivo.component';
 
 const pagesRoutes: Routes = [
     {
@@ -23,6 +25,8 @@ const pagesRoutes: Routes = [
             {path:'promesas'  , component: PromesasComponent, data: {titulo: 'Promesas'}},
             {path:'rxjs'  , component: RxjsComponent, data: {titulo: 'RXJS'}},
             {path:'perfil'  , component: PerfilComponent, data: {titulo: 'Perfil'}},
+            {path:'atractivo'  , component: AtractivoComponent, data: {titulo: 'Atractivos'}},
+            {path:'crear-atractivo'  , component: CrearAtractivoComponent, data: {titulo: 'Crear Atractivo'}},
             {path: '', redirectTo:'/dashboard',pathMatch:'full'}
         ],
         

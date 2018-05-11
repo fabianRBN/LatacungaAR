@@ -44,11 +44,13 @@ import { HttpModule } from '@angular/http';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+
   ],
   imports: [
     BrowserModule,
