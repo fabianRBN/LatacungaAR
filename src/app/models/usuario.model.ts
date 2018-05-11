@@ -1,12 +1,15 @@
-export class Usurario{
+export class Usuario{
     
-    constructor(
-        private nombre: string,
-        private email: string,
-        private password: string,
-        private img?: string,
-        private role?: string,
-        private google?:boolean,
-        private _id?: string
-    ){}
+        id:string;
+     nombre: string;
+     email: string;
+     photoURL?: string;
+     role?: string;
+     proveedor?:string;
+     telefono?:string;
+
+
+    constructor( ){
+            }
+
 }

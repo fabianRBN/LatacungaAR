@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 //====================================================
 //         Modulos Firebase
 //====================================================
@@ -7,6 +8,11 @@ import { NgModule } from '@angular/core';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+
+//====================================================
+//         Configuraciones de entorno
+//====================================================
 import { environment } from '../environments/environment';
 
 
@@ -29,6 +35,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Servicios
 import { ServiceModule } from './services/service.module';
 
+// Servico guard para login
+import { AuthGuard } from './guards/auth.guard';
+
+import { HttpModule } from '@angular/http';
+
+
+
 
 
 @NgModule({
@@ -39,16 +52,17 @@ import { ServiceModule } from './services/service.module';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     APP_ROUTER,
     PagesModule,
     FormsModule,
     ReactiveFormsModule,
     ServiceModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireDatabaseModule,
+  AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

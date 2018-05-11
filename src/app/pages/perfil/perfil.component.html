@@ -1,0 +1,114 @@
+<div class="row">
+    <div class="col-lg-4 col-xlg-3 col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="m-t-30">
+                    
+
+                    <div class="padre">
+                        <div class="hijo">                            
+                        <img src="{{photoUrl}}" class="imgRedonda">
+                        </div>
+                    </div>
+                    <h4 class="card-title m-t-10"> {{nombreU}} </h4>
+                    <h6 class="card-subtitle">Usuario {{proveedor}}</h6>
+                    <div class="row text-center justify-content-md-center">
+                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
+                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <hr> </div>
+            <div class="card-body"> 
+                <small class="text-muted">Email address </small>
+                <h6>{{email}}</h6> 
+                <small class="text-muted p-t-30 db">Phone</small>
+                <h6>+91 654 784 547</h6> 
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div >
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <form ngNativeValidate [formGroup]="forma" (ngSubmit)="actualizarUsuari()"> -->
+                        <!-- <form  (ngSubmit)="actualizarUsuari()"> -->
+                                <div class="form-group">
+                                    <label for="InputEmail1">Nombre de usuario</label>
+                                    <input  type="text" class="form-control" 
+                                    id="Inputnombre" [(ngModel)]="nuevoNombre" placeholder="{{nombre}}"  [attr.disabled]="!modo_edicion?'':null" >
+                                </div>
+                               
+                                <div class="form-group">
+                                    <label for="InputEmail1">Email </label>
+                                    <input  [(ngModel)]="nuevoEmail" type="email" class="form-control" id="InputEmail1" placeholder="{{email}}" [attr.disabled]="!modo_edicion?'':null" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputPassword1">Password</label>
+                                    <input  [(ngModel)]="password1" type="password" class="form-control" id="InputPassword1" placeholder="Password"autocomplete="off" [attr.disabled]="!modo_edicion?'':null" >
+                                </div>
+                                <div class="form-group" *ngIf="modo_edicion" >
+                                    <label for="InputPassword1" >Confirme Password</label>
+                                    <input  [(ngModel)]="password2" type="password" class="form-control" id="InputPassword2" placeholder="Confirm Password" [attr.disabled]="!modo_edicion?'':null" (input)="onSearchChange($event.target.value)" >
+                                </div>
+                                <div class="form-group" *ngIf="password_igual"  >
+                            
+                                        <p class="text-danger" >
+                                            El password debe ser igual 
+                                        </p>
+                                    
+                                </div>
+        
+                                                       
+                            
+                                <div class="padre">
+                                    <div class="hijo"> 
+                                        <button type="submit" (click)="actualizarUsuari()" class="btn btn-success waves-effect waves-light m-r-10" *ngIf="modo_edicion">Guardar</button>
+                                        <button type="submit" (click)="cancelarActualizarUsuario()" class="btn btn-inverse waves-effect waves-light" *ngIf="modo_edicion" >Cancel</button>
+                                    </div>
+                                </div>
+                            <!-- </form> -->
+                            <div class="padre">
+                                <div class="hijo"> 
+                                    <button type="submit" (click)="editarUsuario()" class="btn btn-success waves-effect waves-light m-r-10"  *ngIf="!modo_edicion">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+        </div>
+        <div  >
+                <div class="card">
+                    <div class="card-body" align="center">
+                        <h4 class="card-title">Fotografía del usuario</h4>
+                        <h6 class="card-subtitle"> nombre usuario </h6>
+        
+                        <!-- <img *ngIf="!imagenTemp" [src]="usuario.img | imagen" class="w150">
+                        <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150"> -->
+                        <img  *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
+                    
+        
+                        <!-- <input (change)="seleccionImage($event.target.files[0])" type="file"> -->
+                        <input  type="file" (change)="selecionarArchivo($event.target.files)">
+                        <br><br>
+        
+                        <!-- <button (click)="cambiarImagen()" [disabled]="!imagenSubir" type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10">
+                            <i class="fa fa-save"></i>
+                            Actualizar Foto
+                        </button> -->
+                        <button type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10" (click)="actualizarImagen()" *ngIf="imagenaSubir" >
+                                <i class="fa fa-save"></i>
+                                Actualizar Foto
+                        </button>
+                    </div>
+                </div>
+        </div>
+        
+    </div>
+  
+    
+
+    
+</div>

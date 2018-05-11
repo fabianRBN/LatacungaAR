@@ -4,6 +4,7 @@ import { LoginComponent } from "./login/login.component";
 import { NopagefoundComponent } from "./shared/nopagefound/nopagefound.component";
 import { PagesComponent } from './pages/pages.component';
 import { RegisterComponent } from './login/register.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const appRouters: Routes = [
    
@@ -12,4 +13,4 @@ const appRouters: Routes = [
     {path:'**', component: NopagefoundComponent}
 ];
 
-export const APP_ROUTER = RouterModule.forRoot(appRouters, {useHash:true});
+export const APP_ROUTER = RouterModule.forRoot(appRouters);

@@ -2,3 +2,18 @@
 #themecolors a {
     cursor: pointer;
 }
+.w150{
+    width: 200px;
+}
+
+.imgRedonda_shared {
+    width:35px;
+    height:35px;
+    border-radius:150px;
+}
+
+.imgRedonda_shared_sidebar {
+
+    height:27px;
+    border-radius:150px;
+}

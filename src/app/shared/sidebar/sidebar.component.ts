@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarService } from '../../services/service.index';
+import { AuthService } from '../../services/auth/auth.service';
+import { UsuarioService } from '../../services/usuario/usuario.service';
+import { Usuario } from '../../models/usuario.model';
+
+
 
 @Component({
   selector: 'app-sidebar',
@@ -8,11 +13,37 @@ import { SidebarService } from '../../services/service.index';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor( public _sidebar: SidebarService) {
+  public email:string;
+  public nombre:string;
+  public photoUrl:string ;
+  
+  public usuario = new Usuario(); 
+  constructor(
+    public authService:AuthService,
+    public _sidebar: SidebarService,
+    public usuarioService: UsuarioService) {
+
 
    }
 
   ngOnInit() {
+    this.authService.getAuth().subscribe(
+      auth => {
+        if(auth){
+
+          console.log(auth);
+          
+          this.email = auth.email;
+          this.nombre = auth.displayName;
+          this.photoUrl = auth.photoURL;
+
+           
+     
+        }
+      }
+    )
+
   }
+  
 
 }
