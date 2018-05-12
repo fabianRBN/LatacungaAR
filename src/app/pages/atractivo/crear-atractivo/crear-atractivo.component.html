@@ -14,8 +14,8 @@
         <div class="form-group">
             <label>Categoria</label>
             <select class="form-control">
-                <option>1</option>
-                <option>2</option>
+                <option>Arquitectura</option>
+                <option>Parque</option>
                 <option>3</option>
                 <option>4</option>
                 <option>5</option>
@@ -31,6 +31,40 @@
               <input type="file" id="file" class="custom-file-input">
               <span class="custom-file-control"></span>
           </label>
+        </div>
+        <div class="form-group">
+                
+            <agm-map 
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom"
+            [disableDefaultUI]="false"
+            [zoomControl]="false"
+            (mapClick)="mapClicked($event)">
+
+            <agm-marker 
+                
+                (markerClick)="clickedMarker(markers.label)"
+                [latitude]="markers.lat"
+                [longitude]="markers.lng"
+                [label]="markers.label"
+                [markerDraggable]="markers.draggable"
+                (dragEnd)="markerDragEnd(m, $event)">
+                
+            <agm-info-window>
+                <strong>{{markers.lat}}</strong>
+            </agm-info-window>
+            
+            </agm-marker>
+
+            <agm-circle [latitude]="lat + 0.3" [longitude]="lng" 
+                [radius]="5000"
+                [fillColor]="'red'"
+                [circleDraggable]="true"
+                [editable]="true">
+            </agm-circle>
+
+            </agm-map>
         </div>
         <div class="form-group">
             <label>Observaciones</label>

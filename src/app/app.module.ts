@@ -37,11 +37,10 @@ import { ServiceModule } from './services/service.module';
 
 // Servico guard para login
 import { AuthGuard } from './guards/auth.guard';
-
 import { HttpModule } from '@angular/http';
 
-
-
+// Servicio de angular maps
+import { AgmCoreModule } from '@agm/core';
 
 
 
@@ -62,7 +61,10 @@ import { HttpModule } from '@angular/http';
     ServiceModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-  AngularFireAuthModule
+    AngularFireAuthModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB56X_uZShFyQnx5Md4tzTO8ianh7zOz-M'
+    })
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

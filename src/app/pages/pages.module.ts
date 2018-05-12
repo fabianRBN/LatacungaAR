@@ -18,6 +18,8 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { CommonModule } from "@angular/common";
 import { AtractivoComponent } from './atractivo/atractivo/atractivo.component';
 import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atractivo.component';
+import { AgmCoreModule } from '@agm/core';
+
 
 
 @NgModule({
@@ -51,11 +53,13 @@ import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atrac
     FormsModule,
     ReactiveFormsModule,
     ChartsModule,
-    CommonModule
+    CommonModule,
+    AgmCoreModule
   ],
   providers:[
     AuthGuard
-  ]
+  ],
+
   
 })
 export class PagesModule { }
