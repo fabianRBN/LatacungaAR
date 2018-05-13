@@ -43,6 +43,9 @@ import { HttpModule } from '@angular/http';
 import { AgmCoreModule } from '@agm/core';
 
 
+// Pipes angular
+
+
 
 @NgModule({
   declarations: [

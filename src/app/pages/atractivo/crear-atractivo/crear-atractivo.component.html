@@ -1,19 +1,22 @@
 
 <div class="col-12">
   <div class="card">
-  <div class="card-body">
+    <div class="card-header bg-info">
+        <h4 class="m-b-0 text-white">Datos principales</h4>
+    </div>
+  <div class="card-body " style="margin: 20px;">
     <h4 class="card-title">Formulario para registrar un atractivo turistico</h4>
     <h6 class="card-subtitle">Cotopaxi - Latacunga</h6>
     <form class="form-material m-t-40">
         <div class="form-group">
             <label>Nombre del Atractivo</label>
-            <input class="form-control form-control-line" placeholder="" type="text"> 
+            <input [(ngModel)]="nombreAtractivo" name="nombre" class="form-control form-control-line" placeholder="" type="text"> 
         </div>
         
         
         <div class="form-group">
             <label>Categoria</label>
-            <select class="form-control">
+            <select class="form-control" [(ngModel)]="categoriaAtractivo" name="categoria">
                 <option>Arquitectura</option>
                 <option>Parque</option>
                 <option>3</option>
@@ -23,15 +26,14 @@
         </div>
         <div class="form-group">
             <label>Descripción</label>
-            <textarea class="form-control" rows="5"></textarea>
+            <textarea class="form-control" rows="5" name="descripcion" [(ngModel)]="descripcionAtractivo"></textarea>
         </div>
      
-        <div class="form-group">
-          <label class="custom-file col-12">
-              <input type="file" id="file" class="custom-file-input">
-              <span class="custom-file-control"></span>
-          </label>
-        </div>
+
+<!-- ============================================= -->
+<!--     Seccion de mapa                           --> 
+<!-- ============================================= -->
+
         <div class="form-group">
                 
             <agm-map 
@@ -66,12 +68,107 @@
 
             </agm-map>
         </div>
-        <div class="form-group">
-            <label>Observaciones</label>
-            <input class="form-control form-control-line" type="text"> <span class="help-block text-muted"><small>A block of help text that breaks onto a new line and may extend beyond one line.</small></span> 
+<!-- ============================================= -->
+<!--        Fin de mapa                            --> 
+<!-- ============================================= -->
+
+
+                <div class="form-group">
+            
+                    <label>Observaciones</label>
+                    <input class="form-control form-control-line" name="observacion" [(ngModel)]="observacionAtractivo" type="text">
+                    <span class="help-block text-muted">
+                        <small>
+                            En este campo se pueden definir o detallar cosas que se deben considerar del atractivo.
+                        </small>
+                    </span> 
+                </div>
+            </form>
         </div>
-    </form>
-  </div>
+    </div>
 </div>
+<!-- ============================================= -->
+<!--        Card de imagenes                       --> 
+<!-- ============================================= -->
+
+<div >
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Imagenes del atractivo</h4>
+            </div>
+            <div class="card-body">
+                <!-- ============================================= -->
+                <!--        Seccion de Imagenes                    --> 
+                <!-- ============================================= -->
+                <form class="form-material m-t-40">
+                    <div class="form-group">
+                            <label>Nombre del Atractivo</label>
+                            <input class="form-control form-control-line" placeholder="" [(ngModel)]="tituloImagen" name="tituloImagen" type="text"> 
+                    </div>
+                </form>
+            <div >
+                <div class="form-group col-12" >
+                    <label class="custom-file col-12">
+                        <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                        <span class="custom-file-control">{{labelImagen}}</span>
+                    </label>
+                    
+                </div>
+                <br>
+                <div align="center" class="col-12">
+                    <h4 class="card-title">Imagen del Atractivo</h4>
+                        <img  *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
+                </div>
+                <br>
+                <div class="form-group col-12" align="center">
+                    <button type="button" *ngIf="imagenTemp" (click)="agregatImagentemp()" class="btn waves-effect waves-light btn-info col-4">Agregar</button>
+                </div>
+            </div>
+            <!-- Cards de Atractivos-->
+            <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-3 col-md-6" *ngFor=" let imgTemp of imgTemporales ;let i = index; ">
+                        <!-- Card -->
+                        <div class="card">
+                            <img class="card-img-top img-responsive img-atractivo" src="{{imgTemp.imagenTemp}}" alt="Card image cap">
+                            <div class="card-body" align="center">
+                                <h4 class="card-title">{{imgTemp.titulo}}</h4>
+                             
+                                <div class="progress">
+                                    
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"  [attr.ariaValuenow]="imgTemp.progreso" aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp.progreso +'%'"></div>
+                                </div>
+                                <br>
+                                <button  class="btn btn-primary" (click)="imagenConsol(i)">Remover</button>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                    </div>
+                    <!-- column -->
+                   
+                </div>
+
+            <!-- Fin de Cards de atractivos-->
+                    <!-- ============================================= -->
+                    <!--        Fin de Imagenes                        --> 
+                    <!-- ============================================= -->
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Datos principales</h4>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary" (click)="guardarAtractivo()" >Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
                       

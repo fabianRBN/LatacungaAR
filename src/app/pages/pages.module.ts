@@ -19,6 +19,7 @@ import { CommonModule } from "@angular/common";
 import { AtractivoComponent } from './atractivo/atractivo/atractivo.component';
 import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atractivo.component';
 import { AgmCoreModule } from '@agm/core';
+import { ImagenPipe } from '../pipe/imagen.pipe';
 
 
 
@@ -37,7 +38,8 @@ import { AgmCoreModule } from '@agm/core';
     RxjsComponent,
     PerfilComponent,
     AtractivoComponent,
-    CrearAtractivoComponent
+    CrearAtractivoComponent,
+    ImagenPipe
     
   ],
   exports:[

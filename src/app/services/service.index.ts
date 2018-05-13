@@ -1,6 +1,4 @@
 
-
-
 //====================================================
 //         Exportecion de todos los servicios 
 //====================================================
@@ -10,3 +8,4 @@ export { SharedService } from './shared/shared.service';
 export { SidebarService } from './shared/sidebar.service';
 export { AuthService } from './auth/auth.service';
 export { ArchivoService } from './archivo/archivo.service';
+export { AtractivoService } from './atractivo/atractivo.service';
