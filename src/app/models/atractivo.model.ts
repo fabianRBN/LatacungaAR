@@ -9,6 +9,7 @@ export class Atractivo{
     observacion?: string;
     posicion: Georeferencia;
     creadorUid: string;
+    galeria: Imagenes[];
 
 
 constructor( ){

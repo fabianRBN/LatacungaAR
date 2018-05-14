@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Http ,HttpModule} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import { Atractivo } from '../../models/atractivo.model';
 import { Imagenes } from '../../models/imagenes.model';
 
@@ -38,4 +39,27 @@ export class AtractivoService {
       
     });
   }
+
+  
+  listarAtractivos(start, end) {
+    return Observable.zip(start, end).switchMap(valor => {
+      if (valor[0] == null || valor[0] === '') {
+        return this.afDatabase
+          .list('/atractivo', ref => ref.orderByChild('nombre'))
+          .snapshotChanges();
+      } else {
+        return this.afDatabase
+          .list('/atractivo', ref =>
+            ref
+              .orderByChild('nombre')
+              .startAt(valor[0])
+              .endAt(valor[1])
+          )
+          .snapshotChanges();
+      }
+    });
+}
+borrarAtractivo(key: string) {
+  return this.afDatabase.list('atractivos').remove(key);
+}
 }

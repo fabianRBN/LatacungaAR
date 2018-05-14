@@ -20,6 +20,7 @@ import { AtractivoComponent } from './atractivo/atractivo/atractivo.component';
 import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atractivo.component';
 import { AgmCoreModule } from '@agm/core';
 import { ImagenPipe } from '../pipe/imagen.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -53,6 +54,7 @@ import { ImagenPipe } from '../pipe/imagen.pipe';
     SharedModule,
     Pages_Routes,
     FormsModule,
+    NgxPaginationModule,
     ReactiveFormsModule,
     ChartsModule,
     CommonModule,
