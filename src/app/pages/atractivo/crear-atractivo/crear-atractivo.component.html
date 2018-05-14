@@ -1,174 +1,195 @@
-
-<div class="col-12">
-  <div class="card">
-    <div class="card-header bg-info">
-        <h4 class="m-b-0 text-white">Datos principales</h4>
-    </div>
-  <div class="card-body " style="margin: 20px;">
-    <h4 class="card-title">Formulario para registrar un atractivo turistico</h4>
-    <h6 class="card-subtitle">Cotopaxi - Latacunga</h6>
-    <form class="form-material m-t-40">
-        <div class="form-group">
-            <label>Nombre del Atractivo</label>
-            <input [(ngModel)]="nombreAtractivo" name="nombre" class="form-control form-control-line" placeholder="" type="text"> 
-        </div>
-        
-        
-        <div class="form-group">
-            <label>Categoria</label>
-            <select class="form-control" [(ngModel)]="categoriaAtractivo" name="categoria">
-                <option>Arquitectura</option>
-                <option>Parque</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Descripción</label>
-            <textarea class="form-control" rows="5" name="descripcion" [(ngModel)]="descripcionAtractivo"></textarea>
-        </div>
-     
-
-<!-- ============================================= -->
-<!--     Seccion de mapa                           --> 
-<!-- ============================================= -->
-
-        <div class="form-group">
-                
-            <agm-map 
-            [latitude]="lat"
-            [longitude]="lng"
-            [zoom]="zoom"
-            [disableDefaultUI]="false"
-            [zoomControl]="false"
-            (mapClick)="mapClicked($event)">
-
-            <agm-marker 
-                
-                (markerClick)="clickedMarker(markers.label)"
-                [latitude]="markers.lat"
-                [longitude]="markers.lng"
-                [label]="markers.label"
-                [markerDraggable]="markers.draggable"
-                (dragEnd)="markerDragEnd(m, $event)">
-                
-            <agm-info-window>
-                <strong>{{markers.lat}}</strong>
-            </agm-info-window>
-            
-            </agm-marker>
-
-            <agm-circle [latitude]="lat + 0.3" [longitude]="lng" 
-                [radius]="5000"
-                [fillColor]="'red'"
-                [circleDraggable]="true"
-                [editable]="true">
-            </agm-circle>
-
-            </agm-map>
-        </div>
-<!-- ============================================= -->
-<!--        Fin de mapa                            --> 
-<!-- ============================================= -->
-
-
-                <div class="form-group">
-            
-                    <label>Observaciones</label>
-                    <input class="form-control form-control-line" name="observacion" [(ngModel)]="observacionAtractivo" type="text">
-                    <span class="help-block text-muted">
-                        <small>
-                            En este campo se pueden definir o detallar cosas que se deben considerar del atractivo.
-                        </small>
-                    </span> 
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- ============================================= -->
-<!--        Card de imagenes                       --> 
-<!-- ============================================= -->
-
-<div >
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-info">
-                <h4 class="m-b-0 text-white">Imagenes del atractivo</h4>
-            </div>
-            <div class="card-body">
-                <!-- ============================================= -->
-                <!--        Seccion de Imagenes                    --> 
-                <!-- ============================================= -->
-                <form class="form-material m-t-40">
-                    <div class="form-group">
-                            <label>Nombre del Atractivo</label>
-                            <input class="form-control form-control-line" placeholder="" [(ngModel)]="tituloImagen" name="tituloImagen" type="text"> 
-                    </div>
-                </form>
-            <div >
-                <div class="form-group col-12" >
-                    <label class="custom-file col-12">
-                        <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
-                        <span class="custom-file-control">{{labelImagen}}</span>
-                    </label>
-                    
-                </div>
-                <br>
-                <div align="center" class="col-12">
-                    <h4 class="card-title">Imagen del Atractivo</h4>
-                        <img  *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
-                </div>
-                <br>
-                <div class="form-group col-12" align="center">
-                    <button type="button" *ngIf="imagenTemp" (click)="agregatImagentemp()" class="btn waves-effect waves-light btn-info col-4">Agregar</button>
-                </div>
-            </div>
-            <!-- Cards de Atractivos-->
-            <div class="row">
-                    <!-- column -->
-                    <div class="col-lg-3 col-md-6" *ngFor=" let imgTemp of imgTemporales ;let i = index; ">
-                        <!-- Card -->
-                        <div class="card">
-                            <img class="card-img-top img-responsive img-atractivo" src="{{imgTemp.imagenTemp}}" alt="Card image cap">
-                            <div class="card-body" align="center">
-                                <h4 class="card-title">{{imgTemp.titulo}}</h4>
-                             
-                                <div class="progress">
-                                    
-                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"  [attr.ariaValuenow]="imgTemp.progreso" aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp.progreso +'%'"></div>
-                                </div>
-                                <br>
-                                <button  class="btn btn-primary" (click)="imagenConsol(i)">Remover</button>
-                            </div>
-                        </div>
-                        <!-- Card -->
-                    </div>
-                    <!-- column -->
-                   
-                </div>
-
-            <!-- Fin de Cards de atractivos-->
-                    <!-- ============================================= -->
-                    <!--        Fin de Imagenes                        --> 
-                    <!-- ============================================= -->
-                    
-            </div>
-        </div>
-    </div>
-</div>
-
 <div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="!spiner">
         <div class="card">
             <div class="card-header bg-info">
                 <h4 class="m-b-0 text-white">Datos principales</h4>
             </div>
-            <div class="card-body">
-                <button class="btn btn-primary" (click)="guardarAtractivo()" >Guardar</button>
+            <div class="card-body " style="margin: 20px;">
+                <h4 class="card-title">Formulario para registrar un atractivo turistico</h4>
+                <h6 class="card-subtitle">Cotopaxi - Latacunga</h6>
+                <form class="form-material m-t-40" [formGroup]="frmRegistro" ngNativeValidate>
+                    <div class="form-group">
+                        <label>Nombre del Atractivo</label>
+                        <input name="nombre" formControlName="nombre" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.nombre.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select class="form-control" formControlName="categoria" name="categoria">
+                            <option>Arquitectura</option>
+                            <option>Parque</option>
+                            <option>Museo</option>
+                        </select>
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.categoria.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea class="form-control" rows="5" name="descripcion" formControlName="descripcion"></textarea>
+
+                        <span class="help-block text-muted">
+                            <small>
+                                <p class="text-danger" *ngIf="frmRegistro.controls.descripcion.errors">
+                                    El campo es requerido y requiere un minimo 20 letras
+                                </p>
+                            </small>
+                        </span>
+
+                    </div>
+
+
+                    <!-- ============================================= -->
+                    <!--     Seccion de mapa                           -->
+                    <!-- ============================================= -->
+
+                    <div class="form-group">
+
+                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
+
+                            <agm-marker (markerClick)="clickedMarker(markers.label)" [latitude]="markers.lat" [longitude]="markers.lng" [label]="markers.label"
+                                [markerDraggable]="markers.draggable" (dragEnd)="markerDragEnd(m, $event)">
+
+                                <agm-info-window>
+                                    <strong>{{markers.lat}}</strong>
+                                </agm-info-window>
+
+                            </agm-marker>
+
+                            <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
+                            </agm-circle>
+
+                        </agm-map>
+                    </div>
+                    <!-- ============================================= -->
+                    <!--        Fin de mapa                            -->
+                    <!-- ============================================= -->
+
+
+                    <div class="form-group">
+
+                        <label>Observaciones</label>
+                        <input class="form-control form-control-line" name="observacion" formControlName="observacion" type="text">
+                        <span class="help-block text-muted">
+                            <small>
+                                En este campo se pueden definir o detallar cosas que se deben considerar del atractivo.
+                            </small>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================= -->
+    <!--        Card de imagenes                       -->
+    <!-- ============================================= -->
+
+    <div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Imagenes del atractivo</h4>
+                </div>
+                <div class="card-body">
+                    <!-- ============================================= -->
+                    <!--        Seccion de Imagenes                    -->
+                    <!-- ============================================= -->
+                    <form class="form-material m-t-40">
+                        <div class="form-group" *ngIf="!spiner">
+                            <label>Titulo de la imagen</label>
+                            <input class="form-control form-control-line" placeholder="" [(ngModel)]="tituloImagen" name="tituloImagen" type="text">
+                        </div>
+                    </form>
+                    <div *ngIf="!spiner">
+                        <div class="form-group col-12">
+                            <label class="custom-file col-12">
+                                <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                                <span class="custom-file-control">{{labelImagen}}</span>
+                            </label>
+
+                        </div>
+                        <br>
+                        <div align="center" class="col-12">
+                            <h4 class="card-title">Imagen del Atractivo</h4>
+                            <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
+                        </div>
+                        <br>
+                        <div class="form-group col-12" align="center">
+                            <button type="button" *ngIf="imagenTemp" (click)="agregatImagentemp()" class="btn waves-effect waves-light btn-info col-4">Agregar</button>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 spinner" *ngIf="spiner">
+                        <div class="loader">
+                            <div class="loader__figure"></div>
+                            <p class="loader__label">Guardando</p>
+                        </div>
+
+                    </div>
+                    <!-- Cards de Atractivos-->
+                    <div class="row">
+                        <!-- column -->
+                        <div class="col-lg-3 col-md-6" *ngFor=" let imgTemp of imgTemporales ;let i = index; ">
+                            <!-- Card -->
+                            <div class="card" *ngIf="imgTemp.progreso < 99">
+                                <img class="card-img-top img-responsive img-atractivo" src="{{imgTemp.imagenTemp}}" alt="Card image cap">
+                                <div class="card-body" align="center">
+                                    <h4 class="card-title">{{imgTemp.titulo}}</h4>
+
+                                    <div class="progress">
+
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="imgTemp.progreso"
+                                            aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp.progreso +'%'"></div>
+                                    </div>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" (click)="imagenConsol(i)">Remover</button>
+                                </div>
+                            </div>
+                            <!-- Card -->
+                        </div>
+                        <!-- column -->
+
+                    </div>
+
+                    <!-- Fin de Cards de atractivos-->
+                    <!-- ============================================= -->
+                    <!--        Fin de Imagenes                        -->
+                    <!-- ============================================= -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Acciones</h4>
+                </div>
+                <div class="card-body" align="center">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" (click)="guardarAtractivo()">Guardar</button>
+
+                            <button class="btn btn-danger" (click)="limpiarElementos()">Cancelar</button>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-                      
