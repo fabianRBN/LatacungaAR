@@ -7,6 +7,7 @@ import { SidebarService, SettingsService, SharedService, AuthService , UsuarioSe
   ],
   declarations: [],
   providers:[
+    
     SidebarService,
     SettingsService,
     SharedService,

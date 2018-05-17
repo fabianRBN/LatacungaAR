@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
     this.usuario.nombre = resolve.user.displayName;
     this.usuario.email = resolve.user.email;
     this.usuario.photoURL = resolve.user.photoURL;
-    this.usuario.id=resolve.user.uid
+    this.usuario.key=resolve.user.uid
     this.usuario.role = 'ADMIN';
     
   }

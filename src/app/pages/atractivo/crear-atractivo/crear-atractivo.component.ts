@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MouseEvent } from "@agm/core";
 import { NgModule } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 import {
   FormGroup,
   FormControl,
@@ -15,9 +16,11 @@ import {
   ArchivoService,
   AuthService
 } from "../../../services/service.index";
-import { Subscription } from "rxjs/Rx";
+import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs/Observable";
 import { ValidateDropdown } from "../../../validators/dropdownValidator";
 import * as firebase from "firebase";
+import "sweetalert";
 @Component({
   selector: "app-crear-atractivo",
   templateUrl: "./crear-atractivo.component.html",
@@ -42,6 +45,7 @@ export class CrearAtractivoComponent implements OnInit {
 
   // variables y  objeto Atractivo - georeferencia
   public atractivo = new Atractivo();
+  public atractivoEditable = new Atractivo();
   public georeferencia = new Georeferencia();
   public imagenes = new Imagenes();
 
@@ -59,6 +63,16 @@ export class CrearAtractivoComponent implements OnInit {
   // valiables para validar campos
   frmRegistro: FormGroup;
 
+  public idAtractivo: string;
+  public modoedicion: boolean = false;
+
+  private atractivoSubscription: Subscription;
+  private usuarioSubscription: Subscription;
+  public atractivoList: Observable<any>;
+
+  // variables para enviar al modal
+  public tituloModal: string;
+  public urlImagenModal: string;
   //====================================================
   //         Posicion inicial del mapa de google maps
   //====================================================
@@ -73,13 +87,25 @@ export class CrearAtractivoComponent implements OnInit {
     public atractivoService: AtractivoService,
     public archivoService: ArchivoService,
     public authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public activatedRoute: ActivatedRoute,
+    public router: Router,
+
   ) {
     this.frmRegistro = this.fb.group({
       nombre: ["", Validators.required],
       categoria: ["", [Validators.required, ValidateDropdown]],
       descripcion: ["", [Validators.required, Validators.minLength(20)]],
       observacion: [""]
+    });
+  }
+
+  formValue(atractivo: Atractivo) {
+    this.frmRegistro.setValue({
+      nombre: this.atractivoEditable.nombre,
+      descripcion: this.atractivoEditable.descripcion,
+      categoria: this.atractivoEditable.categoria,
+      observacion: this.atractivoEditable.observacion || "ninguna"
     });
   }
 
@@ -117,12 +143,52 @@ export class CrearAtractivoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getAuth().subscribe(auth => {
-      if (auth) {
-        this.atractivo.creadorUid = auth.uid;
-      }
-    });
+    this.idAtractivo = this.activatedRoute.snapshot.paramMap.get("id");
+    if (this.idAtractivo) {
+      this.modoedicion = true;
+
+      
+      let imagenTemp = new Imagenes();
+
+      this.atractivoList = this.atractivoService
+        .obtenerAtractivoPorKey(this.idAtractivo)
+        .snapshotChanges();
+      this.atractivoSubscription = this.atractivoList
+        .map(item => {
+          const key = item[0].payload.key;
+          const datos = { key, ...item[0].payload.val() };
+
+          return datos;
+        })
+        .subscribe(item => {
+          const imgTemp: Imagenes[] = [];
+          this.atractivoEditable = item as Atractivo;
+
+          Object.keys(item.galeria).forEach(key => {
+            imagenTemp = item.galeria[key] as Imagenes;
+            imagenTemp.key = key;
+            imgTemp.push(imagenTemp);
+          });
+          this.atractivoEditable.galeria = imgTemp;
+
+          this.markers = {
+            lat: this.atractivoEditable.posicion.lat,
+            lng: this.atractivoEditable.posicion.lng,
+
+            draggable: false
+          };
+
+          this.formValue(this.atractivo);
+        });
+    } else {
+      this.authService.getAuth().subscribe(auth => {
+        if (auth) {
+          this.atractivo.creadorUid = auth.uid;
+        }
+      });
+    }
   }
+  ngOnDestroy(): void {}
 
   //====================================================
   //         Funcion para cargar imagenes temporales
@@ -172,7 +238,7 @@ export class CrearAtractivoComponent implements OnInit {
   //====================================================
   //         Funcion para eliminar un elemento temporal
   //====================================================
-  imagenConsol(dato: number) {
+  eliminarImagenTemporal(dato: number) {
     this.imgTemporales.splice(dato, 1);
   }
 
@@ -182,36 +248,20 @@ export class CrearAtractivoComponent implements OnInit {
 
   guardarAtractivo() {
     if (!this.frmRegistro.invalid) {
-      this.atractivo.id = this.atractivoService.obtenertKey();
+      this.atractivo.key = this.atractivoService.obtenertKey();
       this.georeferencia.lat = this.markers.lat;
       this.georeferencia.lng = this.markers.lng;
-
       this.atractivo.nombre = this.frmRegistro.value.nombre;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
       this.atractivo.categoria = this.frmRegistro.value.categoria;
       this.atractivo.observacion =
         this.frmRegistro.value.observacion || "Ninguna";
       this.atractivo.posicion = this.georeferencia;
-
       this.atractivoService.crearAtrativo(this.atractivo);
-
       this.guardarImagenes();
     } else {
       swal("Error", "Se deben completar los campos requeridos", "error");
     }
-    // this.atractivo.id = this.atractivoService.obtenertKey();
-    // this.georeferencia.lat = this.markers.lat;
-    // this.georeferencia.lng = this.markers.lng;
-
-    // this.atractivo.nombre = this.nombreAtractivo;
-    // this.atractivo.descripcion = this.descripcionAtractivo;
-    // this.atractivo.categoria = this.categoriaAtractivo;
-    // this.atractivo.observacion = this.observacionAtractivo;
-    // this.atractivo.posicion = this.georeferencia;
-
-    // this.atractivoService.crearAtrativo(this.atractivo);
-
-    // this.guardarImagenes();
   }
 
   //====================================================
@@ -226,11 +276,10 @@ export class CrearAtractivoComponent implements OnInit {
       if (imgTem.archivo != null) {
         const ubicacion =
           "imagenes/atractivos/" +
-          this.atractivo.id +
+          this.atractivo.key +
           "-" +
           index +
           "" +
-          this.date.getTime() +
           this.date.getMilliseconds();
         // Borrar la imagen anterior
         this.archivoService.borrarArchivo(ubicacion).catch(err => {
@@ -238,24 +287,6 @@ export class CrearAtractivoComponent implements OnInit {
             console.log(err);
           }
         });
-        // Subir imagen nueva
-        // this.archivoService
-        //   .subirArchivo(imgTem.archivo, ubicacion)
-        //   .then(res => {
-        //     this.imagenes.imagenURL = res.downloadURL;
-        //     this.imagenes.titulo; this.imgTemporales[index];
-        //     // this.authService.updateUserProfile(this.usuario);
-
-        //     // Recargar la pagina para mostrar cambios de imagen
-        //     //window.location.reload();
-        //     this.imagenesGaleria.push(this.imagenes);
-        //     console.log('Archivo '+index+' subido');
-        //   })
-        //   .catch(err => {
-
-        //     console.log(err);
-        //     return false;
-        //   });
         var sp = null;
         this.archivoService.subirArchivo(imgTem.archivo, ubicacion).on(
           firebase.storage.TaskEvent.STATE_CHANGED,
@@ -276,18 +307,26 @@ export class CrearAtractivoComponent implements OnInit {
               this.imagenes.imagenURL = sp.downloadURL;
               this.imagenes.titulo =
                 this.imgTemporales[index].titulo || "Imagen " + index;
-              this.imagenes.pathimg = sp.fullPath;
+              this.imagenes.pathimg =
+                "imagenes/atractivos/" +
+                this.atractivo.key +
+                "-" +
+                index +
+                "" +
+                this.date.getMilliseconds().toString();
               this.numeroArchivosSubidos++;
+              if (
+                this.imagenes.imagenURL &&
+                this.imagenes.pathimg &&
+                this.imagenes.titulo
+              ) {
+                console.log("Imagen completa");
+              }
               this.atractivoService.cargarImagenes(
-                this.atractivo.id,
+                this.atractivo.key,
                 this.imagenes
               );
-              console.log(
-                "Numero de archivos:" +
-                  this.numeroArchivos +
-                  " " +
-                  this.numeroArchivosSubidos
-              );
+
               if (this.numeroArchivosSubidos >= this.numeroArchivos) {
                 this.spiner = false;
                 swal(
@@ -316,7 +355,11 @@ export class CrearAtractivoComponent implements OnInit {
     this.numeroArchivos = 0;
     this.numeroArchivosSubidos = 0;
   }
+
+
+
 }
+
 
 //====================================================
 //         Interfaces

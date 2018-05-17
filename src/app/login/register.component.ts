@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
           this.usuario.email = this.forma.value.email;
           this.usuario.photoURL = "https://www.tenforums.com/geek/gars/images/2/types/thumb__ser.png";
           this.usuario.role = "ADMIN";
-          this.usuario.id = res.uid;
+          this.usuario.key = res.uid;
           this.guardarUsuario(this.usuario);
           this.router.navigate(['/login']);
         });

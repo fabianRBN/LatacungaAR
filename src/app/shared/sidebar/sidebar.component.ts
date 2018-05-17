@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
       auth => {
         if(auth){
 
-          console.log(auth);
+         
           
           this.email = auth.email;
           this.nombre = auth.displayName;

@@ -13,7 +13,7 @@ export class AtractivoService {
 
   crearAtrativo(atractivo: Atractivo) {
 
-    return this.afDatabase.object('atractivo/'+atractivo.id).set({
+    return this.afDatabase.object('atractivo/'+atractivo.key).set({
       nombre: atractivo.nombre,
       categoria: atractivo.categoria,
       descripcion: atractivo.descripcion,
@@ -25,7 +25,8 @@ export class AtractivoService {
   obtenertKey(){
     return this.afDatabase.database.ref('atractivo/').push().key;
   }
-  obtenerUsuarioPorKey(key: string): AngularFireList<Atractivo[]> {
+
+  obtenerAtractivoPorKey(key: string): AngularFireList<Atractivo[]> {
     return this.afDatabase.list('atractivo/', ref =>
       ref.orderByKey().equalTo(key)
     );
@@ -35,7 +36,8 @@ export class AtractivoService {
   cargarImagenes(idAtractivo: string, imagen: Imagenes){
     return this.afDatabase.list('atractivo/'+idAtractivo+'/galeria').push({
         titulo: imagen.titulo,
-        imagenURL: imagen.imagenURL
+        imagenURL: imagen.imagenURL,
+        pathURL: imagen.pathimg
       
     });
   }
@@ -60,6 +62,6 @@ export class AtractivoService {
     });
 }
 borrarAtractivo(key: string) {
-  return this.afDatabase.list('atractivos').remove(key);
+  return this.afDatabase.list('atractivo').remove(key);
 }
 }

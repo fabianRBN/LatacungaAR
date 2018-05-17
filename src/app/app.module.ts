@@ -43,6 +43,7 @@ import { HttpModule } from '@angular/http';
 import { AgmCoreModule } from '@agm/core';
 
 
+
 // Pipes angular
 
 
@@ -51,10 +52,11 @@ import { AgmCoreModule } from '@agm/core';
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
+    RegisterComponent
 
   ],
   imports: [
+
     BrowserModule,
     HttpModule,
     APP_ROUTER,

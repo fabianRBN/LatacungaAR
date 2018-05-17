@@ -7,7 +7,6 @@ import { Graficas1Component } from './graficas1/graficas1.component';
 import { Pages_Routes } from './pages.routes';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
-
 import { ChartsModule } from 'ng2-charts';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
@@ -21,6 +20,8 @@ import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atrac
 import { AgmCoreModule } from '@agm/core';
 import { ImagenPipe } from '../pipe/imagen.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DetalleAtractivoComponent } from './atractivo/detalle-atractivo/detalle-atractivo.component';
+import { MainPipe } from '../main-pipe.module';
 
 
 
@@ -40,7 +41,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     PerfilComponent,
     AtractivoComponent,
     CrearAtractivoComponent,
-    ImagenPipe
+    ImagenPipe,
+    
+    DetalleAtractivoComponent,
+    
+    
     
   ],
   exports:[
@@ -51,6 +56,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     
   ],
   imports:[
+    MainPipe,
     SharedModule,
     Pages_Routes,
     FormsModule,

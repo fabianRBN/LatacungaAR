@@ -11,6 +11,8 @@ import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
 import { AtractivoComponent } from './atractivo/atractivo/atractivo.component';
 import { CrearAtractivoComponent } from './atractivo/crear-atractivo/crear-atractivo.component';
+import { DetalleAtractivoComponent } from './atractivo/detalle-atractivo/detalle-atractivo.component';
+import { NopagefoundComponent } from '../shared/nopagefound/nopagefound.component';
 
 const pagesRoutes: Routes = [
     {
@@ -27,11 +29,16 @@ const pagesRoutes: Routes = [
             {path:'perfil'  , component: PerfilComponent, data: {titulo: 'Perfil'}},
             {path:'atractivo'  , component: AtractivoComponent, data: {titulo: 'Atractivos'}},
             {path:'crear-atractivo'  , component: CrearAtractivoComponent, data: {titulo: 'Crear Atractivo'}},
+            {path:'crear-atractivo/:id'  , component: CrearAtractivoComponent, data: {titulo: 'Editar Atractivo'}},
+            {path: 'detalle-atractivo/:id', component: DetalleAtractivoComponent , data:{titulo: 'Detalle Atractivo'}},
+
             {path: '', redirectTo:'/dashboard',pathMatch:'full'}
         ],
         
         
-    },
+        
+    },          
+
 
        
 ] 

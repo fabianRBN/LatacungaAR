@@ -1,6 +1,6 @@
 export class Usuario{
     
-        id:string;
+        key:string;
      nombre: string;
      email: string;
      photoURL?: string;

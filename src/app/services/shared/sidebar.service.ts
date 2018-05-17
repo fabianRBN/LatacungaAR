@@ -25,6 +25,7 @@ export class SidebarService {
         {titulo: 'Registrar', url:'/crear-atractivo'},
 
 
+
       ]
     }
   ]

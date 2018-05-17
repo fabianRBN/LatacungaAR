@@ -2,7 +2,8 @@ import { Georeferencia } from './georeferencia.model';
 import { Imagenes } from './imagenes.model';
 export class Atractivo{
     
-    id:string;
+    key:string;
+
     nombre: string;
     categoria: string;
     descripcion?: string;

@@ -77,7 +77,7 @@ export class PerfilComponent implements OnInit {
           //   this.proveedor = this.usuario.proveedor;
           // });
 
-            this.usuario.id = auth.uid;
+            this.usuario.key = auth.uid;
             this.email = auth.email;
             this.nombreU = auth.displayName || 'usuario';
             this.nuevoNombre =  this.nombreU;
@@ -166,7 +166,7 @@ onSearchChange(searchValue : string ) {
 //====================================================
 actualizarImagen() {
   if (this.archivo != null) {
-    const ubicacion = 'imagenes/usuarios/' + this.usuario.id;
+    const ubicacion = 'imagenes/usuarios/' + this.usuario.key;
     // Borrar la imagen anterior
     this.archivoService.borrarArchivo(ubicacion).catch(err => {
       if (err.code !== 'storage/object-not-found') {

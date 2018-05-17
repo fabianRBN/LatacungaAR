@@ -12,7 +12,7 @@ export class UsuarioService {
 
   crearUsuario(usuario: Usuario) {
 
-    return this.afDatabase.object('usuario/'+ usuario.id).set({
+    return this.afDatabase.object('usuario/'+ usuario.key).set({
       nombre: usuario.nombre,
       email: usuario.email,
       photoURL: usuario.photoURL,
@@ -27,7 +27,7 @@ export class UsuarioService {
   }
 
   registroUsuario(usuario: Usuario){
-    var consulta = this.afDatabase.list('usuario/', ref =>ref.orderByKey().equalTo(usuario.id)).snapshotChanges()
+    var consulta = this.afDatabase.list('usuario/', ref =>ref.orderByKey().equalTo(usuario.key)).snapshotChanges()
       .subscribe(item => {
        if(item.length > 0){
 

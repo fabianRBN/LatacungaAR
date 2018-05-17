@@ -1,6 +1,6 @@
 export class Georeferencia{
     
-    id:string;
+    key:string;
     lat: number;
     lng: number;
 

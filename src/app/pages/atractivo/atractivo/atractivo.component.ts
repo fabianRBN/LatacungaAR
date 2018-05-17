@@ -4,6 +4,8 @@ import { Atractivo } from '../../../models/atractivo.model';
 import { Subscription } from "rxjs/Subscription";
 import { AtractivoService } from "../../../services/service.index";
 import { Imagenes } from "../../../models/imagenes.model";
+import { ArchivoService } from '../../../services/archivo/archivo.service';
+
 
 
 @Component({
@@ -27,10 +29,11 @@ export class AtractivoComponent implements OnInit {
   public valor: number = 0;
 
   public estilo: string[] = ['First slide','Second slide','Third slide','Fourth slide','Fifth slide','Sixth slide'];
-  public estiloClass: string[] = ['active','',''];
+
   
 
-  constructor(private atractivoService: AtractivoService) {
+  constructor(private atractivoService: AtractivoService, 
+    private archivoService: ArchivoService) {
     this.start = new BehaviorSubject(null);
     this.end = new BehaviorSubject(null);
   }
@@ -46,7 +49,7 @@ export class AtractivoComponent implements OnInit {
            const atractivo:any = element.payload.toJSON();
            const imgTemp: Imagenes[]= [];
            const atractivoTemp= new Atractivo();
-           atractivoTemp.id= item[index].key;
+           atractivoTemp.key= item[index].key;
            atractivoTemp.nombre = atractivo.nombre;
            atractivoTemp.categoria = atractivo.categoria;
            atractivoTemp.descripcion = atractivo.descripcion;
@@ -74,7 +77,7 @@ export class AtractivoComponent implements OnInit {
 
 
 
-  eliminar(uidAtractivo: string, nombreAtractivo: string) {
+  eliminar(uidAtractivo: string, nombreAtractivo: string, galeriaAtractivo: any) {
 
     swal("warning","Desea eliminar el atractivo: "+nombreAtractivo,{
       buttons: {
@@ -84,13 +87,22 @@ export class AtractivoComponent implements OnInit {
     }).then(
       resolve=>{
         if(resolve){
-          // if (uidAtractivo != null) {
-          //   this.atractivoService.borrarAtractivo(uidAtractivo).then(res => {
+          console.log(uidAtractivo);
+          if (uidAtractivo != null) {
+            this.atractivoService.borrarAtractivo(uidAtractivo).then(res => {
 
-          //   }).catch( err => {
-          //     console.error(err);
-          //   });
-          // }
+            }).catch( err => {
+              console.error(err);
+            });
+
+            console.log(galeriaAtractivo);
+            galeriaAtractivo.forEach(element => {
+              this.archivoService.borrarArchivo(element.pathURL);
+              
+            });
+          }
+          
+         
       }
       }
     )

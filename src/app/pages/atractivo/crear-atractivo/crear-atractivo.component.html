@@ -94,6 +94,41 @@
         </div>
     </div>
     <!-- ============================================= -->
+    <!--        Craga de imagenes existentes           --> 
+    <!-- ============================================= -->
+
+    <div>
+            <div class="col-12" *ngIf="modoedicion">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h4 class="m-b-0 text-white">Imagenes almacenadas</h4>
+                    </div>
+                    <div class="row">
+                    <div class="col-lg-3 col-md-6" *ngFor="let img of atractivoEditable.galeria">
+                            <!-- Card -->
+                            <br>
+                            <div class="card">
+                                <img class="card-img-top img-responsive img-atractivo " src="{{img.imagenURL}}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{img.titulo}}</h4>
+                                    <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary"  >Editar</button>
+                    
+                                                <button class="btn btn-danger" >Eliminar</button>
+                    
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <!-- Card -->
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- ============================================= -->
     <!--        Card de imagenes                       -->
     <!-- ============================================= -->
 
@@ -131,13 +166,7 @@
                             <button type="button" *ngIf="imagenTemp" (click)="agregatImagentemp()" class="btn waves-effect waves-light btn-info col-4">Agregar</button>
                         </div>
                     </div>
-                    <div class="form-group col-12 spinner" *ngIf="spiner">
-                        <div class="loader">
-                            <div class="loader__figure"></div>
-                            <p class="loader__label">Guardando</p>
-                        </div>
-
-                    </div>
+                
                     <!-- Cards de Atractivos-->
                     <div class="row">
                         <!-- column -->
@@ -154,7 +183,7 @@
                                             aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp.progreso +'%'"></div>
                                     </div>
                                     <br>
-                                    <button type="button" class="btn btn-primary" (click)="imagenConsol(i)">Remover</button>
+                                    <button type="button" class="btn btn-primary" (click)="eliminarImagenTemporal(i)">Remover</button>
                                 </div>
                             </div>
                             <!-- Card -->

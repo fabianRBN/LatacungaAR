@@ -5,12 +5,15 @@ import { NopagefoundComponent } from "./shared/nopagefound/nopagefound.component
 import { PagesComponent } from './pages/pages.component';
 import { RegisterComponent } from './login/register.component';
 import { AuthGuard } from './guards/auth.guard';
+import { DetalleAtractivoComponent } from './pages/atractivo/detalle-atractivo/detalle-atractivo.component';
 
 const appRouters: Routes = [
    
     {path:'login'  , component: LoginComponent},
     {path:'register'  , component: RegisterComponent},
-    {path:'**', component: NopagefoundComponent}
+    {path:'**', component: NopagefoundComponent},
+    
+
 ];
 
 export const APP_ROUTER = RouterModule.forRoot(appRouters);

@@ -1,0 +1,99 @@
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">{{atractivo.nombre}}</h3>
+        <h6 class="card-subtitle">{{atractivo.categoria}} </h6>
+        <h6 class="card-subtitle"> {{usuario.nombre }}- {{usuario.email}}</h6>
+        <div class="row">
+
+            <div class="col-lg-6">
+
+
+
+                <div id="carouselExampleControls{{i}}" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item" [ngClass]="{active: first}" *ngFor="let img of atractivo.galeria ;let x = index;let first = first">
+                            <img class="d-block w-100 imagenGaleria" src="{{img.imagenURL || 'http://www.ccsa.edu.sv/assets/camaleon_cms/image-not-found-26112ee47503d45cff89e808e1d1a5f7.png'}} "
+                                alt="{{estilo[x]}}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3 class="text-white">{{img.titulo}}</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls{{i}}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls{{i}}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="block-ellipsis-detalle">
+                    <p>
+                        {{atractivo.descripcion}}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <h4 class="card-title">Ubicacion</h4>
+
+                <div class="form-group">
+
+                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" mapDraggable="false" [disableDefaultUI]="false" [zoomControl]="false">
+
+                        <agm-marker [latitude]="markers.lat" [longitude]="markers.lng" [label]="markers.label">
+
+                            <agm-info-window>
+                                <strong>{{atractivo.nombre}}</strong>
+                            </agm-info-window>
+
+                        </agm-marker>
+
+                        <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true">
+                        </agm-circle>
+
+                    </agm-map>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Comentarios</h3>
+                <div class="activity-item">
+                    <div class="round m-r-20">
+                        <img src="../assets/images/users/6.jpg" alt="user" width="50">
+                    </div>
+                    <div class="m-t-10">
+                        <h5 class="m-b-5 font-medium">David R. Jones
+                            <span class="text-muted font-14 m-l-10">| &nbsp; 6:30 PM</span>
+                        </h5>
+                        <h6 class="text-muted">Commented on
+                            <a href="javascript:void(0)">Test Project</a>
+                        </h6>
+                        <p class="m-b-0">It has survived not only five centuries, but also the leap into
+                            <br> electrotypesetting, remaining essentially unchanged.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

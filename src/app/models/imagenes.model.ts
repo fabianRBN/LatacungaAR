@@ -1,5 +1,5 @@
 export class Imagenes {
-    id: string;
+    key:string;
     imagenURL: string;
     titulo: string;
     pathimg: string;
