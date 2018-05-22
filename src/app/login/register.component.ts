@@ -7,6 +7,11 @@ import  'sweetalert';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
 import { UsuarioService } from '../services/service.index';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef
+} from "@ng-bootstrap/ng-bootstrap";
 
 
 //Declaracion de funcion para iniciar plugins del tema
@@ -21,10 +26,12 @@ export class RegisterComponent implements OnInit {
 
   public usuario = new Usuario();
   forma : FormGroup;
+  modalRef: NgbModalRef;
   constructor(
     public authService : AuthService,
     public router: Router,
-    public usuarioService: UsuarioService
+    public usuarioService: UsuarioService,
+    private modalService: NgbModal
 
   ) { 
     init_plugins();
@@ -97,6 +104,11 @@ export class RegisterComponent implements OnInit {
   guardarUsuario(usuario: Usuario){
       this.usuarioService.crearUsuario(usuario);
   
+  }
+
+  mostraModal(modelId) {
+
+    this.modalRef = this.modalService.open(modelId, { centered: true , size: 'lg'});
   }
 
 }

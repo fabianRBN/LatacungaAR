@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ProgressComponent } from "./progress/progress.component";
-import { Graficas1Component } from "./graficas1/graficas1.component";
+import { GraficasComponent } from "./graficas/graficas.component";
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
@@ -22,7 +22,7 @@ const pagesRoutes: Routes = [
         children: [
             {path:'dashboard'  , component: DashboardComponent , data: {titulo: 'Dashboard'}},
             {path:'progress'  , component: ProgressComponent, data: {titulo: 'Barra de progreso'}},
-            {path:'grafica'  , component: Graficas1Component, data: {titulo: 'Graficas'}},
+            {path:'grafica'  , component: GraficasComponent, data: {titulo: 'Graficas'}},
             {path: 'accout-settings', component: AccountSettingsComponent, data: {titulo: 'Ajustes Tema'}},
             {path:'promesas'  , component: PromesasComponent, data: {titulo: 'Promesas'}},
             {path:'rxjs'  , component: RxjsComponent, data: {titulo: 'RXJS'}},

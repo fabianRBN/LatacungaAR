@@ -111,6 +111,10 @@ export class DetalleAtractivoComponent implements OnInit {
         this.usuario = (value as Usuario)
       });
   }
+
+  editarAtractivo(){
+    
+  }
 }
 // interfaz para marcadores.
 interface marker {

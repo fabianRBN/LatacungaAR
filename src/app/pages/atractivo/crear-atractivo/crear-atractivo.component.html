@@ -94,7 +94,7 @@
         </div>
     </div>
     <!-- ============================================= -->
-    <!--        Craga de imagenes existentes           --> 
+    <!--        Carga de imagenes existentes           --> 
     <!-- ============================================= -->
 
     <div>
@@ -113,9 +113,9 @@
                                     <h4 class="card-title">{{img.titulo}}</h4>
                                     <div class="row">
                                             <div class="col-md-12">
-                                                <button class="btn btn-primary"  >Editar</button>
+                                                <button class="btn btn-primary" (click)="mostraModal(confirmacionBorrarModel, img)" >Editar</button>
                     
-                                                <button class="btn btn-danger" >Eliminar</button>
+                                                <button class="btn btn-danger" (click)="eliminarImagenAtractivo(img.key, img.pathURL)">Eliminar</button>
                     
                                             </div>
                                         </div>
@@ -170,17 +170,17 @@
                     <!-- Cards de Atractivos-->
                     <div class="row">
                         <!-- column -->
-                        <div class="col-lg-3 col-md-6" *ngFor=" let imgTemp of imgTemporales ;let i = index; ">
+                        <div class="col-lg-3 col-md-6" *ngFor=" let imgTemp2 of imgTemporales ;let i = index; ">
                             <!-- Card -->
-                            <div class="card" *ngIf="imgTemp.progreso < 99">
-                                <img class="card-img-top img-responsive img-atractivo" src="{{imgTemp.imagenTemp}}" alt="Card image cap">
+                            <div class="card" *ngIf="imgTemp2.progreso < 99">
+                                <img class="card-img-top img-responsive img-atractivo" src="{{imgTemp2.imagenTemp}}" alt="Card image cap">
                                 <div class="card-body" align="center">
-                                    <h4 class="card-title">{{imgTemp.titulo}}</h4>
+                                    <h4 class="card-title">{{imgTemp2.titulo}}</h4>
 
                                     <div class="progress">
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="imgTemp.progreso"
-                                            aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp.progreso +'%'"></div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="imgTemp2.progreso"
+                                            aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp2.progreso +'%'"></div>
                                     </div>
                                     <br>
                                     <button type="button" class="btn btn-primary" (click)="eliminarImagenTemporal(i)">Remover</button>
@@ -222,3 +222,49 @@
         </div>
     </div>
 </div>
+<!-- ============================================= -->
+<!--        Modal                                  --> 
+<!-- ============================================= -->
+
+
+<ng-template #confirmacionBorrarModel let-c="close('Close click')" let-d="dismiss('Cross click')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modificar Atrivuto</h5>
+        <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+    
+            <div class="form-group" >
+                <label>Titulo de la imagen</label>
+                <input class="form-control form-control-line" placeholder="{{imagenaEditar.titulo}}" [(ngModel)]="tituloImagenenEdicion" name="tituloImagen" type="text">
+            </div>
+    
+       
+            <div class="form-group col-12">
+                <label class="custom-file col-12">
+                    <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                    <span class="custom-file-control">{{labelImagen}}</span>
+                </label>
+
+            </div>
+ 
+            <div align="center" class="col-12">
+                <h4 class="card-title" *ngIf="!imagenTemp">Imagen actual</h4>
+                <h4 class="card-title" *ngIf="imagenTemp">Imagen nueva</h4>
+                <img *ngIf="!imagenTemp" src="{{imagenaEditar.imagenURL}}" class="w150 ">
+                <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
+            </div>
+       
+
+        
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="editarImagen()" >Guardar</button>
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()" >Cancelar</button>
+      </div>
+    </div>
+  </ng-template>

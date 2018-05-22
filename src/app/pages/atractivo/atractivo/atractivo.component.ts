@@ -87,8 +87,9 @@ export class AtractivoComponent implements OnInit {
     }).then(
       resolve=>{
         if(resolve){
-          console.log(uidAtractivo);
+          console.log('eliminar');
           if (uidAtractivo != null) {
+            console.log('borrando');
             this.atractivoService.borrarAtractivo(uidAtractivo).then(res => {
 
             }).catch( err => {

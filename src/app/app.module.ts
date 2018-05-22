@@ -44,9 +44,9 @@ import { AgmCoreModule } from '@agm/core';
 
 
 
-// Pipes angular
+// ng Boostrap 
 
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -64,6 +64,7 @@ import { AgmCoreModule } from '@agm/core';
     FormsModule,
     ReactiveFormsModule,
     ServiceModule,
+    NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,

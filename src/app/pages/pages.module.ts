@@ -3,7 +3,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { SharedModule } from '../shared/shared.module';
-import { Graficas1Component } from './graficas1/graficas1.component';
+import { GraficasComponent } from './graficas/graficas.component';
 import { Pages_Routes } from './pages.routes';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
@@ -22,7 +22,7 @@ import { ImagenPipe } from '../pipe/imagen.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DetalleAtractivoComponent } from './atractivo/detalle-atractivo/detalle-atractivo.component';
 import { MainPipe } from '../main-pipe.module';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -32,7 +32,7 @@ import { MainPipe } from '../main-pipe.module';
     PagesComponent,
     DashboardComponent,
     ProgressComponent,
-    Graficas1Component,
+    GraficasComponent,
     IncrementadorComponent,
     GraficoDonaComponent,
     AccountSettingsComponent,
@@ -52,10 +52,11 @@ import { MainPipe } from '../main-pipe.module';
     
     DashboardComponent,
     ProgressComponent,
-    Graficas1Component
+    GraficasComponent
     
   ],
   imports:[
+    NgbModule,
     MainPipe,
     SharedModule,
     Pages_Routes,

@@ -11,6 +11,7 @@ export class Atractivo{
     posicion: Georeferencia;
     creadorUid: string;
     galeria: Imagenes[];
+    galeriaObject: Object;
 
 
 constructor( ){

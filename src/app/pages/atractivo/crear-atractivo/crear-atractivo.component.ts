@@ -19,6 +19,11 @@ import {
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import { ValidateDropdown } from "../../../validators/dropdownValidator";
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef
+} from "@ng-bootstrap/ng-bootstrap";
 import * as firebase from "firebase";
 import "sweetalert";
 @Component({
@@ -42,6 +47,7 @@ export class CrearAtractivoComponent implements OnInit {
   public imgTemporales: imagen[] = [];
   public marcadorActivado: boolean = true;
   public tituloImagen: string;
+  public tituloImagenenEdicion: string;
 
   // variables y  objeto Atractivo - georeferencia
   public atractivo = new Atractivo();
@@ -54,7 +60,6 @@ export class CrearAtractivoComponent implements OnInit {
   public descripcionAtractivo: string;
   public observacionAtractivo: string;
 
-  public cargacompleta: boolean = true;
   public numeroArchivos: number = 0;
   public numeroArchivosSubidos: number = 0;
   public date = new Date();
@@ -71,8 +76,8 @@ export class CrearAtractivoComponent implements OnInit {
   public atractivoList: Observable<any>;
 
   // variables para enviar al modal
-  public tituloModal: string;
-  public urlImagenModal: string;
+  modalRef: NgbModalRef;
+  public imagenaEditar = new Imagenes();
   //====================================================
   //         Posicion inicial del mapa de google maps
   //====================================================
@@ -90,7 +95,7 @@ export class CrearAtractivoComponent implements OnInit {
     private fb: FormBuilder,
     public activatedRoute: ActivatedRoute,
     public router: Router,
-
+    private modalService: NgbModal
   ) {
     this.frmRegistro = this.fb.group({
       nombre: ["", Validators.required],
@@ -107,6 +112,8 @@ export class CrearAtractivoComponent implements OnInit {
       categoria: this.atractivoEditable.categoria,
       observacion: this.atractivoEditable.observacion || "ninguna"
     });
+
+    this.atractivo = this.atractivoEditable;
   }
 
   //====================================================
@@ -143,11 +150,14 @@ export class CrearAtractivoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getAuth().subscribe(auth => {
+      if (auth) {
+        this.atractivo.creadorUid = auth.uid;
+      }
+    });
     this.idAtractivo = this.activatedRoute.snapshot.paramMap.get("id");
     if (this.idAtractivo) {
       this.modoedicion = true;
-
-      
       let imagenTemp = new Imagenes();
 
       this.atractivoList = this.atractivoService
@@ -161,16 +171,17 @@ export class CrearAtractivoComponent implements OnInit {
           return datos;
         })
         .subscribe(item => {
+          
           const imgTemp: Imagenes[] = [];
           this.atractivoEditable = item as Atractivo;
-
+          this.atractivoEditable.galeriaObject = item.galeria;
           Object.keys(item.galeria).forEach(key => {
             imagenTemp = item.galeria[key] as Imagenes;
             imagenTemp.key = key;
             imgTemp.push(imagenTemp);
           });
           this.atractivoEditable.galeria = imgTemp;
-
+          
           this.markers = {
             lat: this.atractivoEditable.posicion.lat,
             lng: this.atractivoEditable.posicion.lng,
@@ -180,12 +191,6 @@ export class CrearAtractivoComponent implements OnInit {
 
           this.formValue(this.atractivo);
         });
-    } else {
-      this.authService.getAuth().subscribe(auth => {
-        if (auth) {
-          this.atractivo.creadorUid = auth.uid;
-        }
-      });
     }
   }
   ngOnDestroy(): void {}
@@ -225,15 +230,13 @@ export class CrearAtractivoComponent implements OnInit {
         titulo: this.tituloImagen,
         imagenTemp: this.imagenTemp,
         archivo: this.archivo,
-        progreso: 0,
-        subida: false
+        progreso: 0
       });
       this.numeroArchivos++;
-      this.cargacompleta = false;
-
       this.tituloImagen = "";
       this.imagenTemp = null;
     }
+    //console.log(this.imgTemporales)
   }
   //====================================================
   //         Funcion para eliminar un elemento temporal
@@ -248,66 +251,131 @@ export class CrearAtractivoComponent implements OnInit {
 
   guardarAtractivo() {
     if (!this.frmRegistro.invalid) {
-      this.atractivo.key = this.atractivoService.obtenertKey();
       this.georeferencia.lat = this.markers.lat;
       this.georeferencia.lng = this.markers.lng;
       this.atractivo.nombre = this.frmRegistro.value.nombre;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
       this.atractivo.categoria = this.frmRegistro.value.categoria;
       this.atractivo.observacion =
-        this.frmRegistro.value.observacion || "Ninguna";
+      this.frmRegistro.value.observacion || "Ninguna";
       this.atractivo.posicion = this.georeferencia;
-      this.atractivoService.crearAtrativo(this.atractivo);
-      this.guardarImagenes();
+      
+      if (this.modoedicion) {
+        this.atractivo.key = this.idAtractivo;
+        this.atractivoService.actualizarActractivo(this.atractivo);
+        
+        if(this.imgTemporales.length > 0){
+          this.guardarImagenes();
+          
+        }else{
+          this.mensajedeConfirmacion("actualizado");
+        }
+        
+      } else if(this.imgTemporales.length <= 0){
+        
+        swal('Alerta', 'Para registrar un atractivo se requiere un Imgen por lo minimo');
+      }else{
+
+        this.atractivo.key = this.atractivoService.obtenertKey();
+        this.atractivoService.crearAtrativo(this.atractivo);
+        this.spiner = true;
+        this.guardarImagenes();
+      }
+
+      
+      
     } else {
       swal("Error", "Se deben completar los campos requeridos", "error");
     }
   }
 
   //====================================================
-  //         Cargar Imagenes al servidor
+  //         Editar Imagen
   //====================================================
-  guardarImagenes() {
-    this.spiner = true;
-    this.numeroArchivosSubidos = 0;
-    this.imgTemporales.forEach((imgTem, index) => {
-      var progreso = 0;
-      this.cargacompleta = false;
-      if (imgTem.archivo != null) {
-        const ubicacion =
-          "imagenes/atractivos/" +
-          this.atractivo.key +
-          "-" +
-          index +
-          "" +
-          this.date.getMilliseconds();
-        // Borrar la imagen anterior
-        this.archivoService.borrarArchivo(ubicacion).catch(err => {
+
+  editarImagen() {
+    this.imagenaEditar.titulo = this.tituloImagenenEdicion;
+    if (this.imagenTemp) {
+      const imagenNueva: imagen = {
+        titulo: this.tituloImagenenEdicion,
+        imagenTemp: this.imagenTemp,
+        archivo: this.archivo,
+        progreso: 0
+      };
+
+      this.archivoService
+        .borrarArchivo(this.imagenaEditar.pathURL)
+        .then(relv => {
+          console.log("archivo eliminado");
+        })
+        .catch(err => {
           if (err.code !== "storage/object-not-found") {
             console.log(err);
           }
         });
-        var sp = null;
-        this.archivoService.subirArchivo(imgTem.archivo, ubicacion).on(
+
+      this.subirImagen(this.imagenaEditar);
+    }
+
+    this.atractivoService.actualizarImagenes(
+      this.atractivo.key,
+      this.imagenaEditar
+    );
+
+    this.cerrarModal();
+  }
+  //====================================================
+  //         Cargar Imagenes al servidor
+  //====================================================
+  // Se cargan una coleccion de imagenes
+  guardarImagenes() {
+    
+    this.numeroArchivosSubidos = 0;
+ 
+    this.imgTemporales.forEach((imgTem, index) => {
+      this.guardarImgen(imgTem, index);
+    });
+  }
+  // se carga una unica imagen(Usada para modificar una imagen en especifico)
+  guardarImgen(imgTem: imagen, index: number) {
+    var progreso = 0;
+    if (imgTem.archivo != null) {
+      const ubicacion =
+        "imagenes/atractivos/" +
+        this.atractivo.key +
+        "-" +
+        index +
+        "" +
+        this.date.getMilliseconds();
+      // Borrar la imagen anterior
+      this.archivoService.borrarArchivo(ubicacion).catch(err => {
+        if (err.code !== "storage/object-not-found") {
+          console.log(err);
+        }
+      });
+
+      var sp = null;
+      var uploadTask = this.archivoService.subirArchivo(imgTem.archivo, ubicacion);
+
+      uploadTask.on(
           firebase.storage.TaskEvent.STATE_CHANGED,
           snapshot => {
             progreso = snapshot.bytesTransferred / snapshot.totalBytes * 100;
-            imgTem.progreso = progreso;
-            if (progreso >= 100) {
-            }
-            sp = snapshot;
+            this.imgTemporales[index].progreso = progreso;
+
+       
           },
           error => {
             console.log("error:" + error);
           },
           () => {
-            imgTem.subida = true;
-
+            
             if (progreso >= 100) {
-              this.imagenes.imagenURL = sp.downloadURL;
+      
+              this.imagenes.imagenURL = uploadTask.snapshot.downloadURL;
               this.imagenes.titulo =
                 this.imgTemporales[index].titulo || "Imagen " + index;
-              this.imagenes.pathimg =
+              this.imagenes.pathURL =
                 "imagenes/atractivos/" +
                 this.atractivo.key +
                 "-" +
@@ -317,31 +385,68 @@ export class CrearAtractivoComponent implements OnInit {
               this.numeroArchivosSubidos++;
               if (
                 this.imagenes.imagenURL &&
-                this.imagenes.pathimg &&
+                this.imagenes.pathURL &&
                 this.imagenes.titulo
               ) {
                 console.log("Imagen completa");
               }
-              this.atractivoService.cargarImagenes(
-                this.atractivo.key,
-                this.imagenes
-              );
-
-              if (this.numeroArchivosSubidos >= this.numeroArchivos) {
-                this.spiner = false;
-                swal(
-                  "",
-                  "Atractivo: " + this.atractivo.nombre + " registrado",
-                  "success"
+           
+                this.atractivoService.cargarImagenes(
+                  this.atractivo.key,
+                  this.imagenes
                 );
-                this.limpiarElementos();
-              }
+             
+              
             }
+            if (this.numeroArchivosSubidos >= this.numeroArchivos) {
+       
+              if(this.modoedicion){
+                this.mensajedeConfirmacion("actualizado");
+              }else{
+                this.mensajedeConfirmacion("registrado");
+              }
+              
+              this.limpiarElementos();
+              
+            } 
           }
         );
-      }
-    });
+        
+    }
   }
+
+  mensajedeConfirmacion(mensaje:string){
+    swal(
+      "",
+      "Atractivo: " + this.atractivo.nombre + " " +mensaje,
+      "success"
+    );
+    this.spiner = false;
+  }
+
+  subirImagen(imagenes: Imagenes) {
+    // Subir imagen
+    const ubicacion =
+      "imagenes/atractivos/" +
+      this.atractivo.key +
+      "-" +
+      this.date.getMilliseconds();
+    this.archivoService
+      .subirArchivo(this.archivo, ubicacion)
+      .then(res => {
+        imagenes.imagenURL = res.downloadURL;
+        imagenes.pathURL = ubicacion;
+
+        // console.log(imagenes.titulo);
+        // console.log(imagenes.key);
+        this.atractivoService.actualizarImagenes(this.atractivo.key, imagenes);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  //==================================================
 
   limpiarElementos() {
     this.frmRegistro.setValue({
@@ -351,15 +456,38 @@ export class CrearAtractivoComponent implements OnInit {
       observacion: ""
     });
 
-    this.imgTemporales = null;
+    this.imgTemporales = [];
     this.numeroArchivos = 0;
     this.numeroArchivosSubidos = 0;
   }
 
+  eliminarImagenAtractivo(imagenKey:string, imagenURl:string){
+    this.atractivoService.borrarImagenAtractivo(imagenKey, this.atractivo.key).then(res => {
+      this.archivoService.borrarArchivo(imagenURl);
+    }).catch( err => {
+      console.error(err);
+    });
 
+  }
+
+  //====================================================
+  //         Modal imagenes
+  //====================================================
+
+  mostraModal(modelId, imagen: Imagenes) {
+    this.imagenTemp = null;
+    this.tituloImagenenEdicion = imagen.titulo;
+    this.imagenaEditar = imagen;
+    //console.log(imagen);
+    this.modalRef = this.modalService.open(modelId, { centered: true });
+  }
+  cerrarModal() {
+    this.imagenTemp = null;
+    this.labelImagen = "";
+    this.modalRef.close();
+  }
 
 }
-
 
 //====================================================
 //         Interfaces
@@ -370,7 +498,6 @@ interface imagen {
   imagenTemp: any;
   archivo: File;
   progreso: number;
-  subida: boolean;
 }
 
 // interfaz para marcadores.

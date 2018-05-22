@@ -19,7 +19,7 @@ export class SidebarService {
     },
     {
       titulo: 'Atractivos',
-      icon: 'mdi mdi-gauge',
+      icon: 'mdi mdi-burst-mode',
       submenu:[
         {titulo: 'Atractivos', url:'/atractivo'},
         {titulo: 'Registrar', url:'/crear-atractivo'},

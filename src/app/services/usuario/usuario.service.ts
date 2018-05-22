@@ -46,5 +46,12 @@ export class UsuarioService {
    
   }
 
+  numerodeRegistrosUsuario(){
+    return this.afDatabase.list('usuario/');
+  }
+
+  numerodeRegistrosClientes(){
+    return this.afDatabase.list('cliente/');
+  }
 
 }

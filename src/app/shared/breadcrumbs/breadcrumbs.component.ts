@@ -36,6 +36,7 @@ export class BreadcrumbsComponent implements OnInit {
   ngOnInit() {
   }
   getDataRouter(){
+    this.router.events.filter( (events) => events instanceof ActivationEnd )
      return this.router.events
      .filter( (events) => events instanceof ActivationEnd )
      .filter( (event:ActivationEnd)=> event.snapshot.firstChild === null)

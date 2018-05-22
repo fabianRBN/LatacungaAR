@@ -37,8 +37,29 @@ export class AtractivoService {
     return this.afDatabase.list('atractivo/'+idAtractivo+'/galeria').push({
         titulo: imagen.titulo,
         imagenURL: imagen.imagenURL,
-        pathURL: imagen.pathimg
+        pathURL: imagen.pathURL
       
+    });
+  }
+  
+actualizarActractivo(atractivo: Atractivo) {
+
+  return this.afDatabase.list('atractivo/').set(atractivo.key,{
+    nombre: atractivo.nombre,
+    categoria: atractivo.categoria,
+    descripcion: atractivo.descripcion,
+    observacio: atractivo.observacion,
+    posicion: atractivo.posicion,
+    creadorUid: atractivo.creadorUid,
+    galeria: atractivo.galeriaObject
+  });
+}
+
+  actualizarImagenes(idAtractivo: string, imagen: Imagenes){
+    return this.afDatabase.list('atractivo/'+idAtractivo+'/galeria').set( imagen.key,{
+        titulo: imagen.titulo,
+        imagenURL: imagen.imagenURL,
+        pathURL: imagen.pathURL
     });
   }
 
@@ -63,5 +84,9 @@ export class AtractivoService {
 }
 borrarAtractivo(key: string) {
   return this.afDatabase.list('atractivo').remove(key);
+}
+
+borrarImagenAtractivo(key: string, keyAtractivo:string) {
+  return this.afDatabase.list('atractivo/'+keyAtractivo+'/galeria').remove(key);
 }
 }
