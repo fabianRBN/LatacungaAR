@@ -24,7 +24,7 @@ export class AtractivoComponent implements OnInit {
   // Variables y Objetos de atractivos
   public listaAtractivos: Atractivo[];
   public uidAtractivo: string;
-  private atractivosSubscription: Subscription;
+  private atractivosSubscription: Subscription = null;
   public atractivoTemp= new Atractivo();
   public valor: number = 0;
 

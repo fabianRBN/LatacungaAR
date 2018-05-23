@@ -15,6 +15,7 @@ export class AtractivoService {
 
     return this.afDatabase.object('atractivo/'+atractivo.key).set({
       nombre: atractivo.nombre,
+      alias: atractivo.alias,
       categoria: atractivo.categoria,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
@@ -46,6 +47,7 @@ actualizarActractivo(atractivo: Atractivo) {
 
   return this.afDatabase.list('atractivo/').set(atractivo.key,{
     nombre: atractivo.nombre,
+    alias:atractivo.alias,
     categoria: atractivo.categoria,
     descripcion: atractivo.descripcion,
     observacio: atractivo.observacion,

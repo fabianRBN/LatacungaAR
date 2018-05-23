@@ -38,14 +38,16 @@ export class CrearAtractivoComponent implements OnInit {
   // initial center position for the map
   lat: number = -0.9356373;
   lng: number = -78.6118114;
+  public longitud: number = 0;
+  public latitud:number = 0;
 
   // Variables para el cargar imagenes temp y finales
   public labelImagen: string;
-  public imagenaSubir: boolean = false;
+
   public imagenTemp: string;
   public archivo: File;
   public imgTemporales: imagen[] = [];
-  public marcadorActivado: boolean = true;
+
   public tituloImagen: string;
   public tituloImagenenEdicion: string;
 
@@ -55,18 +57,15 @@ export class CrearAtractivoComponent implements OnInit {
   public georeferencia = new Georeferencia();
   public imagenes = new Imagenes();
 
-  public nombreAtractivo: string;
-  public categoriaAtractivo: string;
-  public descripcionAtractivo: string;
-  public observacionAtractivo: string;
 
-  public numeroArchivos: number = 0;
-  public numeroArchivosSubidos: number = 0;
+  public numeroArchivos: number;
+  public numeroArchivosSubidos: number;
   public date = new Date();
 
   public spiner: boolean = false;
   // valiables para validar campos
   frmRegistro: FormGroup;
+
 
   public idAtractivo: string;
   public modoedicion: boolean = false;
@@ -99,15 +98,20 @@ export class CrearAtractivoComponent implements OnInit {
   ) {
     this.frmRegistro = this.fb.group({
       nombre: ["", Validators.required],
+      alias: ["", Validators.required],
       categoria: ["", [Validators.required, ValidateDropdown]],
       descripcion: ["", [Validators.required, Validators.minLength(20)]],
       observacion: [""]
     });
+
+    
+
   }
 
   formValue(atractivo: Atractivo) {
     this.frmRegistro.setValue({
       nombre: this.atractivoEditable.nombre,
+      alias: this.atractivoEditable.alias,
       descripcion: this.atractivoEditable.descripcion,
       categoria: this.atractivoEditable.categoria,
       observacion: this.atractivoEditable.observacion || "ninguna"
@@ -129,7 +133,7 @@ export class CrearAtractivoComponent implements OnInit {
   //         Evento al darle click al mapa
   //====================================================
   mapClicked($event: MouseEvent) {
-    // if(this.marcadorActivado){
+
 
     this.markers = {
       lat: $event.coords.lat,
@@ -137,7 +141,7 @@ export class CrearAtractivoComponent implements OnInit {
 
       draggable: true
     };
-    this.marcadorActivado = false;
+
     // }else{
     //   swal("Mensaje","Arrastre el marcador para colocar en una nueva posicion","error")
     // }
@@ -147,6 +151,15 @@ export class CrearAtractivoComponent implements OnInit {
   //====================================================
   markerDragEnd(m: marker, $event: MouseEvent) {
     console.log("dragEnd", m, $event);
+  }
+
+
+  cordenadasMapa(){
+    this.markers = {
+      lat: this.latitud,
+      lng: this.longitud,
+      draggable: true
+    };
   }
 
   ngOnInit() {
@@ -193,7 +206,9 @@ export class CrearAtractivoComponent implements OnInit {
         });
     }
   }
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+
+  }
 
   //====================================================
   //         Funcion para cargar imagenes temporales
@@ -206,10 +221,10 @@ export class CrearAtractivoComponent implements OnInit {
         "El archivo seleccionado no es una Imagen",
         "error"
       );
-      this.imagenaSubir = false;
+   
       return;
     }
-    this.imagenaSubir = true;
+
     this.labelImagen = this.archivo.name;
 
     // Vista previa de imagen
@@ -254,6 +269,7 @@ export class CrearAtractivoComponent implements OnInit {
       this.georeferencia.lat = this.markers.lat;
       this.georeferencia.lng = this.markers.lng;
       this.atractivo.nombre = this.frmRegistro.value.nombre;
+      this.atractivo.alias = this.frmRegistro.value.alias;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
       this.atractivo.categoria = this.frmRegistro.value.categoria;
       this.atractivo.observacion =
@@ -451,6 +467,7 @@ export class CrearAtractivoComponent implements OnInit {
   limpiarElementos() {
     this.frmRegistro.setValue({
       nombre: "",
+      alias:"",
       descripcion: "",
       categoria: "",
       observacion: ""
@@ -481,6 +498,7 @@ export class CrearAtractivoComponent implements OnInit {
     //console.log(imagen);
     this.modalRef = this.modalService.open(modelId, { centered: true });
   }
+
   cerrarModal() {
     this.imagenTemp = null;
     this.labelImagen = "";

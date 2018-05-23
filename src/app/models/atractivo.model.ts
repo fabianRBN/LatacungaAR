@@ -12,6 +12,7 @@ export class Atractivo{
     creadorUid: string;
     galeria: Imagenes[];
     galeriaObject: Object;
+    alias:string;
 
 
 constructor( ){
