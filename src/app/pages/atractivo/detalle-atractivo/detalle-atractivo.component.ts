@@ -27,7 +27,7 @@ export class DetalleAtractivoComponent implements OnInit {
     lng: 7.815982,
     draggable: false
   };
-  private usuario = new Usuario();
+  public usuario = new Usuario();
   private atractivoSubscription: Subscription;
   private usuarioSubscription: Subscription;
   public atractivoList: Observable<any>;

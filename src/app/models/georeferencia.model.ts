@@ -1,10 +1,7 @@
-export class Georeferencia{
-    
-    key:string;
+export class Georeferencia {
+    key: string;
     lat: number;
     lng: number;
 
-constructor( ){
-        }
-
+    constructor() { }
 }

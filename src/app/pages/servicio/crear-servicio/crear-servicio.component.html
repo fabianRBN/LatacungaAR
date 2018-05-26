@@ -1,0 +1,130 @@
+<div>
+  <div class="col-12" *ngIf="!spiner">
+    <div class="card">
+      <div class="card-header bg-info">
+        <h4 class="m-b-0 text-white">Datos principales</h4>
+      </div>
+      <div class="card-body " style="margin: 20px;">
+        <h4 class="card-title" *ngIf="!modoEdicion">Formulario para registrar un servicio turístico</h4>
+        <h4 class="card-title" *ngIf="modoEdicion">Formulario para editar un servicio turístico</h4>
+        <h6 class="card-subtitle">Cotopaxi - Latacunga</h6>
+        <form class="form-material m-t-40" [formGroup]="frmRegistro" ngNativeValidate>
+          <div class="form-group">
+            <label>Nombre del servicio</label>
+            <input name="nombre" formControlName="nombre" class="form-control form-control-line" placeholder="" type="text">
+            <span class="help-block text-muted" *ngIf="frmRegistro.controls.nombre.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Alias</label>
+            <input name="alias" formControlName="alias" class="form-control form-control-line" placeholder="" type="text">
+            <span class="help-block text-muted" *ngIf="frmRegistro.controls.alias.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select class="form-control" formControlName="categoria" name="categoria" (change)="cambioDeTipoDeActividad()">
+              <option *ngFor="let cat of categorias">{{cat}}</option>
+            </select>
+            <span class="help-block text-muted" *ngIf="frmRegistro.controls.categoria.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Tipo de actividad</label>
+            <select class="form-control" formControlName="tipoDeActividad" name="tipoDeActividad">
+              <option *ngFor="let item of tipodeActivdad">{{item}}</option>
+            </select>
+            <span class="help-block text-muted" *ngIf="frmRegistro.controls.tipoDeActividad.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <input name="direccion" formControlName="direccion" class="form-control form-control-line" placeholder="" type="text">
+            <span class="help-block text-muted" *ngIf="frmRegistro.controls.direccion.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Contacto</label>
+            <input class="form-control form-control-line" name="contacto" formControlName="contacto" type="text">
+            <span class="help-block text-muted">
+              <small>
+                En este campo se pueden definir el correo de contacto del lugar.
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Página web</label>
+            <input class="form-control form-control-line" name="web" formControlName="web" type="text">
+            <span class="help-block text-muted">
+              <small>
+                En este campo se pueden definir la página web oficial del lugar.
+              </small>
+            </span>
+          </div>
+          <!-- ============================================= -->
+          <!--     Seccion de mapa                           -->
+          <!-- ============================================= -->
+          <div class="form-group">
+            <label>Posición</label>
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
+              <agm-marker (markerClick)="clickedMarker(marcador.label)" [latitude]="marcador.lat" [longitude]="marcador.lng" [label]="marcador.label"
+                [markerDraggable]="marcador.draggable" (dragEnd)="markerDragEnd(m, $event)">
+                <agm-info-window>
+                  <strong>{{marcador.lat}}</strong>
+                </agm-info-window>
+              </agm-marker>
+              <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
+              </agm-circle>
+            </agm-map>
+          </div>
+          <!-- ============================================= -->
+          <!--        Fin de mapa                            -->
+          <!-- ============================================= -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-info">
+          <h4 class="m-b-0 text-white">Acciones</h4>
+        </div>
+        <div class="card-body" align="center">
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-primary" (click)="guardarServicio()">Guardar</button>
+              <button class="btn btn-danger" *ngIf="modoEdicion" [routerLink]="['/detalle-servicio', servicio.key]">Cancelar</button>
+              <button class="btn btn-danger" *ngIf="!modoEdicion" (click)="limpiarElementos()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
