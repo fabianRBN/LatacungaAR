@@ -1,10 +1,10 @@
 import { Georeferencia } from './georeferencia.model';
 import { Imagenes } from './imagenes.model';
-export class Atractivo{
-    
-    key:string;
+export class Atractivo {
+    key: string;
 
     nombre: string;
+    alias: string;
     categoria: string;
     descripcion?: string;
     observacion?: string;
@@ -13,8 +13,6 @@ export class Atractivo{
     galeria: Imagenes[];
     galeriaObject: Object;
 
-
-constructor( ){
-        }
+constructor( ) {}
 
 }

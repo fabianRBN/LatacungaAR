@@ -20,6 +20,17 @@
                         </span>
                     </div>
                     <div class="form-group">
+                        <label>Alias</label>
+                        <input name="alias" formControlName="alias" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.alias.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    <div class="form-group">
                         <label>Categoria</label>
                         <select class="form-control" formControlName="categoria" name="categoria">
                             <option>Arquitectura</option>

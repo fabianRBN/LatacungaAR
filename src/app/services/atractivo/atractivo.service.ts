@@ -47,6 +47,7 @@ export class AtractivoService {
 
     return this.afDatabase.list('atractivo/').set(atractivo.key, {
       nombre: atractivo.nombre,
+      alias: atractivo.alias,
       categoria: atractivo.categoria,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
