@@ -51,11 +51,10 @@ export class AtractivoComponent implements OnInit {
            const atractivoTemp= new Atractivo();
            atractivoTemp.key= item[index].key;
            atractivoTemp.nombre = atractivo.nombre;
+           atractivoTemp.alias = atractivo.alias;
            atractivoTemp.categoria = atractivo.categoria;
            atractivoTemp.descripcion = atractivo.descripcion;
-           
            Object.keys(atractivo.galeria).forEach( key => {
-            
             imgTemp.push(atractivo.galeria[key] as Imagenes);
             });
           atractivoTemp.galeria = imgTemp;

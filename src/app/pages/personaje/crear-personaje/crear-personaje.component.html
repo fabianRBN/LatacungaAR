@@ -1,0 +1,186 @@
+<div>
+  <div class="col-12" *ngIf="!spiner">
+    <div class="card">
+      <div class="card-header bg-info">
+        <h4 class="m-b-0 text-white">Datos principales</h4>
+      </div>
+      <div class="card-body " style="margin: 20px;">
+        <h4 class="card-title">Formulario para registrar un personaje</h4>
+        <h6 class="card-subtitle">Cotopaxi - Latacunga</h6>
+        <form class="form-material m-t-40" [formGroup]="frmRegistro" ngNativeValidate>
+          <div class="form-group">
+            <label>Nombre</label>
+            <input name="nombre" formControlName="nombre" class="form-control form-control-line" placeholder="" type="text">
+            <span class="help-block text-muted" *ngIf="frmRegistro.controls.nombre.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea class="form-control" rows="5" name="descripcion" formControlName="descripcion"></textarea>
+            <span class="help-block text-muted">
+              <small>
+                <p class="text-danger" *ngIf="frmRegistro.controls.descripcion.errors">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================= -->
+  <!--        Carga de imagenes existentes           -->
+  <!-- ============================================= -->
+  <div>
+    <div class="col-12" *ngIf="modoEdicion">
+      <div class="card">
+        <div class="card-header bg-info">
+          <h4 class="m-b-0 text-white">Imagenes almacenadas</h4>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-6" *ngFor="let img of personajeEditable.galeria">
+            <!-- Card -->
+            <br>
+            <div class="card">
+              <img class="card-img-top img-responsive img-atractivo " src="{{img.imagenURL}}" alt="Card image cap">
+              <div class="card-body">
+                <h4 class="card-title">{{img.titulo}}</h4>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button class="btn btn-primary" (click)="mostrarModal(confirmacionBorrarModel, img)">Editar</button>
+                    <button class="btn btn-danger" (click)="eliminarImagenPersonaje(img.key, img.pathURL)">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================= -->
+  <!--        Card de imagenes                       -->
+  <!-- ============================================= -->
+  <div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-info">
+          <h4 class="m-b-0 text-white">Imagene del personaje</h4>
+        </div>
+        <div class="card-body">
+          <!-- ============================================= -->
+          <!--        Seccion de Imagenes                    -->
+          <!-- ============================================= -->
+          <form class="form-material m-t-40">
+            <div class="form-group" *ngIf="!spiner">
+              <label>Titulo de la imagen</label>
+              <input class="form-control form-control-line" placeholder="" [(ngModel)]="tituloImagen" name="tituloImagen" type="text">
+            </div>
+          </form>
+          <div *ngIf="!spiner">
+            <div class="form-group col-12">
+              <label class="custom-file col-12">
+                <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                <span class="custom-file-control">{{labelImagen}}</span>
+              </label>
+            </div>
+            <br>
+            <div align="center" class="col-12">
+              <h4 class="card-title">Imagen del Personaje</h4>
+              <img *ngIf="imagenTemporal" [src]="imagenTemporal" class="w150">
+            </div>
+            <br>
+            <div class="form-group col-12" align="center">
+              <button type="button" *ngIf="imagenTemporal" (click)="agregarImagenTemporal()" class="btn waves-effect waves-light btn-info col-4">Agregar</button>
+            </div>
+          </div>
+          <!-- Cards de Atractivos-->
+          <div class="row">
+            <!-- column -->
+            <div class="col-lg-3 col-md-6" *ngFor=" let imgTemp2 of imagenesTemporales ;let i = index; ">
+              <!-- Card -->
+              <div class="card" *ngIf="imgTemp2.progreso < 99">
+                <img class="card-img-top img-responsive img-atractivo" src="{{imgTemp2.imgTemporal}}" alt="Card image cap">
+                <div class="card-body" align="center">
+                  <h4 class="card-title">{{imgTemp2.titulo}}</h4>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="imgTemp2.progreso"
+                      aria-valuemin="0" aria-valuemax="100" [style.width]="imgTemp2.progreso +'%'"></div>
+                  </div>
+                  <br>
+                  <button type="button" class="btn btn-primary" (click)="eliminarImagenTemporal(i)">Remover</button>
+                </div>
+              </div>
+              <!-- Card -->
+            </div>
+            <!-- column -->
+          </div>
+          <!-- Fin de Cards de atractivos-->
+          <!-- ============================================= -->
+          <!--        Fin de Imagenes                        -->
+          <!-- ============================================= -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-info">
+          <h4 class="m-b-0 text-white">Acciones</h4>
+        </div>
+        <div class="card-body" align="center">
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-primary" (click)="guardarPersonaje()">Guardar</button>
+              <button class="btn btn-danger" (click)="limpiarElementos()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============================================= -->
+<!--        Modal                                  -->
+<!-- ============================================= -->
+<ng-template #confirmacionBorrarModel let-c="close('Close click')" let-d="dismiss('Cross click')">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Modificar atributo</h5>
+      <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Titulo de la imagen</label>
+        <input class="form-control form-control-line" placeholder="{{imagenAEditar.titulo}}" [(ngModel)]="tituloImagenenEdicion"
+          name="tituloImagen" type="text">
+      </div>
+      <div class="form-group col-12">
+        <label class="custom-file col-12">
+          <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+          <span class="custom-file-control">{{labelImagen}}</span>
+        </label>
+      </div>
+      <div align="center" class="col-12">
+        <h4 class="card-title" *ngIf="!imagenTemporal">Imagen actual</h4>
+        <h4 class="card-title" *ngIf="imagenTemporal">Imagen nueva</h4>
+        <img *ngIf="!imagenTemporal" src="{{imagenAEditar.imagenURL}}" class="w150 ">
+        <img *ngIf="imagenTemporal" [src]="imagenTemporal" class="w150 ">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="editarImagen()">Guardar</button>
+      <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</ng-template>

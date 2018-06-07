@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
-import { Http ,HttpModule} from '@angular/http';
+import { Http, HttpModule } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Atractivo } from '../../models/atractivo.model';
 import { Imagenes } from '../../models/imagenes.model';
@@ -13,17 +13,19 @@ export class AtractivoService {
 
   crearAtrativo(atractivo: Atractivo) {
 
-    return this.afDatabase.object('atractivo/'+atractivo.key).set({
+    return this.afDatabase.object('atractivo/' + atractivo.key).set({
       nombre: atractivo.nombre,
       alias: atractivo.alias,
       categoria: atractivo.categoria,
+      direccion: atractivo.direccion,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
       creadorUid: atractivo.creadorUid
     });
   }
-  obtenertKey(){
+
+  obtenertKey() {
     return this.afDatabase.database.ref('atractivo/').push().key;
   }
 
@@ -34,38 +36,39 @@ export class AtractivoService {
 
   }
 
-  cargarImagenes(idAtractivo: string, imagen: Imagenes){
-    return this.afDatabase.list('atractivo/'+idAtractivo+'/galeria').push({
-        titulo: imagen.titulo,
-        imagenURL: imagen.imagenURL,
-        pathURL: imagen.pathURL
-      
-    });
-  }
-  
-actualizarActractivo(atractivo: Atractivo) {
+  cargarImagenes(idAtractivo: string, imagen: Imagenes) {
+    return this.afDatabase.list('atractivo/' + idAtractivo + '/galeria').push({
+      titulo: imagen.titulo,
+      imagenURL: imagen.imagenURL,
+      pathURL: imagen.pathURL
 
-  return this.afDatabase.list('atractivo/').set(atractivo.key,{
-    nombre: atractivo.nombre,
-    alias:atractivo.alias,
-    categoria: atractivo.categoria,
-    descripcion: atractivo.descripcion,
-    observacio: atractivo.observacion,
-    posicion: atractivo.posicion,
-    creadorUid: atractivo.creadorUid,
-    galeria: atractivo.galeriaObject
-  });
-}
-
-  actualizarImagenes(idAtractivo: string, imagen: Imagenes){
-    return this.afDatabase.list('atractivo/'+idAtractivo+'/galeria').set( imagen.key,{
-        titulo: imagen.titulo,
-        imagenURL: imagen.imagenURL,
-        pathURL: imagen.pathURL
     });
   }
 
-  
+  actualizarActractivo(atractivo: Atractivo) {
+
+    return this.afDatabase.list('atractivo/').set(atractivo.key, {
+      nombre: atractivo.nombre,
+      alias: atractivo.alias,
+      categoria: atractivo.categoria,
+      direccion: atractivo.direccion,
+      descripcion: atractivo.descripcion,
+      observacio: atractivo.observacion,
+      posicion: atractivo.posicion,
+      creadorUid: atractivo.creadorUid,
+      galeria: atractivo.galeriaObject
+    });
+  }
+
+  actualizarImagenes(idAtractivo: string, imagen: Imagenes) {
+    return this.afDatabase.list('atractivo/' + idAtractivo + '/galeria').set(imagen.key, {
+      titulo: imagen.titulo,
+      imagenURL: imagen.imagenURL,
+      pathURL: imagen.pathURL
+    });
+  }
+
+
   listarAtractivos(start, end) {
     return Observable.zip(start, end).switchMap(valor => {
       if (valor[0] == null || valor[0] === '') {
@@ -83,12 +86,12 @@ actualizarActractivo(atractivo: Atractivo) {
           .snapshotChanges();
       }
     });
-}
-borrarAtractivo(key: string) {
-  return this.afDatabase.list('atractivo').remove(key);
-}
+  }
+  borrarAtractivo(key: string) {
+    return this.afDatabase.list('atractivo').remove(key);
+  }
 
-borrarImagenAtractivo(key: string, keyAtractivo:string) {
-  return this.afDatabase.list('atractivo/'+keyAtractivo+'/galeria').remove(key);
-}
+  borrarImagenAtractivo(key: string, keyAtractivo: string) {
+    return this.afDatabase.list('atractivo/' + keyAtractivo + '/galeria').remove(key);
+  }
 }

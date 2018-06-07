@@ -22,5 +22,5 @@ export class ArchivoService {
 
   borrarArchivo(ubicacion: string) {
     return this.storageRef.child(ubicacion).delete();
-}
+  }
 }
