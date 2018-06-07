@@ -46,6 +46,17 @@
                         </span>
                     </div>
                     <div class="form-group">
+                        <label>Dirección</label>
+                        <input name="direccion" formControlName="direccion" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.direccion.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    <div class="form-group">
                         <label>Descripción</label>
                         <textarea class="form-control" rows="5" name="descripcion" formControlName="descripcion"></textarea>
                         <span class="help-block text-muted">

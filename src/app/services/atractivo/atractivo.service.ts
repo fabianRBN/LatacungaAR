@@ -15,7 +15,9 @@ export class AtractivoService {
 
     return this.afDatabase.object('atractivo/' + atractivo.key).set({
       nombre: atractivo.nombre,
+      alias: atractivo.alias,
       categoria: atractivo.categoria,
+      direccion: atractivo.direccion,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
@@ -49,6 +51,7 @@ export class AtractivoService {
       nombre: atractivo.nombre,
       alias: atractivo.alias,
       categoria: atractivo.categoria,
+      direccion: atractivo.direccion,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,

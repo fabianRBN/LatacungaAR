@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MouseEvent } from '@agm/core';
 import { NgModule } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -31,21 +31,21 @@ import 'sweetalert';
   templateUrl: './crear-atractivo.component.html',
   styleUrls: ['./crear-atractivo.component.css']
 })
-export class CrearAtractivoComponent implements OnInit {
+export class CrearAtractivoComponent implements OnInit, OnDestroy {
   // google maps zoom level
-  zoom: number = 17;
+  zoom = 17;
 
   // initial center position for the map
-  lat: number = -0.9356373;
-  lng: number = -78.6118114;
+  lat = -0.9356373;
+  lng = -78.6118114;
 
   // Variables para el cargar imagenes temp y finales
   public labelImagen: string;
-  public imagenaSubir: boolean = false;
+  public imagenaSubir = false;
   public imagenTemp: string;
   public archivo: File;
   public imgTemporales: imagen[] = [];
-  public marcadorActivado: boolean = true;
+  public marcadorActivado = true;
   public tituloImagen: string;
   public tituloImagenenEdicion: string;
 
@@ -60,27 +60,28 @@ export class CrearAtractivoComponent implements OnInit {
   public descripcionAtractivo: string;
   public observacionAtractivo: string;
 
-  public numeroArchivos: number = 0;
-  public numeroArchivosSubidos: number = 0;
+  public numeroArchivos = 0;
+  public numeroArchivosSubidos = 0;
   public date = new Date();
 
-  public spiner: boolean = false;
-  // valiables para validar campos
+  public spiner = false;
+
+  // Variables para validar campos
   frmRegistro: FormGroup;
 
   public idAtractivo: string;
-  public modoedicion: boolean = false;
+  public modoedicion = false;
 
   private atractivoSubscription: Subscription;
   private usuarioSubscription: Subscription;
   public atractivoList: Observable<any>;
 
-  // variables para enviar al modal
+  // Variables para enviar al modal
   modalRef: NgbModalRef;
   public imagenaEditar = new Imagenes();
-  //====================================================
+  // ===================================================
   //         Posicion inicial del mapa de google maps
-  //====================================================
+  // ===================================================
   markers: marker = {
     lat: 51.673858,
     lng: 7.815982,
@@ -101,6 +102,7 @@ export class CrearAtractivoComponent implements OnInit {
       nombre: ['', Validators.required],
       alias: ['', Validators.required],
       categoria: ['', [Validators.required, ValidateDropdown]],
+      direccion: ['', Validators.required],
       descripcion: ['', [Validators.required, Validators.minLength(20)]],
       observacion: ['']
     });
@@ -110,6 +112,7 @@ export class CrearAtractivoComponent implements OnInit {
     this.frmRegistro.setValue({
       nombre: this.atractivoEditable.nombre,
       alias: this.atractivoEditable.alias,
+      direccion: this.atractivoEditable.direccion,
       descripcion: this.atractivoEditable.descripcion,
       categoria: this.atractivoEditable.categoria,
       observacion: this.atractivoEditable.observacion || 'ninguna'
@@ -118,18 +121,18 @@ export class CrearAtractivoComponent implements OnInit {
     this.atractivo = this.atractivoEditable;
   }
 
-  //====================================================
+  // ===================================================
   //         Evento al dar click al markador
-  //====================================================
+  // ===================================================
   clickedMarker() {
     console.log(
       `clicked the marker: lat  ${this.markers.lat}  & lng ${this.markers.lng}`
     );
   }
 
-  //====================================================
+  // ===================================================
   //         Evento al darle click al mapa
-  //====================================================
+  // ===================================================
   mapClicked($event: MouseEvent) {
     // if(this.marcadorActivado){
 
@@ -144,15 +147,15 @@ export class CrearAtractivoComponent implements OnInit {
     //   swal("Mensaje","Arrastre el marcador para colocar en una nueva posicion","error")
     // }
   }
-  //====================================================
+  // ===================================================
   //         Evento al mover un marcador de google maps
-  //====================================================
+  // ===================================================
   markerDragEnd(m: marker, $event: MouseEvent) {
     console.log('dragEnd', m, $event);
   }
 
   ngOnInit() {
-    this.authService.getAuth().subscribe(auth => {
+    this.usuarioSubscription = this.authService.getAuth().subscribe(auth => {
       if (auth) {
         this.atractivo.creadorUid = auth.uid;
       }
@@ -194,11 +197,17 @@ export class CrearAtractivoComponent implements OnInit {
         });
     }
   }
-  ngOnDestroy(): void {}
 
-  //====================================================
+  ngOnDestroy(): void {
+    this.usuarioSubscription.unsubscribe();
+    if (this.modoedicion) {
+      this.atractivoSubscription.unsubscribe();
+    }
+  }
+
+  // ===================================================
   //         Funcion para cargar imagenes temporales
-  //====================================================
+  // ===================================================
   selecionarArchivo(archivos: FileList) {
     this.archivo = archivos.item(0);
     if (this.archivo.type.indexOf('image') < 0) {
@@ -214,15 +223,15 @@ export class CrearAtractivoComponent implements OnInit {
     this.labelImagen = this.archivo.name;
 
     // Vista previa de imagen
-    let reader = new FileReader();
-    let urlImagenTemp = reader.readAsDataURL(this.archivo);
+    const reader = new FileReader();
+    const urlImagenTemp = reader.readAsDataURL(this.archivo);
     reader.onloadend = () => {
       this.imagenTemp = reader.result;
     };
   }
-  //====================================================
+  // ===================================================
   //         Agragar imagenes a un array temporal
-  //====================================================
+  // ===================================================
   agregatImagentemp() {
     if (this.tituloImagen === undefined || this.tituloImagen === '') {
       swal('Alerta', 'Se requiere un titulo para la imagen', 'info');
@@ -237,25 +246,25 @@ export class CrearAtractivoComponent implements OnInit {
       this.tituloImagen = '';
       this.imagenTemp = null;
     }
-    //console.log(this.imgTemporales)
   }
-  //====================================================
+
+  // ===================================================
   //         Funcion para eliminar un elemento temporal
-  //====================================================
+  // ===================================================
   eliminarImagenTemporal(dato: number) {
     this.imgTemporales.splice(dato, 1);
   }
 
-  //====================================================
+  // ===================================================
   //         Funcion para guardar atractivo
-  //====================================================
-
+  // ===================================================
   guardarAtractivo() {
     if (!this.frmRegistro.invalid) {
       this.georeferencia.lat = this.markers.lat;
       this.georeferencia.lng = this.markers.lng;
       this.atractivo.nombre = this.frmRegistro.value.nombre;
       this.atractivo.alias = this.frmRegistro.value.alias;
+      this.atractivo.direccion = this.frmRegistro.value.direccion;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
       this.atractivo.categoria = this.frmRegistro.value.categoria;
       this.atractivo.observacion =
@@ -287,9 +296,9 @@ export class CrearAtractivoComponent implements OnInit {
     }
   }
 
-  //====================================================
+  // ===================================================
   //         Editar Imagen
-  //====================================================
+  // ===================================================
 
   editarImagen() {
     this.imagenaEditar.titulo = this.tituloImagenenEdicion;
@@ -322,9 +331,9 @@ export class CrearAtractivoComponent implements OnInit {
 
     this.cerrarModal();
   }
-  //====================================================
+  // ===================================================
   //         Cargar Imagenes al servidor
-  //====================================================
+  // ===================================================
   // Se cargan una coleccion de imagenes
   guardarImagenes() {
     this.numeroArchivosSubidos = 0;
@@ -335,7 +344,7 @@ export class CrearAtractivoComponent implements OnInit {
   }
   // se carga una unica imagen(Usada para modificar una imagen en especifico)
   guardarImgen(imgTem: imagen, index: number) {
-    var progreso = 0;
+    let progreso = 0;
     if (imgTem.archivo != null) {
       const ubicacion =
         'imagenes/atractivos/' +
@@ -351,8 +360,8 @@ export class CrearAtractivoComponent implements OnInit {
         }
       });
 
-      var sp = null;
-      var uploadTask = this.archivoService.subirArchivo(
+      const sp = null;
+      const uploadTask = this.archivoService.subirArchivo(
         imgTem.archivo,
         ubicacion
       );
@@ -433,12 +442,13 @@ export class CrearAtractivoComponent implements OnInit {
       });
   }
 
-  //==================================================
+  // =================================================
 
   limpiarElementos() {
     this.frmRegistro.setValue({
       nombre: '',
       alias: '',
+      direccion: '',
       descripcion: '',
       categoria: '',
       observacion: ''
@@ -460,15 +470,14 @@ export class CrearAtractivoComponent implements OnInit {
       });
   }
 
-  //====================================================
+  // ===================================================
   //         Modal imagenes
-  //====================================================
+  // ===================================================
 
-  mostraModal(modelId, imagen: Imagenes) {
+  mostraModal(modelId, img: Imagenes) {
     this.imagenTemp = null;
-    this.tituloImagenenEdicion = imagen.titulo;
-    this.imagenaEditar = imagen;
-    //console.log(imagen);
+    this.tituloImagenenEdicion = img.titulo;
+    this.imagenaEditar = img;
     this.modalRef = this.modalService.open(modelId, { centered: true });
   }
   cerrarModal() {
@@ -478,9 +487,9 @@ export class CrearAtractivoComponent implements OnInit {
   }
 }
 
-//====================================================
+// ===================================================
 //         Interfaces
-//====================================================
+// ===================================================
 // Interfaz para imagenes temporales
 interface imagen {
   titulo: string;

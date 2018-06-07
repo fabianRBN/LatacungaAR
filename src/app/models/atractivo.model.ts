@@ -6,6 +6,7 @@ export class Atractivo {
     nombre: string;
     alias: string;
     categoria: string;
+    direccion: string;
     descripcion?: string;
     observacion?: string;
     posicion: Georeferencia;
