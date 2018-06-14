@@ -26,6 +26,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
 import 'sweetalert';
+import { GeoAtractivoService } from '../../../services/atractivo/geo-atractivo.service';
 @Component({
   selector: 'app-crear-atractivo',
   templateUrl: './crear-atractivo.component.html',
@@ -96,7 +97,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public activatedRoute: ActivatedRoute,
     public router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private geo:GeoAtractivoService
   ) {
     this.frmRegistro = this.fb.group({
       nombre: ['', Validators.required],
@@ -164,6 +166,10 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       lng: this.longitud,
       draggable: true
     };
+  }
+
+  geoFireAtractivo(atractivoKey: string,lat:number, lng: number ){
+    this.geo.setLocation(atractivoKey , [lat, lng ]);
   }
 
   ngOnInit() {
@@ -300,6 +306,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       } else {
         this.atractivo.key = this.atractivoService.obtenertKey();
         this.atractivoService.crearAtrativo(this.atractivo);
+        this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
         this.spiner = true;
         this.guardarImagenes();
       }

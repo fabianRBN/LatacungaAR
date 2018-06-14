@@ -5,6 +5,7 @@ import { Subscription } from "rxjs/Subscription";
 import { AtractivoService } from "../../../services/service.index";
 import { Imagenes } from "../../../models/imagenes.model";
 import { ArchivoService } from '../../../services/archivo/archivo.service';
+import { GeoAtractivoService } from '../../../services/atractivo/geo-atractivo.service';
 
 
 
@@ -33,7 +34,9 @@ export class AtractivoComponent implements OnInit {
   
 
   constructor(private atractivoService: AtractivoService, 
-    private archivoService: ArchivoService) {
+    private archivoService: ArchivoService,
+    private geo:GeoAtractivoService
+  ) {
     this.start = new BehaviorSubject(null);
     this.end = new BehaviorSubject(null);
   }
@@ -42,9 +45,7 @@ export class AtractivoComponent implements OnInit {
     this.atractivosSubscription = this.atractivoService
       .listarAtractivos(this.start, this.end)
       .subscribe((item:any) => {
-        this.listaAtractivos = [];
-        console.log(item);
-        
+        this.listaAtractivos = [];        
         item.forEach((element, index) => {
            const atractivo:any = element.payload.toJSON();
            const imgTemp: Imagenes[]= [];
@@ -54,6 +55,11 @@ export class AtractivoComponent implements OnInit {
            atractivoTemp.alias = atractivo.alias;
            atractivoTemp.categoria = atractivo.categoria;
            atractivoTemp.descripcion = atractivo.descripcion;
+          
+           // Sincronizar cambios de ubicacion en geofire 
+           this.geo.setLocation(atractivoTemp.key, [atractivo.posicion.lat, atractivo.posicion.lng ]);
+           
+
            Object.keys(atractivo.galeria).forEach( key => {
             imgTemp.push(atractivo.galeria[key] as Imagenes);
             });
@@ -91,11 +97,12 @@ export class AtractivoComponent implements OnInit {
             console.log('borrando');
             this.atractivoService.borrarAtractivo(uidAtractivo).then(res => {
 
+              
+
             }).catch( err => {
               console.error(err);
             });
-
-            console.log(galeriaAtractivo);
+            this.geo.borrarGeoAtractivo(uidAtractivo);
             galeriaAtractivo.forEach(element => {
               this.archivoService.borrarArchivo(element.pathURL);
               

@@ -9,7 +9,8 @@ import {
   ArchivoService,
   AtractivoService,
   ServicioService,
-  PersonajeService
+  PersonajeService,
+  GeoAtractivoService
 } from './service.index';
 
 @NgModule({
@@ -24,7 +25,8 @@ import {
     ArchivoService,
     AtractivoService,
     ServicioService,
-    PersonajeService
+    PersonajeService,
+    GeoAtractivoService
   ]
 })
 export class ServiceModule {}
