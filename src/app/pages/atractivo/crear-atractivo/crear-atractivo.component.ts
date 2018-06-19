@@ -98,7 +98,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     public activatedRoute: ActivatedRoute,
     public router: Router,
     private modalService: NgbModal,
-    private geo:GeoAtractivoService
+    //private geo:GeoAtractivoService
   ) {
     this.frmRegistro = this.fb.group({
       nombre: ['', Validators.required],
@@ -168,9 +168,9 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     };
   }
 
-  geoFireAtractivo(atractivoKey: string,lat:number, lng: number ){
-    this.geo.setLocation(atractivoKey , [lat, lng ]);
-  }
+//   geoFireAtractivo(atractivoKey: string,lat:number, lng: number ){
+//   this.geo.setLocation(atractivoKey , [lat, lng ]);
+//}
 
   ngOnInit() {
     this.usuarioSubscription = this.authService.getAuth().subscribe(auth => {
@@ -306,7 +306,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       } else {
         this.atractivo.key = this.atractivoService.obtenertKey();
         this.atractivoService.crearAtrativo(this.atractivo);
-        this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
+        //this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
         this.spiner = true;
         this.guardarImagenes();
       }

@@ -1,0 +1,12 @@
+
+<div class="comentarios" *ngFor='let comentario of comentarioList'>
+<div class="d-flex flex-row comment-row">
+    <div class="p-2"><span class="round"><img src="{{comentario.urlPhotoUsuario}}" alt="user" width="50"></span></div>
+    <div class="comment-text w-100">
+        <h5>{{comentario.nombreUsuario}}</h5>
+        <p class="m-b-5">{{comentario.contenido}}</p>
+        <div class="comment-footer"> 
+          <span class="text-muted pull-right">{{comentario.fecha}}</span> 
+    </div>
+</div>
+</div>

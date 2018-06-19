@@ -29,6 +29,7 @@ import { DetalleServicioComponent } from './servicio/detalle-servicio/detalle-se
 import { DetallePersonajeComponent } from './personaje/detalle-personaje/detalle-personaje.component';
 import { PersonajeComponent } from './personaje/personaje/personaje.component';
 import { CrearPersonajeComponent } from './personaje/crear-personaje/crear-personaje.component';
+import { ComentariosComponent } from '../components/comentarios/comentarios.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { CrearPersonajeComponent } from './personaje/crear-personaje/crear-perso
     DetallePersonajeComponent,
     PersonajeComponent,
     CrearPersonajeComponent,
+    ComentariosComponent,
   ],
   exports: [
 

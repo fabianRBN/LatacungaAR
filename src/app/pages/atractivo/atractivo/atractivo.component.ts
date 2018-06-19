@@ -34,8 +34,8 @@ export class AtractivoComponent implements OnInit {
   
 
   constructor(private atractivoService: AtractivoService, 
-    private archivoService: ArchivoService,
-    private geo:GeoAtractivoService
+    private archivoService: ArchivoService
+    //private geo:GeoAtractivoService
   ) {
     this.start = new BehaviorSubject(null);
     this.end = new BehaviorSubject(null);
@@ -57,7 +57,7 @@ export class AtractivoComponent implements OnInit {
            atractivoTemp.descripcion = atractivo.descripcion;
           
            // Sincronizar cambios de ubicacion en geofire 
-           this.geo.setLocation(atractivoTemp.key, [atractivo.posicion.lat, atractivo.posicion.lng ]);
+          // this.geo.setLocation(atractivoTemp.key, [atractivo.posicion.lat, atractivo.posicion.lng ]);
            
 
            Object.keys(atractivo.galeria).forEach( key => {
@@ -102,7 +102,7 @@ export class AtractivoComponent implements OnInit {
             }).catch( err => {
               console.error(err);
             });
-            this.geo.borrarGeoAtractivo(uidAtractivo);
+            //this.geo.borrarGeoAtractivo(uidAtractivo);
             galeriaAtractivo.forEach(element => {
               this.archivoService.borrarArchivo(element.pathURL);
               
