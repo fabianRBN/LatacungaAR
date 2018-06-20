@@ -5,6 +5,7 @@ import { ClienteService } from '../../services/cliente/cliente.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Cliente } from '../../models/cliente.model';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-comentarios',
@@ -20,8 +21,13 @@ export class ComentariosComponent implements OnInit {
 
   constructor(
     private comentariosService:ComentariosService,
-    private clienteService:ClienteService        
-  ) { }
+    private clienteService:ClienteService,
+    public config: NgbRatingConfig    
+  ) { 
+
+    config.max = 5;
+    config.readonly = true;
+  }
 
   ngOnInit() {
     this.comentarioList = [];
@@ -36,6 +42,7 @@ export class ComentariosComponent implements OnInit {
         comentarioTemp.contenido = comentario.contenido;
         comentarioTemp.fecha = comentario.fecha;
         comentarioTemp.uidUsuario = comentario.uidUsuario;
+        comentarioTemp.calificacion = comentario.calificacion;
 
 
         let clienteTemp = this.clienteService.obtenerClientePorKey(value.key).snapshotChanges();

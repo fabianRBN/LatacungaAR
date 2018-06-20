@@ -37,22 +37,24 @@
                 </a>
             </div>
             <div class="card-body">
-                    <div class="d-flex">
-                            <h4 class="card-title"><span class="lstick"></span>{{atractivo.nombre}}</h4>
-                            <!-- <span class="badge badge-success">9</span> -->
-                            <div class="btn-group ml-auto m-t-10">
-                                <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                    <a class="dropdown-item" href="javascript:void(0)">AR</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/detalle-atractivo', atractivo.key ]" >Detalle</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" (click)="eliminar(atractivo.key,atractivo.nombre, atractivo.galeria)" >Eliminar</a>
-                            
-                                </div>
-                            </div>
-                        </div>
+                <div class="d-flex">
+                    <h4 class="card-title">
+                        <span class="lstick"></span>{{atractivo.nombre}}</h4>
+                    <!-- <span class="badge badge-success">9</span> -->
+                    <div class="btn-group ml-auto m-t-10">
+                        <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <a class="dropdown-item" href="javascript:void(0)">AR</a>
+                            <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/detalle-atractivo', atractivo.key ]">Detalle</a>
+                            <a class="dropdown-item" href="javascript:void(0)" (click)="eliminar(atractivo.key,atractivo.nombre, atractivo.galeria)">Eliminar</a>
 
+                        </div>
+                    </div>
+                </div>
+                <ngb-rating [(rate)]="atractivo.rating"></ngb-rating>
+                <pre>Calificación: <b>{{atractivo.rating}}</b></pre>
                 <p class="card-text block-ellipsis">{{atractivo.descripcion}}</p>
-                
+
 
             </div>
         </div>

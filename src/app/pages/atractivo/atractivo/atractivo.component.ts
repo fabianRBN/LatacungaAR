@@ -6,13 +6,16 @@ import { AtractivoService } from "../../../services/service.index";
 import { Imagenes } from "../../../models/imagenes.model";
 import { ArchivoService } from '../../../services/archivo/archivo.service';
 import { GeoAtractivoService } from '../../../services/atractivo/geo-atractivo.service';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import { ComentariosService } from '../../../services/comentarios/comentarios.service';
 
 
 
 @Component({
   selector: "app-atractivo",
   templateUrl: "./atractivo.component.html",
-  styleUrls: ["./atractivo.component.css"]
+  styleUrls: ["./atractivo.component.css"],
+  providers: [NgbRatingConfig] // add NgbRatingConfig to the component providers
 })
 export class AtractivoComponent implements OnInit {
   // Variables para realizar busqueda
@@ -21,24 +24,32 @@ export class AtractivoComponent implements OnInit {
   public end: BehaviorSubject<string | null>;
   // Variable para paginacion
   public pagina = 1;
-
+  currentRate = 0;
   // Variables y Objetos de atractivos
   public listaAtractivos: Atractivo[];
   public uidAtractivo: string;
   private atractivosSubscription: Subscription = null;
   public atractivoTemp= new Atractivo();
   public valor: number = 0;
-
+  // Definicion de estilos para carrusel dinamico
   public estilo: string[] = ['First slide','Second slide','Third slide','Fourth slide','Fifth slide','Sixth slide'];
 
+  // Subscripcion de comentarios
+  public comentariosSubscription: Subscription;
   
 
   constructor(private atractivoService: AtractivoService, 
-    private archivoService: ArchivoService
+    private archivoService: ArchivoService,
+    public config: NgbRatingConfig,
+    private comentariosService: ComentariosService
     //private geo:GeoAtractivoService
   ) {
     this.start = new BehaviorSubject(null);
     this.end = new BehaviorSubject(null);
+
+    //configuracion de Rating 
+    config.max = 5;
+    config.readonly = true;
   }
 
   ngOnInit() {
@@ -59,6 +70,25 @@ export class AtractivoComponent implements OnInit {
            // Sincronizar cambios de ubicacion en geofire 
           // this.geo.setLocation(atractivoTemp.key, [atractivo.posicion.lat, atractivo.posicion.lng ]);
            
+          this.comentariosService.obtenerComentariosDeAtractivosPorKey(atractivoTemp.key).snapshotChanges()
+          .subscribe(values => {
+            let total = 0;
+            let contador = 0;
+            values.forEach(value => {
+                total = total + value.payload.val().calificacion;
+                contador++;
+            });
+            if(contador>0){
+              total = total/contador
+            }else{
+              total = 0;
+            }
+            atractivoTemp.rating = total;
+            
+
+          });
+
+          
 
            Object.keys(atractivo.galeria).forEach( key => {
             imgTemp.push(atractivo.galeria[key] as Imagenes);
@@ -116,4 +146,5 @@ export class AtractivoComponent implements OnInit {
 
   
 }
+
 }

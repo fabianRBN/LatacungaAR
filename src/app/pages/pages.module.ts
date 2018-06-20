@@ -32,6 +32,7 @@ import { CrearPersonajeComponent } from './personaje/crear-personaje/crear-perso
 import { ComentariosComponent } from '../components/comentarios/comentarios.component';
 
 
+
 @NgModule({
 
 

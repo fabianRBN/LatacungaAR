@@ -13,6 +13,8 @@ export class Atractivo {
     creadorUid: string;
     galeria: Imagenes[];
     galeriaObject: Object;
+
+    rating:number;
     
 
 constructor( ) {}
