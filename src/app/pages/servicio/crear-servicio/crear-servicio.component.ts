@@ -60,7 +60,6 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
   public zoom = 17; // google maps zoom level
   public lat = -0.9356373;
   public lng = -78.6118114; // initial center position for the map
-  private marcadorActivado = true;
   marcador: Marker = {
     lat: 51.673858,
     lng: 7.815982,
@@ -73,6 +72,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
   public spiner = false;
   private servicioSubscription: Subscription;
   private authSubscription: Subscription;
+  private inputLatSubcription: Subscription;
+  private inputLngSubcription: Subscription;
 
   constructor(
     private servicioService: ServicioService,
@@ -88,7 +89,15 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       tipoDeActividad: ['', [Validators.required, ValidateDropdown]],
       direccion: ['', [Validators.required]],
       contacto: [''],
-      web: ['']
+      web: [''],
+      latitud: ['', Validators.required],
+      longitud: ['', Validators.required]
+    });
+    this.inputLatSubcription = this.frmRegistro.controls['latitud'].valueChanges.subscribe( value => {
+      this.marcador.lat = value;
+    });
+    this.inputLngSubcription = this.frmRegistro.controls['longitud'].valueChanges.subscribe( value => {
+      this.marcador.lng = value;
     });
   }
 
@@ -123,6 +132,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
+    this.inputLatSubcription.unsubscribe();
+    this.inputLngSubcription.unsubscribe();
     if (this.modoEdicion) {
       this.servicioSubscription.unsubscribe();
     }
@@ -250,7 +261,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     this.marcador.lat = $event.coords.lat;
     this.marcador.lng = $event.coords.lng;
     this.marcador.draggable = true;
-    this.marcadorActivado = false;
+    this.frmRegistro.controls['latitud'].setValue($event.coords.lat);
+    this.frmRegistro.controls['longitud'].setValue($event.coords.lng);
   }
 
   // Evento al mover el marcador del mapa

@@ -62,10 +62,6 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   public date = new Date();
 
   public spiner = false;
-
-  public latitud = 0;
-  public longitud = 0;
-
   // Variables para validar campos
   frmRegistro: FormGroup;
 
@@ -75,6 +71,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
 
   private atractivoSubscription: Subscription;
   private usuarioSubscription: Subscription;
+  private inputLatSubcription: Subscription;
+  private inputLngSubcription: Subscription;
   public atractivoList: Observable<any>;
 
   // Variables para enviar al modal
@@ -98,7 +96,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     public activatedRoute: ActivatedRoute,
     public router: Router,
     private modalService: NgbModal,
-    //private geo:GeoAtractivoService
+    // private geo:GeoAtractivoService
   ) {
     this.frmRegistro = this.fb.group({
       nombre: ['', Validators.required],
@@ -106,11 +104,16 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       categoria: ['', [Validators.required, ValidateDropdown]],
       direccion: ['', Validators.required],
       descripcion: ['', [Validators.required, Validators.minLength(20)]],
+      latitud: ['', Validators.required],
+      longitud: ['', Validators.required],
       observacion: ['']
     });
-
-    
-
+    this.inputLatSubcription = this.frmRegistro.controls['latitud'].valueChanges.subscribe( value => {
+      this.markers.lat = value;
+    });
+    this.inputLngSubcription = this.frmRegistro.controls['longitud'].valueChanges.subscribe( value => {
+      this.markers.lng = value;
+    });
   }
 
   formValue(atractivo: Atractivo) {
@@ -120,7 +123,9 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       direccion: this.atractivoEditable.direccion,
       descripcion: this.atractivoEditable.descripcion,
       categoria: this.atractivoEditable.categoria,
-      observacion: this.atractivoEditable.observacion || 'ninguna'
+      observacion: this.atractivoEditable.observacion || 'ninguna',
+      latitud: this.atractivoEditable.posicion.lat,
+      longitud: this.atractivoEditable.posicion.lng,
     });
 
     this.atractivo = this.atractivoEditable;
@@ -139,15 +144,13 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   //         Evento al darle click al mapa
   // ===================================================
   mapClicked($event: MouseEvent) {
-
-
     this.markers = {
       lat: $event.coords.lat,
       lng: $event.coords.lng,
-
       draggable: true
     };
-
+    this.frmRegistro.controls['latitud'].setValue($event.coords.lat);
+    this.frmRegistro.controls['longitud'].setValue($event.coords.lng);
     // }else{
     //   swal("Mensaje","Arrastre el marcador para colocar en una nueva posicion","error")
     // }
@@ -159,18 +162,17 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     console.log('dragEnd', m, $event);
   }
 
-
-  cordenadasMapa(){
+  cordenadasMapa() {
     this.markers = {
-      lat: this.latitud,
-      lng: this.longitud,
+      lat: this.frmRegistro.value.latitud,
+      lng: this.frmRegistro.value.longitud,
       draggable: true
     };
   }
 
 //   geoFireAtractivo(atractivoKey: string,lat:number, lng: number ){
 //   this.geo.setLocation(atractivoKey , [lat, lng ]);
-//}
+// }
 
   ngOnInit() {
     this.usuarioSubscription = this.authService.getAuth().subscribe(auth => {
@@ -218,6 +220,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.usuarioSubscription.unsubscribe();
+    this.inputLatSubcription.unsubscribe();
+    this.inputLngSubcription.unsubscribe();
     if (this.modoedicion) {
       this.atractivoSubscription.unsubscribe();
     }
@@ -234,7 +238,6 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
         'El archivo seleccionado no es una Imagen',
         'error'
       );
-   
       return;
     }
 
@@ -306,7 +309,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       } else {
         this.atractivo.key = this.atractivoService.obtenertKey();
         this.atractivoService.crearAtrativo(this.atractivo);
-        //this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
+        // this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
         this.spiner = true;
         this.guardarImagenes();
       }
