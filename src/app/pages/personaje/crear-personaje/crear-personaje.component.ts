@@ -128,7 +128,6 @@ export class CrearPersonajeComponent implements OnInit, OnDestroy {
           'Para registrar un personaje solo se requiere una imagen'
         );
       } else {
-        this.personaje.seleccionado = false;
         this.personajeService
           .crearPersonaje(this.personaje)
           .then(res => {

@@ -13,7 +13,6 @@ export class PersonajeService {
       nombre: personaje.nombre,
       descripcion: personaje.descripcion,
       creadorUid: personaje.creadorUid,
-      seleccionado: personaje.seleccionado
     });
   }
 
@@ -40,7 +39,6 @@ export class PersonajeService {
       nombre: personaje.nombre,
       descripcion: personaje.descripcion,
       creadorUid: personaje.creadorUid,
-      seleccionado: personaje.seleccionado,
       galeria: personaje.galeriaObject
     });
   }
