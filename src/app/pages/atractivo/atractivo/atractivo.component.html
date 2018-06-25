@@ -15,7 +15,7 @@
 <!-- Row -->
 <div class="row">
 
-    <div class="col-lg-3 col-md-6" *ngFor="let atractivo of listaAtractivos ;let i = index;">
+    <div class="col-lg-3 col-md-6" *ngFor="let atractivo of listaAtractivos | paginate: { itemsPerPage: 4, currentPage: pagina } ;let i = index">
         <!-- Card -->
         <div class="card">
             <div id="carouselExampleControls{{i}}" class="carousel slide" data-ride="carousel">
@@ -61,5 +61,10 @@
         <!-- Card -->
     </div>
     <!-- column -->
-
 </div>
+<div class="row">
+        <div class="col-md-12" align="center">
+          <pagination-controls class="pagination pagination-sm" style="display: block;" (pageChange)="pagina = $event"
+          directionLinks="true" maxSize="5" autoHide="true" previousLabel="" nextLabel=""></pagination-controls>
+        </div>
+      </div>
