@@ -67,4 +67,10 @@ export class ServicioService {
   borrarServicio(key: string) {
     return this.afDatabase.list('servicio/').remove(key);
   }
+  listadeServicios(){
+    
+    return this.afDatabase.list('servicio/');
+  
+
+}
 }

@@ -124,4 +124,11 @@ export class AtractivoService {
   borrarImagenAtractivo(key: string, keyAtractivo: string) {
     return this.afDatabase.list('atractivo/' + keyAtractivo + '/galeria').remove(key);
   }
+
+  listadeAtractivos(){
+    
+      return this.afDatabase.list('atractivo/');
+    
+  
+  }
 }

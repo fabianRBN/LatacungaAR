@@ -1,11 +1,11 @@
-<div class="row" >
-  <div class="col-6">
+<div class="row">
+  <div class="col-6" *ngFor="let item of graficaUsuarios">
       <div class="card">
       <div class="card-body">
-        <app-grafico-dona [leyenda]='graficaUsuarios.leyenda' 
-            [doughnutChartLabels]='graficaUsuarios.labels'
-            [doughnutChartData]='graficaUsuarios.data'
-            [doughnutChartType]='graficaUsuarios.type'
+        <app-grafico-dona [leyenda]='item.leyenda' 
+            [doughnutChartLabels]='item.labels'
+            [doughnutChartData]='item.data'
+            [doughnutChartType]='item.type'
         ></app-grafico-dona>
       </div>
     </div>
