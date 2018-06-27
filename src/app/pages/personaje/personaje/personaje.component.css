@@ -1,0 +1,24 @@
+
+
+.img-atractivo {
+    width: 100%;
+    min-height: 200px;
+}
+.textDescripcion{
+    line-height: 1.4;
+    word-wrap: break-word;
+    white-space: nowrap;
+
+}
+.block-ellipsis {
+    display: block;
+    display: -webkit-box;
+    max-width: 100%;
+    height: 123px;
+    word-wrap: break-word;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+  }

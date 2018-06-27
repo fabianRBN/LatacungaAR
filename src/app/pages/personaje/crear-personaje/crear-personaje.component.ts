@@ -12,6 +12,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Personaje } from '../../../models/personaje.model';
 import 'sweetalert';
 import * as firebase from 'firebase';
+import { ValidateDropdown } from '../../../validators/dropdownValidator';
 
 @Component({
   selector: 'app-crear-personaje',
@@ -63,6 +64,7 @@ export class CrearPersonajeComponent implements OnInit, OnDestroy {
   ) {
     this.frmRegistro = this.formBuilder.group({
       nombre: ['', Validators.required],
+      sexo: ['', [Validators.required, ValidateDropdown]],
       descripcion: ['', [Validators.required]]
     });
   }
@@ -112,6 +114,7 @@ export class CrearPersonajeComponent implements OnInit, OnDestroy {
       this.personaje.key = this.personajeService.obtenerKey();
       this.personaje.nombre = this.frmRegistro.value.nombre;
       this.personaje.descripcion = this.frmRegistro.value.descripcion;
+      this.personaje.sexo = this.frmRegistro.value.sexo;
       if (this.modoEdicion) {
         this.personaje.key = this.keyPersonaje;
         this.personajeService.actualizarPersonaje(this.personaje);
@@ -342,7 +345,8 @@ export class CrearPersonajeComponent implements OnInit, OnDestroy {
   formValue(personaje: Personaje) {
     this.frmRegistro.setValue({
       nombre: personaje.nombre,
-      descripcion: personaje.descripcion
+      descripcion: personaje.descripcion,
+      sexo: personaje.sexo
     });
     this.personaje = personaje;
     console.log(this.personaje);
@@ -352,7 +356,8 @@ export class CrearPersonajeComponent implements OnInit, OnDestroy {
   limpiarElementos() {
     this.frmRegistro.setValue({
       nombre: '',
-      descripcion: ''
+      descripcion: '',
+      sexo: ''
     });
     this.labelImagen = '';
     this.imagenesTemporales = [];

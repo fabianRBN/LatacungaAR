@@ -12,6 +12,7 @@ export class PersonajeService {
     return this.afDatabase.object('personaje/' + personaje.key).set({
       nombre: personaje.nombre,
       descripcion: personaje.descripcion,
+      sexo: personaje.sexo,
       creadorUid: personaje.creadorUid,
     });
   }
@@ -38,6 +39,7 @@ export class PersonajeService {
     return this.afDatabase.list('personaje/').set(personaje.key, {
       nombre: personaje.nombre,
       descripcion: personaje.descripcion,
+      sexo: personaje.sexo,
       creadorUid: personaje.creadorUid,
       galeria: personaje.galeriaObject
     });

@@ -45,7 +45,7 @@ export class AtractivoComponent implements OnInit {
   public comentariosSubscription: Subscription;
 
   // Filtro 
-  public filtro: string = 'rating';
+  public filtro: string = 'nombre';
   // Rating 
   public rating: number = 0;
   // Variable para modal

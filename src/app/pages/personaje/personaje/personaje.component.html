@@ -35,8 +35,8 @@
         <h4 class="card-title">{{personaje.nombre}}</h4>
         <div aling="center">
           <div class="button-group">
-            <a href="#" class="btn btn-primary" [routerLink]="['/detalle-personaje', personaje.key ]">Detalle</a>
-            <button class="btn btn-danger" (click)="eliminar(personaje.key, personaje.nombre, personaje.galeria)">Eliminar</button>
+            <a href="#" class="btn btn-sm btn-primary" [routerLink]="['/detalle-personaje', personaje.key ]">Detalle</a>
+            <button class="btn btn-sm btn-danger" (click)="eliminar(personaje.key, personaje.nombre, personaje.galeria)">Eliminar</button>
           </div>
         </div>
       </div>

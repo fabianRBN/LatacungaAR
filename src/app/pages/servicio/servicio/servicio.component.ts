@@ -14,6 +14,7 @@ export class ServicioComponent implements OnInit, OnDestroy {
   public estadoInput = 0;
   public start: BehaviorSubject<string | null>;
   public end: BehaviorSubject<string | null>;
+  public valorDeOrden = 'nombre';
 
   // Variable para paginacion
   public pagina = 1;
@@ -40,8 +41,16 @@ export class ServicioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getServicios();
+  }
+
+  ngOnDestroy() {
+    this.servicioSubscription.unsubscribe();
+  }
+
+  getServicios() {
     this.servicioSubscription = this.servicioService
-      .listarServicios(this.start, this.end)
+      .listarServicios(this.start, this.end, this.valorDeOrden)
       .subscribe(item => {
         this.listaServicios = [];
         item.forEach((element, index) => {
@@ -50,10 +59,6 @@ export class ServicioComponent implements OnInit, OnDestroy {
           this.listaServicios.push(datos as Servicio);
         });
       });
-  }
-
-  ngOnDestroy() {
-    this.servicioSubscription.unsubscribe();
   }
 
   buscar($event) {
@@ -80,5 +85,10 @@ export class ServicioComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  cambiarValorDeOrden(valor: string) {
+    this.valorDeOrden = valor;
+    this.getServicios();
   }
 }

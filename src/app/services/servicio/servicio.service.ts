@@ -45,17 +45,17 @@ export class ServicioService {
     });
   }
 
-  listarServicios(star, end) {
+  listarServicios(star, end, valorDeOrden) {
     return Observable.zip(star, end).switchMap(valor => {
       if (valor[0] == null || valor[0] === '') {
         return this.afDatabase
-          .list('servicio/', ref => ref.orderByChild('nombre'))
+          .list('servicio/', ref => ref.orderByChild(valorDeOrden))
           .snapshotChanges();
       } else {
         return this.afDatabase
           .list('servicio/', ref =>
             ref
-              .orderByChild('nombre')
+              .orderByChild(valorDeOrden)
               .startAt(valor[0])
               .endAt(valor[1])
           )

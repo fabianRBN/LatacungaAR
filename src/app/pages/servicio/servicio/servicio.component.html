@@ -2,9 +2,20 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <div>
-          <label>Nombre del servicios a buscar</label>
-          <input name="nombre" (keydown)="buscar($event)" class="form-control form-control-line" placeholder="" type="text">
+        <div class="row">
+          <div class="col-md-8">
+            <label>Servicio a buscar</label>
+            <input name="nombre" (keydown)="buscar($event)" class="form-control form-control-line" placeholder="{{valorDeOrden}} del servicio" type="text">
+          </div>
+          <div class="col-md-4">
+            <div class="col-12">
+              <label>Ordenar por:</label>
+            </div>
+            <div class="btn-group btn-group col-12" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary" (click)="cambiarValorDeOrden('nombre')">Nombre</button>
+              <button type="button" class="btn btn-secondary" (click)="cambiarValorDeOrden('categoria')">Categoria</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -34,7 +45,7 @@
 </div>
 <div class="row">
   <div class="col-md-12" align="center">
-    <pagination-controls class="pagination pagination-sm" style="display: block;" (pageChange)="pagina = $event"
-    directionLinks="true" maxSize="5" autoHide="true" previousLabel="" nextLabel=""></pagination-controls>
+    <pagination-controls class="pagination pagination-sm" style="display: block;" (pageChange)="pagina = $event" directionLinks="true"
+      maxSize="5" autoHide="true" previousLabel="" nextLabel=""></pagination-controls>
   </div>
 </div>
