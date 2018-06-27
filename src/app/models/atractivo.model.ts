@@ -15,6 +15,7 @@ export class Atractivo {
     galeriaObject: Object;
 
     rating:number;
+    pathUrl360:string;
     
 
 constructor( ) {}

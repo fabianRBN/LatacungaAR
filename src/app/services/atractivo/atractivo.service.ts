@@ -44,6 +44,12 @@ export class AtractivoService {
 
     });
   }
+  cargarImagenes360(idAtractivo: string, imagen: Imagenes) {
+    return this.afDatabase.object('atractivo/' + idAtractivo + '/imagen360').set({
+      imagenURL: imagen.imagenURL,
+      pathURL: imagen.pathURL
+    });
+  }
 
   actualizarActractivo(atractivo: Atractivo) {
 
@@ -69,17 +75,41 @@ export class AtractivoService {
   }
 
 
-  listarAtractivos(start, end) {
+  listarAtractivos(start, end, tipo, filtro) {
+
+
+    if(tipo === "rating"){
+        
+      if(filtro > 0)
+     {   return this.afDatabase
+        .list('/atractivo', ref =>
+          ref
+            .orderByChild(tipo)
+            .equalTo(Number(filtro))
+            
+        )
+        .snapshotChanges();}
+        else{
+          return this.afDatabase
+        .list('/atractivo', ref =>
+          ref
+            .orderByChild(tipo)
+            
+        )
+        .snapshotChanges();
+        }
+    }
+
     return Observable.zip(start, end).switchMap(valor => {
       if (valor[0] == null || valor[0] === '') {
         return this.afDatabase
-          .list('/atractivo', ref => ref.orderByChild('nombre'))
+          .list('/atractivo', ref => ref.orderByChild(tipo))
           .snapshotChanges();
       } else {
         return this.afDatabase
           .list('/atractivo', ref =>
             ref
-              .orderByChild('nombre')
+              .orderByChild(tipo)
               .startAt(valor[0])
               .endAt(valor[1])
           )

@@ -15,36 +15,48 @@ export class GraficasComponent implements OnInit {
   graficaUsuarios:graficos;
   constructor(private usuarioService: UsuarioService) { 
 
-    this.graficaUsuarios= {
-      labels:['Usuario','Administrador'],
-      data:[this.contadorUsuario,this.contadorcliente],
-      leyenda:'Usuarios',
-      type:'doughnut'
-    }
+    
 
    
   }
 
   ngOnInit() {
 
+    this.datosUsuarios();
 
+    this.graficaUsuarios= {
+      labels:['Usuario','Administrador'],
+      data:[this.contadorUsuario,this.contadorcliente],
+      leyenda:'Usuarios',
+      type:'doughnut'
+    }
+    
   }
 
   datosUsuarios(){
     this.usuarioSubscription =   this.usuarioService.numerodeRegistrosUsuario().snapshotChanges()
     .subscribe(item=>{
+      
       this.contadorUsuario = item.length;
+
+      console.log("contador usuario:"+this.contadorUsuario);
     })
 
     this.clienteSubscription =   this.usuarioService.numerodeRegistrosClientes().snapshotChanges()
     .subscribe(item=>{
       this.contadorcliente = item.length;
+      console.log("contador cliente:"+this.contadorcliente);
      
     })
   }
     OnDestroy(){
-    this.usuarioSubscription.unsubscribe();
-    this.clienteSubscription.unsubscribe();
+      if(this.usuarioService){
+        this.usuarioSubscription.unsubscribe();
+      }
+      if(this.clienteSubscription){
+        this.clienteSubscription.unsubscribe();
+      }
+    
   }
     // Doughnut
 

@@ -223,6 +223,74 @@
             </div>
         </div>
     </div>
+
+    <!-- ============================================= -->
+    <!--        Carga de archivos multimedoa AR        --> 
+    <!-- ============================================= -->
+
+    <!--
+    <div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h4 class="m-b-0 text-white">Realidad aumentada e Imagenes panoramica</h4>
+                    </div>
+                    <div class="card-body">
+                            <div class="row" align="center">
+                                    <div class="col-6">
+                                        <label>Caracteristica AR</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="switch">
+                                            <label>
+                                                Off
+                                                <input type="checkbox" [checked]="checkAR" (change)="checkAR = !checkAR">
+                                                <span class="lever"></span>
+                                                On
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row" align="center">
+                                    <div class="col-6">
+                                        <label>Caracteristica 360</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="switch">
+                                            <label>
+                                                Off
+                                                <input type="checkbox" [checked]="check360" (change)="check360 = !check360">
+                                                <span class="lever"></span>
+                                                On
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                               
+                                <div *ngIf="check360">
+                                    <hr/>
+                                    <div class="form-group col-12">
+                                        <label class="custom-file col-12">
+                                            <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                                            <span class="custom-file-control">{{labelImagen}}</span>
+                                        </label>
+                                    </div>
+                                    <div align="center" class="col-12">
+                                        <h4 class="card-title" *ngIf="!imagenTemp">Imagen actual</h4>
+                                        <h4 class="card-title" *ngIf="imagenTemp">Imagen nueva</h4>
+                                        <img *ngIf="!imagenTemp" src="" class="w150 ">
+                                        <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
+                                    </div>
+                                </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    -->
     <div>
         <div class="col-12">
             <div class="card">

@@ -33,6 +33,8 @@ export class ComentariosComponent implements OnInit {
     this.comentarioList = [];
     this.comentariosService.obtenerComentariosDeAtractivosPorKey(this.idAtractivo).snapshotChanges()
     .subscribe(values => {
+
+      console.log("Cantidad:"+ values.length);
       values.forEach(value => {
         console.log(value.key);
         //console.log(value.payload.val());
@@ -59,8 +61,9 @@ export class ComentariosComponent implements OnInit {
           comentarioTemp.urlPhotoUsuario = item.pathImagen;
         });
 
-  
+        
         this.comentarioList.push(comentarioTemp);
+        
         console.log(comentario.contenido);
 //        this.comentarioList.push(value.payload.val() as Comentario);
       });
@@ -79,7 +82,10 @@ export class ComentariosComponent implements OnInit {
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    this.clienteSubscription.unsubscribe();
+    //this.clienteSubscription.unsubscribe();
+    if(this.clienteSubscription){
+      this.clienteSubscription.unsubscribe();
+    }
   }
 }
 

@@ -89,6 +89,9 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     label: 'A',
     draggable: true
   };
+   // Switch
+   public checkAR: boolean= false;
+   public check360: boolean= true;
 
   constructor(
     public atractivoService: AtractivoService,
