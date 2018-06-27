@@ -23,6 +23,7 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
   // Variables del formulario y validación
   public frmRegistro: FormGroup;
   public categorias: string[] = [
+    '',
     'Agencia de viajes',
     'Alojamiento',
     'Comidas y bebidas',
@@ -30,8 +31,12 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     'Transporte turístico'
   ];
   public tipodeActivdad: string[];
-  public agenciadeViajesArray: string[] = ['Agencia de Viaje'];
+  public agenciadeViajesArray: string[] = [
+    '',
+    'Agencia de Viaje'
+  ];
   public alojamientoArray: string[] = [
+    '',
     'Cabaña',
     'Complejo vacacional',
     'Hostal',
@@ -44,23 +49,27 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     'Refugio'
   ];
   public comidaBebidasArray: string[] = [
+    '',
     'Bar',
     'Cafeteria',
     'Fuente de Soda',
     'Restaurante'
   ];
   public recreacionDiversionArray: string[] = [
+    '',
     'Discoteca',
     'Sala de recepciones y banquetes',
     'Termas y balnearios'
   ];
-  public transporteTuristicoArray: string[] = ['Transporte terrestre'];
+  public transporteTuristicoArray: string[] = [
+    '',
+    'Transporte terrestre'
+  ];
 
   // Variables de Google Maps
   public zoom = 17; // google maps zoom level
   public lat = -0.9356373;
   public lng = -78.6118114; // initial center position for the map
-  private marcadorActivado = true;
   marcador: Marker = {
     lat: 51.673858,
     lng: 7.815982,
@@ -73,6 +82,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
   public spiner = false;
   private servicioSubscription: Subscription;
   private authSubscription: Subscription;
+  private inputLatSubcription: Subscription;
+  private inputLngSubcription: Subscription;
 
   constructor(
     private servicioService: ServicioService,
@@ -88,7 +99,15 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       tipoDeActividad: ['', [Validators.required, ValidateDropdown]],
       direccion: ['', [Validators.required]],
       contacto: [''],
-      web: ['']
+      web: [''],
+      latitud: ['', Validators.required],
+      longitud: ['', Validators.required]
+    });
+    this.inputLatSubcription = this.frmRegistro.controls['latitud'].valueChanges.subscribe( value => {
+      this.marcador.lat = value;
+    });
+    this.inputLngSubcription = this.frmRegistro.controls['longitud'].valueChanges.subscribe( value => {
+      this.marcador.lng = value;
     });
   }
 
@@ -123,6 +142,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
+    this.inputLatSubcription.unsubscribe();
+    this.inputLngSubcription.unsubscribe();
     if (this.modoEdicion) {
       this.servicioSubscription.unsubscribe();
     }
@@ -178,8 +199,11 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       tipoDeActividad: servicio.tipoDeActividad,
       direccion: servicio.direccion,
       contacto: servicio.contacto || 'Ninguna',
-      web: servicio.web || 'Ninguna'
+      web: servicio.web || 'Ninguna',
+      latitud: servicio.posicion.lat,
+      longitud: servicio.posicion.lng
     });
+    this.cambioDeTipoDeActividad();
     this.servicio = servicio;
   }
   // Limpiar los campos del formulario
@@ -191,7 +215,9 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       tipoDeActividad: '',
       direccion: '',
       contacto: '',
-      web: ''
+      web: '',
+      latitud: '',
+      longitud: ''
     });
   }
 
@@ -213,15 +239,15 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
 
   // Poner la lista correcta del tipo de actividad
   cambioDeTipoDeActividad() {
-    if (this.frmRegistro.value.categoria === 'Agencia de viajes') {
+    if (this.frmRegistro.controls['categoria'].value === 'Agencia de viajes') {
       this.tipodeActivdad = this.agenciadeViajesArray;
-    } else if (this.frmRegistro.value.categoria === 'Alojamiento') {
+    } else if (this.frmRegistro.controls['categoria'].value  === 'Alojamiento') {
       this.tipodeActivdad = this.alojamientoArray;
-    } else if (this.frmRegistro.value.categoria === 'Comidas y bebidas') {
+    } else if (this.frmRegistro.controls['categoria'].value  === 'Comidas y bebidas') {
       this.tipodeActivdad = this.comidaBebidasArray;
-    } else if (this.frmRegistro.value.categoria === 'Recreación, diversión, esparcimiento') {
+    } else if (this.frmRegistro.controls['categoria'].value  === 'Recreación, diversión, esparcimiento') {
       this.tipodeActivdad = this.recreacionDiversionArray;
-    } else if (this.frmRegistro.value.categoria === 'Transporte turístico') {
+    } else if (this.frmRegistro.controls['categoria'].value  === 'Transporte turístico') {
       this.tipodeActivdad = this.transporteTuristicoArray;
     } else {
       this.tipodeActivdad = this.agenciadeViajesArray.concat(
@@ -250,7 +276,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     this.marcador.lat = $event.coords.lat;
     this.marcador.lng = $event.coords.lng;
     this.marcador.draggable = true;
-    this.marcadorActivado = false;
+    this.frmRegistro.controls['latitud'].setValue($event.coords.lat);
+    this.frmRegistro.controls['longitud'].setValue($event.coords.lng);
   }
 
   // Evento al mover el marcador del mapa
