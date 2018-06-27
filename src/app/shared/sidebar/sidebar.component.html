@@ -10,11 +10,11 @@
                     <li class="user-profile">
                         <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img src="{{photoUrl}}" class="imgRedonda_shared_sidebar" alt="user" /><span class="hide-menu">{{nombre}} </span></a>
                         <ul aria-expanded="false" class="collapse">
-                            <li><a routerLink="/perfil">Mi Perfil </a></li>
-                            
-                            <li><a href="javascript:void()">Notificaciones</a></li>
-                            <li><a routerLink="/accout-settings">Configuración</a></li>
-                            <li><a href="#" (click)="onclickLogou()" >Salir</a></li>
+                            <li *ngFor="let item of _sidebar.opcionesUsuario" >
+                                <a routerLinkActive="active"  [routerLink]="item.url">
+                                    {{item.titulo}}
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-devider"></li>

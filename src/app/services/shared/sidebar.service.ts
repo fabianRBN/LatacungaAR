@@ -2,6 +2,14 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SidebarService {
+
+  opcionesUsuario: any =  [
+        {titulo: 'Mi Perfil', url: '/perfil'},
+        {titulo: 'Dashboard', url: '/dashboard'},
+        {titulo: 'Configuración', url: '/accout-settings'},
+      
+  ]
+
   menu: any = [
     {
       titulo: 'Atractivos',
