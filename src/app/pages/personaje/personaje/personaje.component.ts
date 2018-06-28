@@ -1,12 +1,14 @@
 import { Subscription } from 'rxjs/Subscription';
 import { Personaje } from './../../../models/personaje.model';
+import { Imagenes } from '../../../models/imagenes.model';
+import { Cliente } from '../../../models/cliente.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   PersonajeService,
-  ArchivoService
+  ArchivoService,
+  ClienteService
 } from '../../../services/service.index';
-import { Imagenes } from '../../../models/imagenes.model';
 
 @Component({
   selector: 'app-personaje',
@@ -24,8 +26,11 @@ export class PersonajeComponent implements OnInit, OnDestroy {
 
   // Variables y Objetos de atractivos
   public listaPersonajes: Personaje[];
+  public listaClientes: Cliente[];
   public keyPersonaje: string;
+  public haySoloUnPersonaje: boolean;
   private personajesSubscription: Subscription;
+  private clienteSubscription: Subscription;
 
   // Variables del componente
   public estilo: string[] = [
@@ -39,7 +44,8 @@ export class PersonajeComponent implements OnInit, OnDestroy {
 
   constructor(
     private personajeService: PersonajeService,
-    private archivoService: ArchivoService
+    private archivoService: ArchivoService,
+    private clienteService: ClienteService
   ) {
     this.start = new BehaviorSubject(null);
     this.end = new BehaviorSubject(null);
@@ -81,6 +87,15 @@ export class PersonajeComponent implements OnInit, OnDestroy {
     this.estadoInput = $event.timeStamp;
   }
 
+  revisarNumeroPersonaje() {
+    if (this.listaPersonajes.length === 1) {
+      this.haySoloUnPersonaje = true;
+    } else {
+      this.haySoloUnPersonaje = false;
+    }
+    console.log(this.haySoloUnPersonaje + ' : ' + this.listaPersonajes.length);
+  }
+
   eliminar(
     keyPersonaje: string,
     nombrePersonaje: string,
@@ -96,7 +111,10 @@ export class PersonajeComponent implements OnInit, OnDestroy {
         if (keyPersonaje != null) {
           this.personajeService
             .borrarPersonaje(keyPersonaje)
-            .then(res => {})
+            .then(res => {
+              this.revisarNumeroPersonaje();
+              this.cambiarPorPrimerPersonaje(keyPersonaje);
+            })
             .catch(err => {
               console.error(err);
             });
@@ -111,5 +129,27 @@ export class PersonajeComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  // Busca los clientes con el personaje Key y los cambia por el primer personaje de la lista
+  cambiarPorPrimerPersonaje(keyPersonaje: string) {
+    this.clienteSubscription = this.clienteService
+      .obtenerClientesPorPersonajeID(keyPersonaje)
+      .snapshotChanges()
+      .subscribe(item => {
+        this.listaClientes = [];
+        item.forEach((element, index) => {
+          const key = element.payload.key;
+          const datos = { key, ...element.payload.val() };
+          this.listaClientes.push(datos as Cliente);
+        });
+        this.listaClientes.forEach(cliente => {
+          this.clienteService
+            .actualizarPersonajeID(cliente.key, this.listaPersonajes[0].key)
+            .catch(err => {
+              console.error(err);
+            });
+        });
+      });
   }
 }

@@ -36,7 +36,7 @@
         <div aling="center">
           <div class="button-group">
             <a href="#" class="btn btn-sm btn-primary" [routerLink]="['/detalle-personaje', personaje.key ]">Detalle</a>
-            <button class="btn btn-sm btn-danger" (click)="eliminar(personaje.key, personaje.nombre, personaje.galeria)">Eliminar</button>
+            <button class="btn btn-sm btn-danger" (click)="eliminar(personaje.key, personaje.nombre, personaje.galeria)" [disabled]="haySoloUnPersonaje" >Eliminar</button>
           </div>
         </div>
       </div>

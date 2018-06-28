@@ -11,7 +11,7 @@
           <div class="form-group">
             <label>Nombre</label>
             <input name="nombre" formControlName="nombre" class="form-control form-control-line" placeholder="" type="text">
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.nombre.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.nombre.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -25,7 +25,7 @@
                 <option>Hombre</option>
                 <option>Mujer</option>
             </select>
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.sexo.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.sexo.errors">
                 <small>
                     <p class="text-danger">
                         El campo es requerido
@@ -38,7 +38,7 @@
             <textarea class="form-control" rows="5" name="descripcion" formControlName="descripcion"></textarea>
             <span class="help-block text-muted">
               <small>
-                <p class="text-danger" *ngIf="frmRegistro.controls.descripcion.errors">
+                <p class="text-danger" *ngIf="!!frmRegistro.controls.descripcion.errors">
                   El campo es requerido
                 </p>
               </small>
@@ -154,7 +154,8 @@
           <div class="row">
             <div class="col-md-12">
               <button class="btn btn-primary" (click)="guardarPersonaje()">Guardar</button>
-              <button class="btn btn-danger" (click)="limpiarElementos()">Cancelar</button>
+              <button class="btn btn-danger" *ngIf="modoEdicion" [routerLink]="['/detalle-personaje', personaje.key]">Cancelar</button>
+              <button class="btn btn-danger" *ngIf="!modoEdicion" (click)="limpiarElementos()">Cancelar</button>
             </div>
           </div>
         </div>
