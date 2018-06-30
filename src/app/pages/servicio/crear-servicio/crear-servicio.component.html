@@ -12,7 +12,7 @@
           <div class="form-group">
             <label>Nombre del servicio</label>
             <input name="nombre" formControlName="nombre" class="form-control form-control-line" placeholder="" type="text">
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.nombre.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.nombre.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -23,7 +23,7 @@
           <div class="form-group">
             <label>Alias</label>
             <input name="alias" formControlName="alias" class="form-control form-control-line" placeholder="" type="text">
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.alias.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.alias.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -36,7 +36,7 @@
             <select class="form-control" formControlName="categoria" name="categoria" (change)="cambioDeTipoDeActividad()">
               <option *ngFor="let cat of categorias">{{cat}}</option>
             </select>
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.categoria.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.categoria.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -49,7 +49,7 @@
             <select class="form-control" formControlName="tipoDeActividad" name="tipoDeActividad">
               <option *ngFor="let item of tipodeActivdad">{{item}}</option>
             </select>
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.tipoDeActividad.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.tipoDeActividad.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -60,7 +60,7 @@
           <div class="form-group">
             <label>Dirección</label>
             <input name="direccion" formControlName="direccion" class="form-control form-control-line" placeholder="" type="text">
-            <span class="help-block text-muted" *ngIf="frmRegistro.controls.direccion.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.direccion.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -71,6 +71,15 @@
           <div class="form-group">
             <label>Contacto</label>
             <input class="form-control form-control-line" name="contacto" formControlName="contacto" type="text">
+            <span class="help-block text-muted">
+              <small>
+                En este campo se pueden definir el número de contacto del lugar.
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Correo</label>
+            <input class="form-control form-control-line" name="correo" formControlName="correo" type="text">
             <span class="help-block text-muted">
               <small>
                 En este campo se pueden definir el correo de contacto del lugar.
@@ -86,6 +95,15 @@
               </small>
             </span>
           </div>
+          <div class="form-group">
+            <label>Página de Facebook</label>
+            <input class="form-control form-control-line" name="facebookPage" formControlName="facebookPage" type="text">
+            <span class="help-block text-muted">
+              <small>
+                En este campo se pueden definir la página de Facebook lugar.
+              </small>
+            </span>
+          </div>
           <!-- ============================================= -->
           <!--     Seccion de mapa                           -->
           <!-- ============================================= -->
@@ -93,7 +111,7 @@
             <label>Posición</label>
             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
               <agm-marker (markerClick)="clickedMarker(marcador.label)" [latitude]="marcador.lat" [longitude]="marcador.lng" [label]="marcador.label"
-                [markerDraggable]="marcador.draggable" (dragEnd)="markerDragEnd(m, $event)">
+                [markerDraggable]="marcador.draggable" (dragEnd)="markerDragEnd(marcador, $event)">
                 <agm-info-window>
                   <strong>{{marcador.lat}}</strong>
                 </agm-info-window>
@@ -104,35 +122,160 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label>Longitud</label>
-                    <input class="form-control" formControlName="longitud" type="number" step="0.0000001" [min]="-90"  [max]="90">
-                    <span class="help-block text-muted" *ngIf="frmRegistro.controls.longitud.errors">
-                        <small>
-                            <p class="text-danger">
-                                El campo es requerido
-                            </p>
-                        </small>
-                    </span>
-                </div>
+              <div class="form-group">
+                <label>Longitud</label>
+                <input class="form-control" formControlName="longitud" type="number" step="0.0000001" [min]="-90" [max]="90">
+                <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.longitud.errors">
+                  <small>
+                    <p class="text-danger">
+                      El campo es requerido
+                    </p>
+                  </small>
+                </span>
+              </div>
             </div>
             <!--/span-->
             <div class="col-md-6">
-                <div class="form-group">
-                    <label>Latitud</label>
-                    <input class="form-control" formControlName="latitud" type="number" step="0.0000001" [min]="-90"  [max]="90">
-                    <span class="help-block text-muted" *ngIf="frmRegistro.controls.latitud.errors">
-                        <small>
-                            <p class="text-danger">
-                                El campo es requerido
-                            </p>
-                        </small>
-                    </span>
-                </div>
+              <div class="form-group">
+                <label>Latitud</label>
+                <input class="form-control" formControlName="latitud" type="number" step="0.0000001" [min]="-90" [max]="90">
+                <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.latitud.errors">
+                  <small>
+                    <p class="text-danger">
+                      El campo es requerido
+                    </p>
+                  </small>
+                </span>
+              </div>
             </div>
-        </div>
+          </div>
           <!-- ============================================= -->
           <!--        Fin de mapa                            -->
+          <!-- ============================================= -->
+          <!-- ============================================= -->
+          <!--     Seccion de horario                        -->
+          <!-- ============================================= -->
+          <div class="form-group">
+            <label>Horario</label>
+          </div>
+          <div class="form-group">
+            <input class="filled-in" id="siempreAbierto" formControlName="siempreAbierto" type="checkbox">
+            <label for="siempreAbierto">Siempre abierto</label>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="lunesAbierto" formControlName="lunesAbierto" type="checkbox">
+              <label for="lunesAbierto">Lunes</label>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Apertura <input class="form-control" formControlName="lunesHoraInicio" type="time">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre <input class="form-control" formControlName="lunesHoraFinal" type="time">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="martesAbierto" formControlName="martesAbierto" type="checkbox">
+              <label for="martesAbierto">Martes</label>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  Apertura <input class="form-control" formControlName="martesHoraInicio" type="time">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  Cierre <input class="form-control" formControlName="martesHoraFinal" type="time">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="miercolesAbierto" formControlName="miercolesAbierto" type="checkbox">
+              <label for="miercolesAbierto">Miércoles</label>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  Apertura <input class="form-control" formControlName="miercolesHoraInicio" type="time">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  Cierre <input class="form-control" formControlName="miercolesHoraFinal" type="time">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="juevesAbierto" formControlName="juevesAbierto" type="checkbox">
+              <label for="juevesAbierto">Jueves</label>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  Apertura <input class="form-control" formControlName="juevesHoraInicio" type="time">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  Cierre <input class="form-control" formControlName="juevesHoraFinal" type="time">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="viernesAbierto" formControlName="viernesAbierto" type="checkbox">
+              <label for="viernesAbierto">Viernes</label>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  Apertura <input class="form-control" formControlName="viernesHoraInicio" type="time">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  Cierre <input class="form-control" formControlName="viernesHoraFinal" type="time">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="sabadoAbierto" formControlName="sabadoAbierto" type="checkbox">
+              <label for="sabadoAbierto">Sábado</label>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  Apertura <input class="form-control" formControlName="sabadoHoraInicio" type="time">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  Cierre <input class="form-control" formControlName="sabadoHoraFinal" type="time">
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="filled-in" id="domingoAbierto" formControlName="domingoAbierto" type="checkbox">
+              <label for="domingoAbierto">Domingo</label>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  Apertura <input class="form-control" formControlName="domingoHoraInicio" type="time">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  Cierre <input class="form-control" formControlName="domingoHoraFinal" type="time">
+                </div>
+              </div>
+          </div>
+          <!-- ============================================= -->
+          <!--        Fin de horario                         -->
           <!-- ============================================= -->
         </form>
       </div>
@@ -147,7 +290,7 @@
         <div class="card-body" align="center">
           <div class="row">
             <div class="col-md-12">
-              <button class="btn btn-primary" (click)="guardarServicio()">Guardar</button>
+              <button class="btn btn-primary" (click)="guardarServicio()" [disabled]="this.frmRegistro.invalid">Guardar</button>
               <button class="btn btn-danger" *ngIf="modoEdicion" [routerLink]="['/detalle-servicio', servicio.key]">Cancelar</button>
               <button class="btn btn-danger" *ngIf="!modoEdicion" (click)="limpiarElementos()">Cancelar</button>
             </div>

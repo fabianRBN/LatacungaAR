@@ -15,7 +15,10 @@ export class ServicioService {
       direccion: servicio.direccion,
       posicion: servicio.posicion,
       contacto: servicio.contacto,
+      correo: servicio.correo,
       web: servicio.web,
+      facebookPage: servicio.facebookPage,
+      horario: servicio.horario,
       alias: servicio.alias,
       creadorUid: servicio.creadorUid
     });
@@ -39,7 +42,10 @@ export class ServicioService {
       direccion: servicio.direccion,
       posicion: servicio.posicion,
       contacto: servicio.contacto,
+      correo: servicio.correo,
       web: servicio.web,
+      facebookPage: servicio.facebookPage,
+      horario: servicio.horario,
       alias: servicio.alias,
       creadorUid: servicio.creadorUid
     });
@@ -67,10 +73,7 @@ export class ServicioService {
   borrarServicio(key: string) {
     return this.afDatabase.list('servicio/').remove(key);
   }
-  listadeServicios(){
-    
+  listadeServicios() {
     return this.afDatabase.list('servicio/');
-  
-
-}
+  }
 }

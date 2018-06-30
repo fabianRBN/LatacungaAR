@@ -3,7 +3,11 @@ import { Servicio } from './../../../models/servicio.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Usuario } from './../../../models/usuario.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ServicioService, UsuarioService } from '../../../services/service.index';
+import {
+  ServicioService,
+  UsuarioService
+} from '../../../services/service.index';
+import { Horario } from '../../../models/horario.model';
 
 @Component({
   selector: 'app-detalle-servicio',
@@ -25,6 +29,7 @@ export class DetalleServicioComponent implements OnInit, OnDestroy {
   // Variables y objeto Servicio - georeferencia - usuario
   public usuario = new Usuario();
   public servicio: Servicio;
+  public horarioNoDefinido: boolean;
   private keyServicio: string;
 
   // Variables del componente
@@ -54,6 +59,7 @@ export class DetalleServicioComponent implements OnInit, OnDestroy {
         this.marcador.lat = this.servicio.posicion.lat;
         this.marcador.lng = this.servicio.posicion.lng;
         this.consultarCreador(this.servicio.creadorUid);
+        this.verificarHorario(this.servicio.horario);
       });
   }
 
@@ -74,6 +80,23 @@ export class DetalleServicioComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         this.usuario = value as Usuario;
       });
+  }
+
+  verificarHorario(horario: Horario) {
+    if (!horario.siempreAbierto) {
+      if (
+        !horario.Lunes.abierto &&
+        !horario.Martes.abierto &&
+        !horario.Miercoles.abierto &&
+        !horario.Jueves.abierto &&
+        !horario.Viernes.abierto &&
+        !horario.Sabado.abierto &&
+        !horario.Domingo.abierto
+      ) {
+        this.horarioNoDefinido = true;
+      }
+    }
+    this.horarioNoDefinido = false;
   }
 }
 
