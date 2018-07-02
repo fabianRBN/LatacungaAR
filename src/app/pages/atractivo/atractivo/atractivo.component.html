@@ -1,27 +1,28 @@
 <div>
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div>
-
-
-                    <div class="row">
-                        <div class="col-8">
-                            <label>Atractivo a buscar</label>
-                            <input name="nombre" (keydown)="buscar($event)" class="form-control form-control-line" placeholder="{{filtro}} del atractivo" type="text">
-                            <!-- <input name="rating" (keydown)="buscarRating($event)" class="form-control form-control-line" placeholder="" type="text">
-                                <ngb-rating [(rate)]="rating" (click)="buscarRating()"  [readonly]="false"></ngb-rating> -->
-
-                        </div>
-                        <div class="col-4">
-                            <div class="col-12">
-                                <label>Ordenar por:</label>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+    
+    
+                        <div class="row">
+                            <div class="col-8">
+                                <label>Atractivo a buscar</label>
+                                <input name="nombre" (keydown)="buscar($event)" class="form-control form-control-line" placeholder="{{filtro}} del atractivo" type="text">
+                                <!-- <input name="rating" (keydown)="buscarRating($event)" class="form-control form-control-line" placeholder="" type="text">
+                                    <ngb-rating [(rate)]="rating" (click)="buscarRating()"  [readonly]="false"></ngb-rating> -->
+    
                             </div>
-                            <div class="btn-group btn-group col-12" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-secondary" (click)="setFiltro('nombre')">Nombre</button>
-                                <button type="button" class="btn btn-secondary" (click)="setFiltro('categoria')">Categoria</button>
-                                <!-- <button type="button" class="btn btn-secondary" (click)="setFiltro('rating')">Rating</button> -->
-
+                            <div class="col-4">
+                                <div class="col-12">
+                                    <label>Ordenar por:</label>
+                                </div>
+                                <div class="btn-group btn-group col-12" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-secondary" (click)="setFiltro('nombre')">Nombre</button>
+                                    <button type="button" class="btn btn-secondary" (click)="setFiltro('categoria')">Categoria</button>
+                                    <!-- <button type="button" class="btn btn-secondary" (click)="setFiltro('rating')">Rating</button> -->
+    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -29,148 +30,147 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<!-- Row -->
-<div class="row">
-
-    <div class="col-lg-3 col-md-6" *ngFor="let atractivo of listaAtractivos | paginate: { itemsPerPage: 8, currentPage: pagina } ;let i = index">
-        <!-- Card -->
-        <div class="card">
-            <div id="carouselExampleControls{{i}}" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-
-                    <div class="carousel-item" [ngClass]="{active: first}" *ngFor="let img of atractivo.galeria ;let x = index;let first = first">
-                        <img class="d-block w-100 img-atractivo" src="{{img.imagenURL || 'http://www.ccsa.edu.sv/assets/camaleon_cms/image-not-found-26112ee47503d45cff89e808e1d1a5f7.png'}} "
-                            alt="{{estilo[x]}}">
-
+    
+    
+    <!-- Row -->
+    <div class="row">
+    
+        <div class="col-lg-3 col-md-6" *ngFor="let atractivo of listaAtractivos | paginate: { itemsPerPage: 8, currentPage: pagina } ;let i = index">
+            <!-- Card -->
+            <div class="card">
+                <div id="carouselExampleControls{{i}}" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+    
+                        <div class="carousel-item" [ngClass]="{active: first}" *ngFor="let img of atractivo.galeria ;let x = index;let first = first">
+                            <img class="d-block w-100 img-atractivo" src="{{img.imagenURL || 'http://www.ccsa.edu.sv/assets/camaleon_cms/image-not-found-26112ee47503d45cff89e808e1d1a5f7.png'}} "
+                                alt="{{estilo[x]}}">
+    
+                        </div>
+                    </div>
+                    <div *ngIf="atractivo.galeria.length > 1">
+                        <a class="carousel-control-prev" href="#carouselExampleControls{{i}}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls{{i}}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
-                <div *ngIf="atractivo.galeria.length > 1">
-                    <a class="carousel-control-prev" href="#carouselExampleControls{{i}}" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls{{i}}" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                <div class="card-body">
+                    <div class="d-flex">
+                        <h4 class="card-title">
+                            <span class="lstick"></span>{{atractivo.nombre}}</h4>
+                        <!-- <span class="badge badge-success">9</span> -->
+                        <div class="btn-group ml-auto m-t-10">
+                            <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" (click)="mostraModal(confirmacionBorrarModel, atractivo.key, atractivo.pathUrl360 )" href="javascript:void(0)">AR</a>
+                                <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/detalle-atractivo', atractivo.key ]">Detalle</a>
+                                <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/crear-atractivo', atractivo.key ]">Editar</a>
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="eliminar(atractivo.key,atractivo.nombre, atractivo.galeria)">Eliminar</a>
+    
+                            </div>
+                        </div>
+                    </div>
+                    <ngb-rating [(rate)]="atractivo.rating"></ngb-rating>
+                    <pre>Calificación: <b>{{atractivo.rating}}</b></pre>
+                    <p class="card-text block-ellipsis">{{atractivo.descripcion}}</p>
+    
+    
                 </div>
             </div>
-            <div class="card-body">
-                <div class="d-flex">
-                    <h4 class="card-title">
-                        <span class="lstick"></span>{{atractivo.nombre}}</h4>
-                    <!-- <span class="badge badge-success">9</span> -->
-                    <div class="btn-group ml-auto m-t-10">
-                        <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                        <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
-                            <a class="dropdown-item" (click)="mostraModal(confirmacionBorrarModel, atractivo.key, atractivo.pathUrl360 )" href="javascript:void(0)">AR</a>
-                            <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/detalle-atractivo', atractivo.key ]">Detalle</a>
-                            <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/crear-atractivo', atractivo.key ]">Editar</a>
-                            <a class="dropdown-item" href="javascript:void(0)" (click)="eliminar(atractivo.key,atractivo.nombre, atractivo.galeria)">Eliminar</a>
-
+            <!-- Card -->
+        </div>
+        <!-- column -->
+    
+    </div>
+    <div class="row">
+        <div class="col-md-12" align="center">
+            <pagination-controls class="pagination pagination-sm" style="display: block;" (pageChange)="pagina = $event" directionLinks="true"
+                maxSize="5" autoHide="true" previousLabel="" nextLabel=""></pagination-controls>
+        </div>
+    </div>
+    
+    <!-- ============================================= -->
+    <!--        Modal    AR                            -->
+    <!-- ============================================= -->
+    <ng-template #confirmacionBorrarModel let-c="close('Close click')" let-d="dismiss('Cross click')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Opciones AR</h5>
+                <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" align="center">
+                    <div class="col-6">
+                        <label>Caracteristica AR</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input type="checkbox" [checked]="checkAR" (change)="checkAR = !checkAR">
+                                <span class="lever"></span>
+                                On
+                            </label>
                         </div>
                     </div>
                 </div>
-                <ngb-rating [(rate)]="atractivo.rating"></ngb-rating>
-                <pre>Calificación: <b>{{atractivo.rating}}</b></pre>
-                <p class="card-text block-ellipsis">{{atractivo.descripcion}}</p>
-
-
-            </div>
-        </div>
-        <!-- Card -->
-    </div>
-    <!-- column -->
-
-</div>
-<div class="row">
-    <div class="col-md-12" align="center">
-        <pagination-controls class="pagination pagination-sm" style="display: block;" (pageChange)="pagina = $event" directionLinks="true"
-            maxSize="5" autoHide="true" previousLabel="" nextLabel=""></pagination-controls>
-    </div>
-</div>
-
-<!-- ============================================= -->
-<!--        Modal    AR                            -->
-<!-- ============================================= -->
-<ng-template #confirmacionBorrarModel let-c="close('Close click')" let-d="dismiss('Cross click')">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Opciones AR</h5>
-            <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
-                <span aria-hidden="true"></span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row" align="center">
-                <div class="col-6">
-                    <label>Caracteristica AR</label>
+                <br/>
+                <div class="row" align="center">
+                    <div class="col-6">
+                        <label>Caracteristica 360</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input type="checkbox" [checked]="check360" (change)="check360 = !check360">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <div class="switch">
-                        <label>
-                            Off
-                            <input type="checkbox" [checked]="checkAR" (change)="checkAR = !checkAR">
-                            <span class="lever"></span>
-                            On
+    
+    
+                <div *ngIf="check360">
+                    <hr/>
+                    <div class="form-group col-12">
+                        <label class="custom-file col-12">
+                            <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
+                            <span class="custom-file-control">{{labelImagen}}</span>
                         </label>
                     </div>
-                </div>
-            </div>
-            <br/>
-            <div class="row" align="center">
-                <div class="col-6">
-                    <label>Caracteristica 360</label>
-                </div>
-                <div class="col-6">
-                    <div class="switch">
-                        <label>
-                            Off
-                            <input type="checkbox" [checked]="check360" (change)="check360 = !check360">
-                            <span class="lever"></span>
-                            On
-                        </label>
+                    <div align="center" class="col-12">
+                        <h4 class="card-title" *ngIf="!imagenTemp">Imagen actual</h4>
+                        <h4 class="card-title" *ngIf="imagenTemp">Imagen nueva</h4>
+                        <img *ngIf="!imagenTemp" src="" class="w150 ">
+                        <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
+    
+    
+    
+    
                     </div>
+                    <br>
+                    <div class="progress" *ngIf="progreso360 <99">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="progreso360"
+                            aria-valuemin="0" aria-valuemax="100" [style.width]="progreso360 +'%'"></div>
+                    </div>
+    
                 </div>
+    
+    
+    
+    
             </div>
-
-
-            <div *ngIf="check360">
-                <hr/>
-                <div class="form-group col-12">
-                    <label class="custom-file col-12">
-                        <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
-                        <span class="custom-file-control">{{labelImagen}}</span>
-                    </label>
-                </div>
-                <div align="center" class="col-12">
-                    <h4 class="card-title" *ngIf="!imagenTemp">Imagen actual</h4>
-                    <h4 class="card-title" *ngIf="imagenTemp">Imagen nueva</h4>
-                    <img *ngIf="!imagenTemp" src="" class="w150 ">
-                    <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
-
-
-
-
-                </div>
-                <br>
-                <div class="progress" *ngIf="progreso360 <99">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="progreso360"
-                        aria-valuemin="0" aria-valuemax="100" [style.width]="progreso360 +'%'"></div>
-                </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="guardarAR()">Guardar</button>
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
             </div>
-
-
-
-
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" (click)="guardarAR()">Guardar</button>
-            <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
-        </div>
-    </div>
-</ng-template>
+    </ng-template>

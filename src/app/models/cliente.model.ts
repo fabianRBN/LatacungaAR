@@ -7,6 +7,9 @@ export class Cliente {
     pathImagen: string;
     nombre: string;
     personajeID: string;
+
+    numeroAtractivosVisitados:number;
+    ultimaVisita:Date;
     constructor() {
 
     }

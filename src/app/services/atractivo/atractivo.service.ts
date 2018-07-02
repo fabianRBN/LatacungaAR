@@ -135,4 +135,8 @@ export class AtractivoService {
     
     return this.afDatabase.list('historial/'+idAtractivo+'/');
   }
+
+  visitasAtractivoCliente(idAtractivo:string, idCliente:string){
+    return this.afDatabase.list('historial/'+idAtractivo+'/'+idCliente+'/');
+  }
 }

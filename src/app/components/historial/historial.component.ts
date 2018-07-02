@@ -17,12 +17,19 @@ export class HistorialComponent implements OnInit {
   public atractivoSubscription:Subscription; 
   public visitasSubscription:Subscription; 
   public clienteSubscription:Subscription; 
+  public visitasClienteSubscription:Subscription; 
+
 
   item: Observable<any>;
+  public idAtractivoSeleccionado: string="";
 
   public listatractivos: Atractivo[]= [];
   public listaVisitanteskey: string[]=[];
   public listaVisitantesObject: Cliente[];
+
+    // Variable para paginacion
+    public pagina = 1;
+    currentRate = 0;
 
   closeResult: string;
 
@@ -60,7 +67,6 @@ export class HistorialComponent implements OnInit {
         }
         });
         this.listatractivos.push(atractivoObject);
-        console.log(atractivoObject);
       });
 
  
@@ -77,7 +83,20 @@ export class HistorialComponent implements OnInit {
         cliente.nombre = item.nombre;
         cliente.pathImagen = item.pathImagen;  
         cliente.email = item.email;      
+
+        this.visitasClienteSubscription = this.atractivoService.visitasAtractivoCliente(this.idAtractivoSeleccionado,keycliente).snapshotChanges().subscribe(
+          item=>{
+            cliente.numeroAtractivosVisitados = item.length;
+            item.forEach( (elemeto:any)=>{
+              const fecha:any = elemeto.payload.toJSON();
+              var date = new Date(( fecha.year + 1900 )+"/"+fecha.month+"/"+fecha.date);
+              cliente.ultimaVisita = date;
+            });
+          }
+        )
+
         this.listaVisitantesObject.push(cliente);
+
       })
       
     });
@@ -87,8 +106,9 @@ export class HistorialComponent implements OnInit {
   //         Modal code 
   //====================================================
 
-  open(content, listasClientekey) {
+  open(content, listasClientekey, atractivoKey) {
     this.informacionVisitantes(listasClientekey);
+    this.idAtractivoSeleccionado = atractivoKey;
     this.modalService.open(content,{ size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
