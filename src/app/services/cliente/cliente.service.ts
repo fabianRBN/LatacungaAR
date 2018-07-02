@@ -23,4 +23,8 @@ export class ClienteService {
       personajeID: personajeID
     });
   }
+
+  datosCliente(clienteKey: string){
+    return this.afDatabase.object('cliente/'+clienteKey+'/');
+  }
 }

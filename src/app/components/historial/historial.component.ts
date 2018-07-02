@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AtractivoService } from '../../services/service.index';
+import { AtractivoService, ClienteService } from '../../services/service.index';
 import { Subscription } from "rxjs/Subscription";
+import { Observable } from 'rxjs/Observable';
 import { Atractivo } from '../../models/atractivo.model';
-
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Cliente } from '../../models/cliente.model';
 
 @Component({
   selector: 'app-historial',
@@ -14,10 +16,21 @@ export class HistorialComponent implements OnInit {
 
   public atractivoSubscription:Subscription; 
   public visitasSubscription:Subscription; 
+  public clienteSubscription:Subscription; 
+
+  item: Observable<any>;
 
   public listatractivos: Atractivo[]= [];
+  public listaVisitanteskey: string[]=[];
+  public listaVisitantesObject: Cliente[];
 
-  constructor(private atractivoService:AtractivoService) { }
+  closeResult: string;
+
+  constructor(
+    private atractivoService:AtractivoService,
+    private modalService: NgbModal,
+    private clienteService: ClienteService
+  ) { }
 
   ngOnInit() {
 
@@ -37,11 +50,13 @@ export class HistorialComponent implements OnInit {
         this.visitasSubscription = this.atractivoService.visitasAtractivo(atractivoObject.key).snapshotChanges().subscribe((itemHistorial)=>{
           
         if(itemHistorial){
+          this.listaVisitanteskey = [];
           atractivoObject.numeroVisitas = itemHistorial.length;
           console.log(itemHistorial.length);
-          itemHistorial.forEach((elementHistorial,index)=>{
-              
+          itemHistorial.forEach((elementHistorial,indexHistorial)=>{
+              this.listaVisitanteskey.push(itemHistorial[indexHistorial].key);
           });
+          atractivoObject.listaVisitantes = this.listaVisitanteskey;
         }
         });
         this.listatractivos.push(atractivoObject);
@@ -50,6 +65,45 @@ export class HistorialComponent implements OnInit {
 
  
     })
+  }
+
+  informacionVisitantes(listaVisitantes:string[]){
+    this.listaVisitantesObject = [];
+    listaVisitantes.forEach(keycliente =>{
+
+
+      this.clienteSubscription =  this.clienteService.datosCliente(keycliente).valueChanges().subscribe((item:any)=>{
+        const cliente = new Cliente();
+        cliente.nombre = item.nombre;
+        cliente.pathImagen = item.pathImagen;  
+        cliente.email = item.email;      
+        this.listaVisitantesObject.push(cliente);
+      })
+      
+    });
+  }
+
+  //====================================================
+  //         Modal code 
+  //====================================================
+
+  open(content, listasClientekey) {
+    this.informacionVisitantes(listasClientekey);
+    this.modalService.open(content,{ size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
 }

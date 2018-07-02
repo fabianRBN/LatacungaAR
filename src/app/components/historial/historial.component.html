@@ -9,8 +9,7 @@
         <th scope="col">N°</th>
         <th scope="col">Nombre del Atractivo</th>
         <th scope="col">Ranking</th>
-        <th scope="col">Numero de Visitas</th>
-        <th scope="col">Detalle visitas</th>
+        <th scope="col">N° Visitas</th>
       </tr>
     </thead>
     <tbody>
@@ -19,7 +18,17 @@
         <td>{{atractivo.nombre}}</td>
         <td>{{atractivo.rating}}</td>
         <td>{{atractivo.numeroVisitas}}</td>
-        <td><button type="button" class="btn btn-primary">Detalle</button></td>
+        <td>
+            <div class="btn-group ml-auto m-t-10">
+                <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/detalle-atractivo', atractivo.key ]">Ir al sitio</a>
+                    <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/crear-atractivo', atractivo.key ]">Editar sitio</a>
+                    <a class="dropdown-item" href="javascript:void(0)"  (click)="open(content,atractivo.listaVisitantes)">Detalle visitas</a>
+
+                </div>
+            </div>
+        </td>
 
       </tr>
       
@@ -31,4 +40,49 @@
   </div>
 </div>
 
+<!-- ============================================= -->
+<!--        Modal de clientes                      --> 
+<!-- ============================================= -->
   
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <div class="table-responsive m-t-20">
+          <table class="table vm no-th-brd no-wrap pro-of-month">
+              <thead>
+                  <tr>
+                      <th colspan="2">Cliente</th>
+                      <th>Email</th>
+                      <th>Historial</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let cliente of listaVisitantesObject">
+                      <td style="width:50px;"><span class="round"><img src="{{cliente.pathImagen}}" alt="user" width="50"></span></td>
+                      <td>
+                          <h6>{{cliente.nombre}}</h6><small class="text-muted">Cliente</small></td>
+                      <td>{{cliente.email}}</td>
+                      <td><span class="label label-success label-rounded">Low</span></td>
+                  </tr>
+
+              
+            
+              </tbody>
+          </table>
+      </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Salir</button>
+  </div>
+</ng-template>
+
+
