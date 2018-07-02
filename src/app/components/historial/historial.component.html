@@ -14,9 +14,13 @@
           </thead>
           <tbody>
             <tr *ngFor="let atractivo of listatractivos| paginate: { itemsPerPage: 6, currentPage: pagina }; let i = index">
-              <td>{{i}}</td>
+              <td> {{i}}</td>
               <td>{{atractivo.nombre}}</td>
-              <td>{{atractivo.rating}}</td>
+              <td 
+                [class.red]="atractivo.rating >= 0 && atractivo.rating < 2"
+                [class.blue]="atractivo.rating >= 2 && atractivo.rating < 4 "
+                [class.green]="atractivo.rating >= 4  "
+              >{{atractivo.rating}}</td>
               <td>{{atractivo.numeroVisitas}}</td>
               <td>
                 <div class="btn-group ml-auto m-t-10">
