@@ -30,6 +30,7 @@ import { DetallePersonajeComponent } from './personaje/detalle-personaje/detalle
 import { PersonajeComponent } from './personaje/personaje/personaje.component';
 import { CrearPersonajeComponent } from './personaje/crear-personaje/crear-personaje.component';
 import { ComentariosComponent } from '../components/comentarios/comentarios.component';
+import { HistorialComponent } from '../components/historial/historial.component';
 
 
 
@@ -58,6 +59,7 @@ import { ComentariosComponent } from '../components/comentarios/comentarios.comp
     PersonajeComponent,
     CrearPersonajeComponent,
     ComentariosComponent,
+    HistorialComponent,
   ],
   exports: [
 

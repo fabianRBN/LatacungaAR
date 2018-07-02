@@ -16,6 +16,7 @@ export class Atractivo {
 
     rating:number;
     pathUrl360:string;
+    numeroVisitas?:number;
     
 
 constructor( ) {}
