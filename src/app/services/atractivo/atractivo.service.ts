@@ -21,7 +21,8 @@ export class AtractivoService {
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
-      creadorUid: atractivo.creadorUid
+      creadorUid: atractivo.creadorUid,
+      rating: atractivo.rating
     });
   }
 
@@ -62,7 +63,8 @@ export class AtractivoService {
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
       creadorUid: atractivo.creadorUid,
-      galeria: atractivo.galeriaObject
+      galeria: atractivo.galeriaObject,
+      rating: atractivo.rating
     });
   }
 
@@ -76,8 +78,6 @@ export class AtractivoService {
 
 
   listarAtractivos(start, end, tipo, filtro) {
-
-
     if(tipo === "rating"){
         
       if(filtro > 0)

@@ -294,7 +294,6 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       this.atractivo.observacion =
         this.frmRegistro.value.observacion || 'Ninguna';
       this.atractivo.posicion = this.georeferencia;
-
       if (this.modoedicion) {
         this.atractivo.key = this.idAtractivo;
         this.atractivoService.actualizarActractivo(this.atractivo);
@@ -310,6 +309,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
           'Para registrar un atractivo se requiere un Imgen por lo minimo'
         );
       } else {
+        this.atractivo.rating = 0;
         this.atractivo.key = this.atractivoService.obtenertKey();
         this.atractivoService.crearAtrativo(this.atractivo);
         // this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
@@ -476,7 +476,9 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       direccion: '',
       descripcion: '',
       categoria: '',
-      observacion: ''
+      observacion: '',
+      latitud: '',
+      longitud: ''
     });
 
     this.imgTemporales = [];
