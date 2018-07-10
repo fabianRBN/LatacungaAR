@@ -33,7 +33,6 @@ import { ComentariosComponent } from '../components/comentarios/comentarios.comp
 import { HistorialComponent } from '../components/historial/historial.component';
 
 
-
 @NgModule({
 
 

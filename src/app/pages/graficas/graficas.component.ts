@@ -22,10 +22,33 @@ export class GraficasComponent implements OnInit {
   public contParque: number = 0;
 
   public categoriServiciosCont:number[]=[0,0,0,0,0];
+  public categoriaAtractivosCont:number[]=[0,0];
+  public tipoAtractivoCont:number[]=[0,0,0];
+  public subtipoAtractivoCont:number[]=[0,0,0,0,0,0,0,0];
 
   public contadorcliente: number ;
   graficaUsuarios:graficos[] = [];
-  public categoriaAtractivos: string[]= ["Arquitectura","Parque","Museo"];
+ 
+  public categoriaAtractivos: string[] =[
+    "Manifestaciones Culturales",
+    "Sitios Naturales"
+  ];
+  public tipoAtractivo:string[]= [
+    "Históricas",
+    "Etnográficas",
+    "Realizaciones técnicas y científicas"
+  ];
+  public subtipoAtractivo:string[]= [
+    "Arquitectura Religiosa",
+    "Arquitectura Civil",
+    "Cuevas",
+    "Museo",
+    "Museos históricos",
+    "Obras Técnicas",
+    "Sectores Históricos",
+    "Manifestaciones Religiosas, Tradiciones y Creencias Populares "
+  ];
+
   public categoriaServicios: string[] = [
     'Agencia de viajes',
     'Alojamiento',
@@ -85,21 +108,62 @@ export class GraficasComponent implements OnInit {
     .subscribe((item:any)=>{
       
       item.forEach((element, index) => {
+
         const atractivo:any = element.payload.toJSON();
+        
         if(atractivo.categoria == this.categoriaAtractivos[0]){
-          this.contArquitectura ++;
+          this.categoriaAtractivosCont[0] ++;
         }else if (atractivo.categoria == this.categoriaAtractivos[1]){
-          this.contMuseo ++;
-        }else if(atractivo.categoria == this.categoriaAtractivos[2]){
-          this.contParque++;
+          this.categoriaAtractivosCont[1]++;
+        }
+
+        if(atractivo.tipo == this.tipoAtractivo[0]){
+          this.tipoAtractivoCont[0]++;
+        }else if(atractivo.tipo == this.tipoAtractivo[1]){
+          this.tipoAtractivoCont[1]++;
+        }else if(atractivo.tipo == this.tipoAtractivo[2]){
+          this.tipoAtractivoCont[2]++;
+        } 
+
+        if(atractivo.subtipo == this.subtipoAtractivo[0]){
+          this.subtipoAtractivoCont[0]++;
+        }else if(atractivo.subtipo == this.subtipoAtractivo[1]){
+          this.subtipoAtractivoCont[1]++;
+        }else if(atractivo.subtipo == this.subtipoAtractivo[2]){
+          this.subtipoAtractivoCont[2]++;
+        } else if(atractivo.subtipo == this.subtipoAtractivo[3]){
+          this.subtipoAtractivoCont[3]++;
+        }else if(atractivo.subtipo == this.subtipoAtractivo[4]){
+          this.subtipoAtractivoCont[4]++;
+        }else if(atractivo.subtipo == this.subtipoAtractivo[5]){
+          this.subtipoAtractivoCont[5]++;
+        } else if(atractivo.subtipo == this.subtipoAtractivo[6]){
+          this.subtipoAtractivoCont[6]++;
+        }else if(atractivo.subtipo == this.subtipoAtractivo[7]){
+          this.subtipoAtractivoCont[7]++;
         }
 
       });
 
+      // Grafica de atractivos por categoria
       this.graficaUsuarios.push( {
         labels:this.categoriaAtractivos,
-        data:[this.contArquitectura,this.contMuseo,this.contParque],
-        leyenda:'Atractivos',
+        data:this.categoriaAtractivosCont,
+        leyenda:'Atractivos por categoria',
+        type:'doughnut'
+      });
+      // Grafica de atractivos por tipo
+      this.graficaUsuarios.push( {
+        labels:this.tipoAtractivo,
+        data:this.tipoAtractivoCont,
+        leyenda:'Atractivos por tipo',
+        type:'doughnut'
+      });
+      // Grafica de atractivos por subtipo
+      this.graficaUsuarios.push( {
+        labels:this.subtipoAtractivo,
+        data:this.subtipoAtractivoCont,
+        leyenda:'Atractivos por Sub tipo',
         type:'doughnut'
       });
     })

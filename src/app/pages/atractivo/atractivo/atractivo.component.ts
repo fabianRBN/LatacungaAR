@@ -14,7 +14,8 @@ import {
   NgbModalRef
 } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
-import { identifierModuleUrl } from "@angular/compiler";
+
+
 
 
 @Component({
@@ -67,6 +68,8 @@ export class AtractivoComponent implements OnInit {
   public idAtractivo: string;
   public pathUrl360: string;
 
+
+
   constructor(private atractivoService: AtractivoService, 
     private archivoService: ArchivoService,
     public config: NgbRatingConfig,
@@ -81,6 +84,8 @@ export class AtractivoComponent implements OnInit {
     //configuracion de Rating 
     config.max = 5;
     config.readonly = true;
+
+    
   }
 
   ngOnInit() {
@@ -135,23 +140,7 @@ export class AtractivoComponent implements OnInit {
     }
     this.estadoInput = $event.timeStamp;
   }
-  // buscarRating(){
-    
-  //  console.log("click:"+ this.rating)
-  //     //  this.getAtractivos();
-   
-    
 
-  // }
-
-  // validateDecimal(valor) {
-  //   var RE = /^\d*(\.\d{1})?\d{0,1}$/;
-  //   if (RE.test(valor)) {
-  //       return true;
-  //   } else {
-  //       return false;
-  //   }
-//}
 
   eliminar(uidAtractivo: string, nombreAtractivo: string, galeriaAtractivo: any) {
 
@@ -303,8 +292,10 @@ mostraModal(modelId, id, pathUrl) {
   this.imagenTemp = pathUrl;
   if(this.imagenTemp != ""){
     this.check360 = true;
+
   }else{
     this.check360 = false;
+
   }
   this.modalRef = this.modalService.open(modelId, { centered: true });
 }

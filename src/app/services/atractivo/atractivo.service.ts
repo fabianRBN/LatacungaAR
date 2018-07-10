@@ -17,11 +17,15 @@ export class AtractivoService {
       nombre: atractivo.nombre,
       alias: atractivo.alias,
       categoria: atractivo.categoria,
+      tipo: atractivo.tipo,
+      subtipo:atractivo.subtipo,
       direccion: atractivo.direccion,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
-      creadorUid: atractivo.creadorUid
+      creadorUid: atractivo.creadorUid,
+      horario: atractivo.horario
+
     });
   }
 
@@ -57,12 +61,15 @@ export class AtractivoService {
       nombre: atractivo.nombre,
       alias: atractivo.alias,
       categoria: atractivo.categoria,
+      tipo: atractivo.tipo,
+      subtipo:atractivo.subtipo,
       direccion: atractivo.direccion,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
       creadorUid: atractivo.creadorUid,
-      galeria: atractivo.galeriaObject
+      galeria: atractivo.galeriaObject,
+      horario: atractivo.horario
     });
   }
 

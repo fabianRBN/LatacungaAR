@@ -27,6 +27,7 @@ import {
 import * as firebase from 'firebase';
 import 'sweetalert';
 import { GeoAtractivoService } from '../../../services/atractivo/geo-atractivo.service';
+import { Horario } from '../../../models/horario.model';
 @Component({
   selector: 'app-crear-atractivo',
   templateUrl: './crear-atractivo.component.html',
@@ -55,6 +56,28 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   public atractivoEditable = new Atractivo();
   public georeferencia = new Georeferencia();
   public imagenes = new Imagenes();
+  public categoriaAtractivos: string[] =[
+    "-- Seleccione --",
+    "Manifestaciones Culturales",
+    "Sitios Naturales"
+  ];
+  public tipoAtractivo:string[]= [
+    "-- Seleccione --",
+    "Históricas",
+    "Etnográficas",
+    "Realizaciones técnicas y científicas"
+  ];
+  public subtipoAtractivo:string[]= [
+    "-- Seleccione --",
+    "Arquitectura Religiosa",
+    "Arquitectura Civil",
+    "Cuevas",
+    "Museo",
+    "Museos históricos",
+    "Obras Técnicas",
+    "Sectores Históricos",
+    "Manifestaciones Religiosas, Tradiciones y Creencias Populares "
+  ];
 
 
   public numeroArchivos = 0;
@@ -74,6 +97,19 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   private inputLatSubcription: Subscription;
   private inputLngSubcription: Subscription;
   public atractivoList: Observable<any>;
+
+  // Variables de Horarios
+  private authSubscription: Subscription;
+  private inputSiempreAbiertoSubcription: Subscription;
+  private inputLunesSubscription: Subscription;
+  private inputMartesSubscription: Subscription;
+  private inputMiercolesSubscription: Subscription;
+  private inputJuevesSubscription: Subscription;
+  private inputViernesSubscription: Subscription;
+  private inputSabadoSubscription: Subscription;
+  private inputDomingoSubscription: Subscription;
+  private horario = new Horario();
+
 
   // Variables para enviar al modal
   modalRef: NgbModalRef;
@@ -105,12 +141,37 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       nombre: ['', Validators.required],
       alias: ['', Validators.required],
       categoria: ['', [Validators.required, ValidateDropdown]],
+      tipo: ['', [Validators.required, ValidateDropdown]],
+      subtipo: ['', [Validators.required, ValidateDropdown]],
       direccion: ['', Validators.required],
       descripcion: ['', [Validators.required, Validators.minLength(20)]],
+      siempreAbierto: [false],
+      lunesAbierto: [false],
+      lunesHoraInicio: ['00:00'],
+      lunesHoraFinal: ['00:00'],
+      martesAbierto: [false],
+      martesHoraInicio: ['00:00'],
+      martesHoraFinal: ['00:00'],
+      miercolesAbierto: [false],
+      miercolesHoraInicio: ['00:00'],
+      miercolesHoraFinal: ['00:00'],
+      juevesAbierto: [false],
+      juevesHoraInicio: ['00:00'],
+      juevesHoraFinal: ['00:00'],
+      viernesAbierto: [false],
+      viernesHoraInicio: ['00:00'],
+      viernesHoraFinal: ['00:00'],
+      sabadoAbierto: [false],
+      sabadoHoraInicio: ['00:00'],
+      sabadoHoraFinal: ['00:00'],
+      domingoAbierto: [false],
+      domingoHoraInicio: ['00:00'],
+      domingoHoraFinal: ['00:00'],
       latitud: ['', Validators.required],
       longitud: ['', Validators.required],
       observacion: ['']
     });
+    this.opcionHorarios();
     this.inputLatSubcription = this.frmRegistro.controls['latitud'].valueChanges.subscribe( value => {
       this.markers.lat = value;
     });
@@ -119,14 +180,199 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     });
   }
 
+  opcionHorarios(){
+    this.inputSiempreAbiertoSubcription = this.frmRegistro.controls[
+      'siempreAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['lunesAbierto'].setValue(false);
+      this.frmRegistro.controls['martesAbierto'].setValue(false);
+      this.frmRegistro.controls['miercolesAbierto'].setValue(false);
+      this.frmRegistro.controls['juevesAbierto'].setValue(false);
+      this.frmRegistro.controls['viernesAbierto'].setValue(false);
+      this.frmRegistro.controls['sabadoAbierto'].setValue(false);
+      this.frmRegistro.controls['domingoAbierto'].setValue(false);
+      if (value) {
+        this.frmRegistro.controls['lunesAbierto'].disable();
+        this.frmRegistro.controls['martesAbierto'].disable();
+        this.frmRegistro.controls['miercolesAbierto'].disable();
+        this.frmRegistro.controls['juevesAbierto'].disable();
+        this.frmRegistro.controls['viernesAbierto'].disable();
+        this.frmRegistro.controls['sabadoAbierto'].disable();
+        this.frmRegistro.controls['domingoAbierto'].disable();
+      } else {
+        this.frmRegistro.controls['lunesAbierto'].enable();
+        this.frmRegistro.controls['martesAbierto'].enable();
+        this.frmRegistro.controls['miercolesAbierto'].enable();
+        this.frmRegistro.controls['juevesAbierto'].enable();
+        this.frmRegistro.controls['viernesAbierto'].enable();
+        this.frmRegistro.controls['sabadoAbierto'].enable();
+        this.frmRegistro.controls['domingoAbierto'].enable();
+      }
+    });
+    this.inputLunesSubscription = this.frmRegistro.controls[
+      'lunesAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['lunesHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['lunesHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['lunesHoraInicio'].enable();
+        this.frmRegistro.controls['lunesHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['lunesHoraInicio'].disable();
+        this.frmRegistro.controls['lunesHoraFinal'].disable();
+      }
+    });
+    this.inputMartesSubscription = this.frmRegistro.controls[
+      'martesAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['martesHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['martesHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['martesHoraInicio'].enable();
+        this.frmRegistro.controls['martesHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['martesHoraInicio'].disable();
+        this.frmRegistro.controls['martesHoraFinal'].disable();
+      }
+    });
+    this.inputMiercolesSubscription = this.frmRegistro.controls[
+      'miercolesAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['miercolesHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['miercolesHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['miercolesHoraInicio'].enable();
+        this.frmRegistro.controls['miercolesHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['miercolesHoraInicio'].disable();
+        this.frmRegistro.controls['miercolesHoraFinal'].disable();
+      }
+    });
+    this.inputJuevesSubscription = this.frmRegistro.controls[
+      'juevesAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['juevesHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['juevesHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['juevesHoraInicio'].enable();
+        this.frmRegistro.controls['juevesHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['juevesHoraInicio'].disable();
+        this.frmRegistro.controls['juevesHoraFinal'].disable();
+      }
+    });
+    this.inputViernesSubscription = this.frmRegistro.controls[
+      'viernesAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['viernesHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['viernesHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['viernesHoraInicio'].enable();
+        this.frmRegistro.controls['viernesHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['viernesHoraInicio'].disable();
+        this.frmRegistro.controls['viernesHoraFinal'].disable();
+      }
+    });
+    this.inputSabadoSubscription = this.frmRegistro.controls[
+      'sabadoAbierto'
+    ].valueChanges.subscribe(value => {
+      this.frmRegistro.controls['sabadoHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['sabadoHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['sabadoHoraInicio'].enable();
+        this.frmRegistro.controls['sabadoHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['sabadoHoraInicio'].disable();
+        this.frmRegistro.controls['sabadoHoraFinal'].disable();
+      }
+    });
+    this.inputDomingoSubscription = this.frmRegistro.controls[
+      'domingoAbierto'
+    ].valueChanges.subscribe(value => {
+      this.obtenerHorarioDeFormulario();
+      this.frmRegistro.controls['domingoHoraInicio'].setValue('00:00');
+      this.frmRegistro.controls['domingoHoraFinal'].setValue('00:00');
+      if (value) {
+        this.frmRegistro.controls['domingoHoraInicio'].enable();
+        this.frmRegistro.controls['domingoHoraFinal'].enable();
+      } else {
+        this.frmRegistro.controls['domingoHoraInicio'].disable();
+        this.frmRegistro.controls['domingoHoraFinal'].disable();
+      }
+    });
+  }
+  obtenerHorarioDeFormulario() {
+    this.horario.siempreAbierto = this.frmRegistro.value.siempreAbierto;
+    this.horario.Lunes = {
+      abierto: this.frmRegistro.value.lunesAbierto || false,
+      horaInicio: this.frmRegistro.value.lunesHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.lunesHoraFinal || '00:00',
+    };
+    this.horario.Martes = {
+      abierto: this.frmRegistro.value.martesAbierto || false,
+      horaInicio: this.frmRegistro.value.martesHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.martesHoraFinal || '00:00'
+    };
+    this.horario.Miercoles = {
+      abierto: this.frmRegistro.value.miercolesAbierto || false,
+      horaInicio: this.frmRegistro.value.miercolesHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.miercolesHoraFinal || '00:00'
+    };
+    this.horario.Jueves = {
+      abierto: this.frmRegistro.value.juevesAbierto || false,
+      horaInicio: this.frmRegistro.value.juevesHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.juevesHoraFinal || '00:00'
+    };
+    this.horario.Viernes = {
+      abierto: this.frmRegistro.value.viernesAbierto || false,
+      horaInicio: this.frmRegistro.value.viernesHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.viernesHoraFinal || '00:00'
+    };
+    this.horario.Sabado = {
+      abierto: this.frmRegistro.value.sabadoAbierto || false,
+      horaInicio: this.frmRegistro.value.sabadoHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.sabadoHoraFinal || '00:00'
+    };
+    this.horario.Domingo = {
+      abierto: this.frmRegistro.value.domingoAbierto || false,
+      horaInicio: this.frmRegistro.value.domingoHoraInicio || '00:00',
+      horaSalida: this.frmRegistro.value.domingoHoraFinal || '00:00'
+    };
+  }
+
   formValue(atractivo: Atractivo) {
     this.frmRegistro.setValue({
-      nombre: this.atractivoEditable.nombre,
-      alias: this.atractivoEditable.alias,
-      direccion: this.atractivoEditable.direccion,
-      descripcion: this.atractivoEditable.descripcion,
-      categoria: this.atractivoEditable.categoria,
-      observacion: this.atractivoEditable.observacion || 'ninguna',
+      nombre: atractivo.nombre,
+      alias: atractivo.alias,
+      direccion: atractivo.direccion,
+      descripcion: atractivo.descripcion,
+      categoria: atractivo.categoria,
+      tipo: atractivo.tipo || '',
+      subtipo: atractivo.subtipo || '',
+      observacion: atractivo.observacion || 'ninguna',
+      siempreAbierto: atractivo.horario.siempreAbierto,
+      lunesAbierto: atractivo.horario.Lunes.abierto,
+      lunesHoraInicio: atractivo.horario.Lunes.horaInicio || '00:00',
+      lunesHoraFinal: atractivo.horario.Lunes.horaSalida || '00:00',
+      martesAbierto: atractivo.horario.Martes.abierto,
+      martesHoraInicio: atractivo.horario.Martes.horaInicio || '00:00',
+      martesHoraFinal: atractivo.horario.Martes.horaSalida || '00:00',
+      miercolesAbierto: atractivo.horario.Miercoles.abierto,
+      miercolesHoraInicio: atractivo.horario.Miercoles.horaInicio || '00:00',
+      miercolesHoraFinal: atractivo.horario.Miercoles.horaSalida || '00:00',
+      juevesAbierto: atractivo.horario.Jueves.abierto,
+      juevesHoraInicio: atractivo.horario.Jueves.horaInicio || '00:00',
+      juevesHoraFinal: atractivo.horario.Jueves.horaSalida || '00:00',
+      viernesAbierto: atractivo.horario.Viernes.abierto,
+      viernesHoraInicio: atractivo.horario.Viernes.horaInicio || '00:00',
+      viernesHoraFinal: atractivo.horario.Viernes.horaSalida || '00:00',
+      sabadoAbierto: atractivo.horario.Sabado.abierto,
+      sabadoHoraInicio: atractivo.horario.Sabado.horaInicio || '00:00',
+      sabadoHoraFinal: atractivo.horario.Sabado.horaSalida || '00:00',
+      domingoAbierto: atractivo.horario.Domingo.abierto,
+      domingoHoraInicio: atractivo.horario.Domingo.horaInicio || '00:00',
+      domingoHoraFinal: atractivo.horario.Domingo.horaSalida || '00:00',
       latitud: this.atractivoEditable.posicion.lat,
       longitud: this.atractivoEditable.posicion.lng,
     });
@@ -202,6 +448,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
           const imgTemp: Imagenes[] = [];
           this.atractivoEditable = item as Atractivo;
           this.atractivoEditable.galeriaObject = item.galeria;
+          // Recopilacion de todas la imagenes de galeria 
           Object.keys(item.galeria).forEach(key => {
             imagenTemp = item.galeria[key] as Imagenes;
             imagenTemp.key = key;
@@ -209,6 +456,17 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
           });
           this.atractivoEditable.galeria = imgTemp;
 
+
+          // Validacion para ctualizar el horario en atractivos que no cuenten con horario 
+          if(item.horario){
+              this.horario = item.horario as Horario;
+           
+          }else{
+
+            this.obtenerHorarioDeFormulario();
+            this.atractivoEditable.horario = this.horario;
+          }
+      
           this.markers = {
             lat: this.atractivoEditable.posicion.lat,
             lng: this.atractivoEditable.posicion.lng,
@@ -216,7 +474,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
             draggable: false
           };
 
-          this.formValue(this.atractivo);
+          this.formValue(this.atractivoEditable);
         });
     }
   }
@@ -225,6 +483,13 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     this.usuarioSubscription.unsubscribe();
     this.inputLatSubcription.unsubscribe();
     this.inputLngSubcription.unsubscribe();
+    this.inputLunesSubscription.unsubscribe();
+    this.inputMartesSubscription.unsubscribe();
+    this.inputMiercolesSubscription.unsubscribe();
+    this.inputJuevesSubscription.unsubscribe();
+    this.inputViernesSubscription.unsubscribe();
+    this.inputSabadoSubscription.unsubscribe();
+    this.inputDomingoSubscription.unsubscribe();
     if (this.modoedicion) {
       this.atractivoSubscription.unsubscribe();
     }
@@ -286,11 +551,14 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     if (!this.frmRegistro.invalid) {
       this.georeferencia.lat = this.markers.lat;
       this.georeferencia.lng = this.markers.lng;
+      this.obtenerHorarioDeFormulario();
       this.atractivo.nombre = this.frmRegistro.value.nombre;
       this.atractivo.alias = this.frmRegistro.value.alias;
       this.atractivo.direccion = this.frmRegistro.value.direccion;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
       this.atractivo.categoria = this.frmRegistro.value.categoria;
+      this.atractivo.tipo = this.frmRegistro.value.tipo;
+      this.atractivo.subtipo = this.frmRegistro.value.subtipo;
       this.atractivo.observacion =
         this.frmRegistro.value.observacion || 'Ninguna';
       this.atractivo.posicion = this.georeferencia;
@@ -476,6 +744,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       direccion: '',
       descripcion: '',
       categoria: '',
+      tipo:'',
+      subtipo:'',
       observacion: ''
     });
 

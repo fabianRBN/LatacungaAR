@@ -52,14 +52,13 @@ export class HistorialComponent implements OnInit {
         const atractivo:any = element.payload.toJSON();
         const atractivoObject = new Atractivo();
         atractivoObject.nombre = atractivo.nombre;
-        atractivoObject.rating = atractivo.rating;
+        atractivoObject.rating = atractivo.rating || 0;
         atractivoObject.key = item[index].key;
         this.visitasSubscription = this.atractivoService.visitasAtractivo(atractivoObject.key).snapshotChanges().subscribe((itemHistorial)=>{
           
         if(itemHistorial){
           this.listaVisitanteskey = [];
           atractivoObject.numeroVisitas = itemHistorial.length;
-          console.log(itemHistorial.length);
           itemHistorial.forEach((elementHistorial,indexHistorial)=>{
               this.listaVisitanteskey.push(itemHistorial[indexHistorial].key);
           });
