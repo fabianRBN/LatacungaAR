@@ -171,16 +171,22 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       longitud: ['', Validators.required],
       observacion: ['']
     });
-    this.opcionHorarios();
-    this.inputLatSubcription = this.frmRegistro.controls['latitud'].valueChanges.subscribe( value => {
-      this.markers.lat = value;
-    });
-    this.inputLngSubcription = this.frmRegistro.controls['longitud'].valueChanges.subscribe( value => {
-      this.markers.lng = value;
-    });
-  }
+    this.frmRegistro.controls['lunesHoraInicio'].disable();
+    this.frmRegistro.controls['lunesHoraFinal'].disable();
+    this.frmRegistro.controls['martesHoraInicio'].disable();
+    this.frmRegistro.controls['martesHoraFinal'].disable();
+    this.frmRegistro.controls['miercolesHoraInicio'].disable();
+    this.frmRegistro.controls['miercolesHoraFinal'].disable();
+    this.frmRegistro.controls['juevesHoraInicio'].disable();
+    this.frmRegistro.controls['juevesHoraFinal'].disable();
+    this.frmRegistro.controls['viernesHoraInicio'].disable();
+    this.frmRegistro.controls['viernesHoraFinal'].disable();
+    this.frmRegistro.controls['sabadoHoraInicio'].disable();
+    this.frmRegistro.controls['sabadoHoraFinal'].disable();
+    this.frmRegistro.controls['domingoHoraInicio'].disable();
+    this.frmRegistro.controls['domingoHoraFinal'].disable();
+  
 
-  opcionHorarios(){
     this.inputSiempreAbiertoSubcription = this.frmRegistro.controls[
       'siempreAbierto'
     ].valueChanges.subscribe(value => {
@@ -301,9 +307,18 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
         this.frmRegistro.controls['domingoHoraFinal'].disable();
       }
     });
+
+    this.inputLatSubcription = this.frmRegistro.controls['latitud'].valueChanges.subscribe( value => {
+      this.markers.lat = value;
+    });
+    this.inputLngSubcription = this.frmRegistro.controls['longitud'].valueChanges.subscribe( value => {
+      this.markers.lng = value;
+    });
   }
+
+  
   obtenerHorarioDeFormulario() {
-    this.horario.siempreAbierto = this.frmRegistro.value.siempreAbierto;
+    this.horario.siempreAbierto = this.frmRegistro.value.siempreAbierto || false;
     this.horario.Lunes = {
       abierto: this.frmRegistro.value.lunesAbierto || false,
       horaInicio: this.frmRegistro.value.lunesHoraInicio || '00:00',
@@ -351,7 +366,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       tipo: atractivo.tipo || '',
       subtipo: atractivo.subtipo || '',
       observacion: atractivo.observacion || 'ninguna',
-      siempreAbierto: atractivo.horario.siempreAbierto,
+      siempreAbierto: atractivo.horario.siempreAbierto || false,
       lunesAbierto: atractivo.horario.Lunes.abierto,
       lunesHoraInicio: atractivo.horario.Lunes.horaInicio || '00:00',
       lunesHoraFinal: atractivo.horario.Lunes.horaSalida || '00:00',
@@ -476,6 +491,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
 
           this.formValue(this.atractivoEditable);
         });
+    }else{
+      this.obtenerHorarioDeFormulario();
     }
   }
 
@@ -553,6 +570,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       this.georeferencia.lng = this.markers.lng;
       this.obtenerHorarioDeFormulario();
       this.atractivo.nombre = this.frmRegistro.value.nombre;
+      this.atractivo.horario = this.horario;
       this.atractivo.alias = this.frmRegistro.value.alias;
       this.atractivo.direccion = this.frmRegistro.value.direccion;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
@@ -562,7 +580,6 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       this.atractivo.observacion =
         this.frmRegistro.value.observacion || 'Ninguna';
       this.atractivo.posicion = this.georeferencia;
-
       if (this.modoedicion) {
         this.atractivo.key = this.idAtractivo;
         this.atractivoService.actualizarActractivo(this.atractivo);
@@ -578,6 +595,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
           'Para registrar un atractivo se requiere un Imgen por lo minimo'
         );
       } else {
+        this.atractivo.rating = 0;
         this.atractivo.key = this.atractivoService.obtenertKey();
         this.atractivoService.crearAtrativo(this.atractivo);
         // this.geoFireAtractivo(this.atractivo.key, this.atractivo.posicion.lat , this.atractivo.posicion.lng);
@@ -738,16 +756,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   // =================================================
 
   limpiarElementos() {
-    this.frmRegistro.setValue({
-      nombre: '',
-      alias: '',
-      direccion: '',
-      descripcion: '',
-      categoria: '',
-      tipo:'',
-      subtipo:'',
-      observacion: ''
-    });
+    this.frmRegistro.reset();
 
     this.imgTemporales = [];
     this.numeroArchivos = 0;
