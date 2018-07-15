@@ -21,19 +21,21 @@ import { Observable } from 'rxjs/Observable';
 import { ValidateDropdown } from '../../../validators/dropdownValidator';
 import {
   NgbModal,
-  ModalDismissReasons,
   NgbModalRef
 } from '@ng-bootstrap/ng-bootstrap';
 import * as firebase from 'firebase';
 import 'sweetalert';
-import { GeoAtractivoService } from '../../../services/atractivo/geo-atractivo.service';
 import { Horario } from '../../../models/horario.model';
 @Component({
   selector: 'app-crear-atractivo',
   templateUrl: './crear-atractivo.component.html',
-  styleUrls: ['./crear-atractivo.component.css']
+  styleUrls: ['./crear-atractivo.component.css'],
+
 })
 export class CrearAtractivoComponent implements OnInit, OnDestroy {
+  
+  model;
+
   // google maps zoom level
   zoom = 17;
 
@@ -50,6 +52,10 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   public marcadorActivado = true;
   public tituloImagen: string;
   public tituloImagenenEdicion: string;
+  public descripcionImagen: string;
+  public descripcionImagenEdicion:string;
+  public tipoImagenEdicion: string;
+  public tipoImagen: string;
 
   // variables y  objeto Atractivo - georeferencia
   public atractivo = new Atractivo();
@@ -144,6 +150,10 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       tipo: ['', [Validators.required, ValidateDropdown]],
       subtipo: ['', [Validators.required, ValidateDropdown]],
       direccion: ['', Validators.required],
+      permisos:[''],
+      usoActual:['', Validators.required],
+      impactoPositivo:[''],
+      impactoNegativo:[''],
       descripcion: ['', [Validators.required, Validators.minLength(20)]],
       siempreAbierto: [false],
       lunesAbierto: [false],
@@ -361,6 +371,10 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       nombre: atractivo.nombre,
       alias: atractivo.alias,
       direccion: atractivo.direccion,
+      permisos:atractivo.permisos || 'Ninguno',
+      usoActual:atractivo.usoActual || 'Ninguno',
+      impactoPositivo:atractivo.impactoPositivo || 'Ninguno',
+      impactoNegativo:atractivo.impactoNegativo || 'Ninguno',
       descripcion: atractivo.descripcion,
       categoria: atractivo.categoria,
       tipo: atractivo.tipo || '',
@@ -541,16 +555,23 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   agregatImagentemp() {
     if (this.tituloImagen === undefined || this.tituloImagen === '') {
       swal('Alerta', 'Se requiere un titulo para la imagen', 'info');
+    } else if (this.tipoImagen === undefined || this.tipoImagen === '') {
+      swal('Alerta', 'Se requiere un deleccionar un tipo para la imagen', 'info');
     } else {
       this.imgTemporales.push({
         titulo: this.tituloImagen,
+        tipo: this.tipoImagen,
+        descripcion:this.descripcionImagen || '',
         imagenTemp: this.imagenTemp,
         archivo: this.archivo,
         progreso: 0
       });
       this.numeroArchivos++;
       this.tituloImagen = '';
+      this.tipoImagen = '';
+      this.descripcionImagen= '';
       this.imagenTemp = null;
+      this.labelImagen = '';
     }
   }
 
@@ -573,6 +594,10 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
       this.atractivo.horario = this.horario;
       this.atractivo.alias = this.frmRegistro.value.alias;
       this.atractivo.direccion = this.frmRegistro.value.direccion;
+      this.atractivo.permisos = this.frmRegistro.value.permisos;
+      this.atractivo.usoActual = this.frmRegistro.value.usoActual;
+      this.atractivo.impactoPositivo = this.frmRegistro.value.impactoPositivo;
+      this.atractivo.impactoNegativo = this.frmRegistro.value.impactoNegativo;
       this.atractivo.descripcion = this.frmRegistro.value.descripcion;
       this.atractivo.categoria = this.frmRegistro.value.categoria;
       this.atractivo.tipo = this.frmRegistro.value.tipo;
@@ -613,9 +638,13 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
 
   editarImagen() {
     this.imagenaEditar.titulo = this.tituloImagenenEdicion;
+    this.imagenaEditar.descripcion = this.descripcionImagenEdicion ||'';
+    this.imagenaEditar.tipo = this.tipoImagenEdicion ||'';
     if (this.imagenTemp) {
       const imagenNueva: imagen = {
         titulo: this.tituloImagenenEdicion,
+        descripcion:this.descripcionImagenEdicion,
+        tipo:this.tipoImagenEdicion,
         imagenTemp: this.imagenTemp,
         archivo: this.archivo,
         progreso: 0
@@ -698,6 +727,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
               index +
               '' +
               this.date.getMilliseconds().toString();
+            this.imagenes.descripcion = this.imgTemporales[index].descripcion || '';
+            this.imagenes.tipo = this.imgTemporales[index].tipo || '';
             this.numeroArchivosSubidos++;
             if (
               this.imagenes.imagenURL &&
@@ -781,7 +812,15 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   mostraModal(modelId, img: Imagenes) {
     this.imagenTemp = null;
     this.tituloImagenenEdicion = img.titulo;
-    this.imagenaEditar = img;
+    this.descripcionImagenEdicion = img.descripcion || '';
+    this.tipoImagenEdicion = img.tipo || 'Atractivo';
+    this.imagenaEditar.titulo = img.titulo;
+    this.imagenaEditar.descripcion = img.descripcion || '';
+    this.imagenaEditar.tipo = img.tipo || '';
+    this.imagenaEditar.pathURL = img.pathURL;
+    this.imagenaEditar.imagenURL = img.imagenURL;
+    this.imagenaEditar.key = img.key ||'';
+    
     this.modalRef = this.modalService.open(modelId, { centered: true });
   }
 
@@ -790,6 +829,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     this.labelImagen = '';
     this.modalRef.close();
   }
+
 }
 
 // ===================================================
@@ -798,6 +838,8 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
 // Interfaz para imagenes temporales
 interface imagen {
   titulo: string;
+  tipo:string;
+  descripcion:string;
   imagenTemp: any;
   archivo: File;
   progreso: number;

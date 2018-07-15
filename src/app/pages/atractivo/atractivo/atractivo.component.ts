@@ -109,7 +109,7 @@ export class AtractivoComponent implements OnInit {
          atractivoTemp.categoria = atractivo.categoria;
          atractivoTemp.descripcion = atractivo.descripcion;
          atractivoTemp.rating = atractivo.rating;
-             
+        atractivoTemp.funcionAR = atractivo.funcionAR || false;
 
          Object.keys(atractivo.galeria).forEach( key => {
           imgTemp.push(atractivo.galeria[key] as Imagenes);
@@ -210,7 +210,14 @@ setFiltro( filtro){
 
   guardarAR(){
     console.log("Id: "+this.idAtractivo);
-
+    this.atractivoService.setfuncionAR(this.idAtractivo,this.checkAR).then( resolv=>{
+      if(this.checkAR){
+        swal('', 'Funcion AR activada ', 'success');
+      }else{
+        swal('', 'Funcion AR desactivada ', 'success');
+      }
+      
+    });
     this.imagenTemporal ={
       titulo: "",
       imagenTemp: this.imagenTemp,
@@ -287,15 +294,21 @@ setFiltro( filtro){
 //         Modal
 //====================================================
 
-mostraModal(modelId, id, pathUrl) {
+mostraModal(modelId, id, pathUrl, funcionAR) {
   this.idAtractivo = id;
   this.imagenTemp = pathUrl;
+  
   if(this.imagenTemp != ""){
     this.check360 = true;
 
   }else{
     this.check360 = false;
 
+  }
+  if(funcionAR){
+    this.checkAR = true;
+  }else {
+    this.checkAR = false;
   }
   this.modalRef = this.modalService.open(modelId, { centered: true });
 }

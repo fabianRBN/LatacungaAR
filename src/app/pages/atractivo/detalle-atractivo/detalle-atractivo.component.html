@@ -5,6 +5,7 @@
             <a href="#" class="btn btn-primary" style="float: right;" [routerLink]="['/crear-atractivo', atractivo.key ]">Editar</a>
         </h3>
         <h6 class="card-subtitle">{{atractivo.categoria}} </h6>
+        
         <h6 class="card-subtitle"> {{usuario.nombre }}- {{usuario.email}}</h6>
         <div class="row">
             <div class="col-lg-6">
@@ -33,7 +34,13 @@
 
             <div class="col-lg-6">
                 <div class="block-ellipsis-detalle">
+                    <div >
+                        <h4>Calificacion: </h4>
+                            <ngb-rating [(rate)]="atractivo.rating"></ngb-rating>
+                            <b>&nbsp; {{atractivo.rating}}</b>
+                    </div>
                     <p>
+
                         {{atractivo.descripcion}}
                     </p>
                 </div>
@@ -41,6 +48,122 @@
             </div>
         </div>
 
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Datos de atractivo</h4>
+            </div>
+            <div class="card-body">
+
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Categoria: </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.categoria}}</h5>
+                </div>
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Tipo y Subtipo </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.tipo}} - {{atractivo.subtipo}}</h5>
+                </div>
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Uso actual: </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.usoActual}}</h5>
+                </div>
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Direccion: </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.direccion}}</h5>
+                </div>
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Impacto Positivo: </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.impactoPositivo}}</h5>
+                </div>
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Impacto Negativo: </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.impactoNegativo}}</h5>
+                </div>
+                <div style=" margin-bottom: 1%;">
+                    <h4>
+                        <span class="lstick"></span>Observacion: </h4>
+
+                    <h5 style="margin-left: 2%;">{{atractivo.observacion}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Horario de atencion</h4>
+            </div>
+            <div class="card-body">
+                    <div style=" margin-bottom: 1%;">
+                            <h4 *ngIf="horario.simpreAbierto" ><span class="lstick"></span>Simpre Abierto: Si </h4>
+                            <h4 *ngIf="!horario.simpreAbierto" ><span class="lstick"></span>Simpre Abierto: No </h4>
+                           
+
+                        </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">HORA</th>
+                            <th scope="col">Lunes</th>
+                            <th scope="col">Martes</th>
+                            <th scope="col">Miercoles</th>
+                            <th scope="col">Jueves</th>
+                            <th scope="col">Viernes</th>
+                            <th scope="col">Sabado</th>
+                            <th scope="col">Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <th scope="row">Entrada</th>
+                            <td *ngFor="let horarioInicio of horarioEntrada" 
+                                [class.red]="horarioInicio == '00:00' " 
+                                [class.green]="horarioInicio != '00:00'  "
+                            >{{horarioInicio}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Almuerzo</th>
+                            <td> 12:00 - 14:00</td>
+                            <td> 12:00 - 14:00</td>
+                            <td> 12:00 - 14:00</td>
+                            <td> 12:00 - 14:00</td>
+                            <td> 12:00 - 14:00</td>
+                            <td> 12:00 - 14:00</td>
+                            <td> 12:00 - 14:00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Salida</th>
+                            <td *ngFor="let horarioS of horarioSalida"
+                            [class.red]="horarioS == '00:00' " 
+                                [class.green]="horarioS != '00:00'  "
+                            >{{horarioS}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -75,10 +198,10 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            
+
             <div class="card-body">
-                    <h4 class="card-title">
-                            <span class="lstick"></span> Comentarios</h4>
+                <h4 class="card-title">
+                    <span class="lstick"></span> Comentarios</h4>
                 <div class="comment-widgets">
                     <app-comentarios [idAtractivo]='idAtractivo'> </app-comentarios>
                 </div>

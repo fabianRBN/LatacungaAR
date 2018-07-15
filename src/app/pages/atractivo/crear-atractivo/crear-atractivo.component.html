@@ -70,10 +70,57 @@
                                 </small>
                             </span>
                     </div>
+       
+                    
                     <div class="form-group">
                         <label>Dirección</label>
                         <input name="direccion" formControlName="direccion" class="form-control form-control-line" placeholder="" type="text">
                         <span class="help-block text-muted" *ngIf="frmRegistro.controls.direccion.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Permiso y restricciones</label>
+                        <input name="permisos" formControlName="permisos" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.permisos.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>Uso Actual</label>
+                        <input name="usoActual" formControlName="usoActual" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.usoActual.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>Impacto Positivo</label>
+                        <input name="impactoPositivo" formControlName="impactoPositivo" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.impactoPositivo.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>Impacto Negativo</label>
+                        <input name="impactoNegativo" formControlName="impactoNegativo" class="form-control form-control-line" placeholder="" type="text">
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.impactoNegativo.errors">
                             <small>
                                 <p class="text-danger">
                                     El campo es requerido
@@ -272,12 +319,68 @@
             </div>
         </div>
     </div>
+        <!-- ============================================= -->
+    <!--        Carga de imagenes existentes           -->
+    <!-- ============================================= -->
+    <!-- <div>
+            <div class="col-12">
+                <div class="card bg-light mb-3">
+                    <div class="card-header bg-info">
+                        <h4 class="m-b-0 text-white">Cronologia del atractivo
+                                <button type="button"  style="float: right;" (click)="open(content)" class="btn btn-info btn-circle"  >
+                                        <i class="ti-plus text" ></i>
+                                    </button>
+
+                        </h4>
+                        
+                    </div>
+                    <div class="card-body">
+
+                            <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      Cras justo odio
+                                      <div  class="btn-group ml-auto m-t-10" style="float: right;">
+                                            <a  aria-expanded="false" aria-haspopup="true" class="icon-options-vertical link" data-toggle="dropdown" href="JavaScript:void(0)"></a>
+                                            <div  class="dropdown-menu dropdown-menu-right" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-end">
+                                                <a  class="dropdown-item" href="javascript:void(0)">Editar</a>
+                                                <a  class="dropdown-item" href="javascript:void(0)">Eliminar</a>
+                    
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      Dapibus ac facilisis in
+                                      <div  class="btn-group ml-auto m-t-10" style="float: right;">
+                                            <a  aria-expanded="false" aria-haspopup="true" class="icon-options-vertical link" data-toggle="dropdown" href="JavaScript:void(0)"></a>
+                                            <div  class="dropdown-menu dropdown-menu-right" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-end">
+                                                <a  class="dropdown-item" href="javascript:void(0)">Editar</a>
+                                                <a  class="dropdown-item" href="javascript:void(0)">Eliminar</a>
+                    
+                                            </div>
+                                        </div>                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      Morbi leo risus
+                                      <div  class="btn-group ml-auto m-t-10" style="float: right;">
+                                            <a  aria-expanded="false" aria-haspopup="true" class="icon-options-vertical link" data-toggle="dropdown" href="JavaScript:void(0)"></a>
+                                            <div  class="dropdown-menu dropdown-menu-right" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-end">
+                                                <a  class="dropdown-item" href="javascript:void(0)">Editar</a>
+                                                <a  class="dropdown-item" href="javascript:void(0)">Eliminar</a>
+                    
+                                            </div>
+                                        </div>                                    </li>
+                                  </ul>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+    </div> -->
     <!-- ============================================= -->
     <!--        Carga de imagenes existentes           -->
     <!-- ============================================= -->
     <div>
         <div class="col-12" *ngIf="modoedicion">
-            <div class="card">
+            <div class="card bg-light mb-3">
                 <div class="card-header bg-info">
                     <h4 class="m-b-0 text-white">Imagenes almacenadas</h4>
                 </div>
@@ -286,18 +389,29 @@
                     <div class="col-lg-3 col-md-6" *ngFor="let img of atractivoEditable.galeria">
                         <!-- Card -->
                         <br>
-                        <div class="card">
+                        <div class="card " >
                             <img class="card-img-top img-responsive img-atractivo " src="{{img.imagenURL}}" alt="Card image cap">
                             <div class="card-body">
-                                <h4 class="card-title">{{img.titulo}}</h4>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button class="btn btn-primary" (click)="mostraModal(confirmacionBorrarModel, img)">Editar</button>
 
-                                        <button class="btn btn-danger" (click)="eliminarImagenAtractivo(img.key, img.pathURL)">Eliminar</button>
+                                    <div class="d-flex">
+                                            <h4 class="card-title">
+                                                <span class="lstick"></span>{{img.titulo}}</h4>
+                                            <!-- <span class="badge badge-success">9</span> -->
+                                            <div class="btn-group ml-auto m-t-10">
+                                                <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item" (click)="mostraModal(confirmacionBorrarModel, img)" href="javascript:void(0)">Editar</a>
+                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="eliminarImagenAtractivo(img.key, img.pathURL)">Eliminar</a>
+                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <pre>{{img.tipo}}</pre>
+                                        <p class="card-text block-ellipsis">{{img.descripcion}}</p>
+                                    
 
-                                    </div>
-                                </div>
+
+                    
                             </div>
                         </div>
                         <!-- Card -->
@@ -326,6 +440,18 @@
                             <label>Titulo de la imagen</label>
                             <input class="form-control form-control-line" placeholder="" [(ngModel)]="tituloImagen" name="tituloImagen" type="text">
                         </div>
+
+                        <div class="form-group" *ngIf="!spiner">
+                            <label>Tipo de la imagen</label>
+                            <select class="form-control"  [(ngModel)]="tipoImagen" name="tipoImagen">
+                                <option>Atractivo</option>
+                                <option>Elemento del atractivo</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="!spiner">
+                            <label>Descripcion de la imagen</label>
+                            <input class="form-control form-control-line" placeholder="" [(ngModel)]="descripcionImagen" name="descripcionImagen" type="text">
+                        </div>
                     </form>
                     <div *ngIf="!spiner">
                         <div class="form-group col-12">
@@ -333,7 +459,6 @@
                                 <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
                                 <span class="custom-file-control">{{labelImagen}}</span>
                             </label>
-
                         </div>
                         <br>
                         <div align="center" class="col-12">
@@ -375,73 +500,6 @@
         </div>
     </div>
 
-    <!-- ============================================= -->
-    <!--        Carga de archivos multimedoa AR        --> 
-    <!-- ============================================= -->
-
-    <!--
-    <div>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-info">
-                        <h4 class="m-b-0 text-white">Realidad aumentada e Imagenes panoramica</h4>
-                    </div>
-                    <div class="card-body">
-                            <div class="row" align="center">
-                                    <div class="col-6">
-                                        <label>Caracteristica AR</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="switch">
-                                            <label>
-                                                Off
-                                                <input type="checkbox" [checked]="checkAR" (change)="checkAR = !checkAR">
-                                                <span class="lever"></span>
-                                                On
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="row" align="center">
-                                    <div class="col-6">
-                                        <label>Caracteristica 360</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="switch">
-                                            <label>
-                                                Off
-                                                <input type="checkbox" [checked]="check360" (change)="check360 = !check360">
-                                                <span class="lever"></span>
-                                                On
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                               
-                                <div *ngIf="check360">
-                                    <hr/>
-                                    <div class="form-group col-12">
-                                        <label class="custom-file col-12">
-                                            <input type="file" id="file" class="custom-file-input" (change)="selecionarArchivo($event.target.files)">
-                                            <span class="custom-file-control">{{labelImagen}}</span>
-                                        </label>
-                                    </div>
-                                    <div align="center" class="col-12">
-                                        <h4 class="card-title" *ngIf="!imagenTemp">Imagen actual</h4>
-                                        <h4 class="card-title" *ngIf="imagenTemp">Imagen nueva</h4>
-                                        <img *ngIf="!imagenTemp" src="" class="w150 ">
-                                        <img *ngIf="imagenTemp" [src]="imagenTemp" class="w150 ">
-                                    </div>
-                                </div>
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    -->
     <div>
         <div class="col-12">
             <div class="card">
@@ -466,7 +524,7 @@
 <ng-template #confirmacionBorrarModel let-c="close('Close click')" let-d="dismiss('Cross click')">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Modificar Atrivuto</h5>
+            <h5 class="modal-title">Modificar imagen del atractivo</h5>
             <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
                 <span aria-hidden="true"></span>
             </button>
@@ -476,6 +534,17 @@
                 <label>Titulo de la imagen</label>
                 <input class="form-control form-control-line" placeholder="{{imagenaEditar.titulo}}" [(ngModel)]="tituloImagenenEdicion"
                     name="tituloImagen" type="text">
+            </div>
+            <div class="form-group" *ngIf="!spiner">
+                <label>Tipo de la imagen</label>
+                <select class="form-control"  [(ngModel)]="tipoImagenEdicion" name="tipoImagenEdicion">
+                    <option>Atractivo</option>
+                    <option>Elemento del atractivo</option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="!spiner">
+                <label>Descripcion de la imagen</label>
+                <input class="form-control form-control-line" placeholder="{{imagenaEditar.descripcion}}" [(ngModel)]="descripcionImagenEdicion" name="descripcionImagenEdicion" type="text">
             </div>
             <div class="form-group col-12">
                 <label class="custom-file col-12">
@@ -496,3 +565,6 @@
         </div>
     </div>
 </ng-template>
+
+
+

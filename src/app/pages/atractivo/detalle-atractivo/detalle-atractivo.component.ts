@@ -8,6 +8,9 @@ import { MouseEvent } from "@agm/core";
 import { Imagenes } from '../../../models/imagenes.model';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { Usuario } from '../../../models/usuario.model';
+import { Horario } from '../../../models/horario.model';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-detalle-atractivo',
   templateUrl: './detalle-atractivo.component.html',
@@ -34,14 +37,20 @@ export class DetalleAtractivoComponent implements OnInit {
   public imagenesList: Observable<any>;
   public atractivo: Atractivo;
   public estilo: string[] = ['First slide','Second slide','Third slide','Fourth slide','Fifth slide','Sixth slide'];
-
+  public horario = new Horario();
+  public horarioEntrada: string[] = ["","","","","","",""];
+  public horarioSalida: string[] = ["","","","","","",""];
   public idAtractivo: string;
   constructor( 
     public activatedRoute: ActivatedRoute,
     public router: Router,
     private atractivoService: AtractivoService,
-    private usuraioService: UsuarioService
-  ) { }
+    private usuraioService: UsuarioService,
+    public config: NgbRatingConfig
+  ) { 
+    config.max = 5;
+    config.readonly = true;
+  }
 
   //====================================================
   //         Evento al dar click al markador
@@ -78,9 +87,22 @@ export class DetalleAtractivoComponent implements OnInit {
         imgTemp.push(imagenTemp);
         });
       this.atractivo.galeria = imgTemp;
-      
-  
+      this.horario = item.horario as Horario;
+      this.horarioEntrada[0] = this.horario.Lunes.horaInicio;
+      this.horarioEntrada[1] = this.horario.Martes.horaInicio;
+      this.horarioEntrada[2] = this.horario.Miercoles.horaInicio;
+      this.horarioEntrada[3] = this.horario.Jueves.horaInicio;
+      this.horarioEntrada[4] = this.horario.Viernes.horaInicio;
+      this.horarioEntrada[5] = this.horario.Sabado.horaInicio;
+      this.horarioEntrada[6] = this.horario.Domingo.horaInicio;
 
+      this.horarioSalida[0] = this.horario.Lunes.horaSalida;
+      this.horarioSalida[1] = this.horario.Martes.horaSalida;
+      this.horarioSalida[2] = this.horario.Miercoles.horaSalida;
+      this.horarioSalida[3] = this.horario.Jueves.horaSalida;
+      this.horarioSalida[4] = this.horario.Viernes.horaSalida;
+      this.horarioSalida[5] = this.horario.Sabado.horaSalida;
+      this.horarioSalida[6] = this.horario.Domingo.horaSalida;
       this.markers = {
         lat: this.atractivo.posicion.lat,
         lng: this.atractivo.posicion.lng,

@@ -14,3 +14,19 @@
 .imagenGaleria{
   min-height: 400px;
 }
+
+.green {
+  color:white;
+  font-weight: bold;
+  background-color: rgba(6, 215, 156, 0.7); 
+}
+.red{
+  color:white;
+  font-weight: bold;
+  background-color:rgba(246, 57, 54, 0.7);
+}
+.blue {
+  color:white;
+  font-weight: bold;
+  background-color: rgba(57, 139, 247, 0.7);
+}

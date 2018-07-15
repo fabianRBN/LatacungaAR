@@ -66,7 +66,7 @@
                         <div class="btn-group ml-auto m-t-10">
                             <a href="JavaScript:void(0)" class="icon-options-vertical link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(16px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a class="dropdown-item" (click)="mostraModal(confirmacionBorrarModel, atractivo.key, atractivo.pathUrl360 )" href="javascript:void(0)">AR</a>
+                                <a class="dropdown-item" (click)="mostraModal(confirmacionBorrarModel, atractivo.key, atractivo.pathUrl360, atractivo.funcionAR  )" href="javascript:void(0)">AR</a>
                                 <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/detalle-atractivo', atractivo.key ]">Detalle</a>
                                 <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/crear-atractivo', atractivo.key ]">Editar</a>
                                 <a class="dropdown-item" href="javascript:void(0)" (click)="eliminar(atractivo.key,atractivo.nombre, atractivo.galeria)">Eliminar</a>

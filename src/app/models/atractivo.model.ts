@@ -17,6 +17,12 @@ export class Atractivo {
     galeria: Imagenes[];
     galeriaObject: Object;
     horario?: Horario;
+    permisos: string;
+    usoActual:string;
+    impactoPositivo:string;
+    impactoNegativo:string;
+
+    funcionAR: boolean;
 
     rating:number;
     pathUrl360:string;

@@ -20,6 +20,10 @@ export class AtractivoService {
       tipo: atractivo.tipo,
       subtipo:atractivo.subtipo,
       direccion: atractivo.direccion,
+      permisos:atractivo.permisos,
+      usoActual: atractivo.usoActual,
+      impactoPositivo: atractivo.impactoPositivo,
+      impactoNegativo: atractivo.impactoNegativo,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
@@ -44,14 +48,21 @@ export class AtractivoService {
     return this.afDatabase.list('atractivo/' + idAtractivo + '/galeria').push({
       titulo: imagen.titulo,
       imagenURL: imagen.imagenURL,
-      pathURL: imagen.pathURL
-
+      pathURL: imagen.pathURL,
+      descripcion: imagen.descripcion,
+      tipo: imagen.tipo
     });
   }
   cargarImagenes360(idAtractivo: string, imagen: Imagenes) {
     return this.afDatabase.object('atractivo/' + idAtractivo + '/imagen360').set({
       imagenURL: imagen.imagenURL,
       pathURL: imagen.pathURL
+    });
+  }
+
+  setfuncionAR(idAtractivo: string, funcionAR:boolean){
+    return  this.afDatabase.object('atractivo/' + idAtractivo ).update({
+        funcionAR: funcionAR
     });
   }
 
@@ -64,6 +75,10 @@ export class AtractivoService {
       tipo: atractivo.tipo,
       subtipo:atractivo.subtipo,
       direccion: atractivo.direccion,
+      permisos:atractivo.permisos,
+      usoActual: atractivo.usoActual,
+      impactoPositivo: atractivo.impactoPositivo,
+      impactoNegativo: atractivo.impactoNegativo,
       descripcion: atractivo.descripcion,
       observacio: atractivo.observacion,
       posicion: atractivo.posicion,
@@ -78,7 +93,9 @@ export class AtractivoService {
     return this.afDatabase.list('atractivo/' + idAtractivo + '/galeria').set(imagen.key, {
       titulo: imagen.titulo,
       imagenURL: imagen.imagenURL,
-      pathURL: imagen.pathURL
+      pathURL: imagen.pathURL,
+      descripcion: imagen.descripcion,
+      tipo: imagen.tipo
     });
   }
 
