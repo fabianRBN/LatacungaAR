@@ -3,16 +3,17 @@ import { Horario } from './horario.model';
 export class Servicio {
   key: string;
   nombre: string;
-  categoria: string;
+  alias: string;
   tipoDeActividad: string;
+  subTipoDeActividad: string;
+  categoria: string;
   direccion: string;
-  posicion: Georeferencia;
   contacto?: string;
   correo?: string;
   web?: string;
   facebookPage?: string;
+  posicion: Georeferencia;
   horario?: Horario;
-  alias: string;
   creadorUid: string;
   constructor() {}
 }

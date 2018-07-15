@@ -24,18 +24,18 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
 
   // Variables del formulario y validación
   public frmRegistro: FormGroup;
-  public categorias: string[] = [
-    '',
+  public tipoDeActividad: string[] = [
+    '-- Seleccione --',
     'Agencia de viajes',
     'Alojamiento',
     'Comidas y bebidas',
     'Recreación, diversión, esparcimiento',
     'Transporte turístico'
   ];
-  public tipodeActivdad: string[];
-  public agenciadeViajesArray: string[] = ['', 'Agencia de Viaje'];
+  public subTipoDeActividad: string[] = ['-- Seleccione --'];
+  public agenciadeViajesArray: string[] = ['-- Seleccione --', 'Agencia de viaje'];
   public alojamientoArray: string[] = [
-    '',
+    '-- Seleccione --',
     'Cabaña',
     'Complejo vacacional',
     'Hostal',
@@ -48,19 +48,56 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     'Refugio'
   ];
   public comidaBebidasArray: string[] = [
-    '',
+    '-- Seleccione --',
     'Bar',
     'Cafeteria',
     'Fuente de Soda',
     'Restaurante'
   ];
   public recreacionDiversionArray: string[] = [
-    '',
+    '-- Seleccione --',
     'Discoteca',
     'Sala de recepciones y banquetes',
     'Termas y balnearios'
   ];
-  public transporteTuristicoArray: string[] = ['', 'Transporte terrestre'];
+  public transporteTuristicoArray: string[] = ['-- Seleccione --', 'Transporte terrestre'];
+  public categoria: string[] = ['-- Seleccione --'];
+  public agenciadeViajesCategoriaArray: string[] = [
+    '-- Seleccione --',
+    'Operadora',
+    'Operadora/Dualidad',
+    'Única'
+  ];
+  public alojamientoCategoriaArray: string[] = [
+    '-- Seleccione --',
+    '1 Estrella',
+    '2 Estrellas',
+    '3 Estrellas',
+    '4 Estrellas',
+    '5 Estrellas',
+    'Primera',
+    'Segunda',
+    'Tercera',
+    'Cuarta',
+    'Quinta'
+  ];
+  public comidaBebidasCategoriaArray: string[] = [
+    '-- Seleccione --',
+    'Primera',
+    'Segunda',
+    'Tercera',
+    'Cuarta',
+    'Quinta'
+  ];
+  public recreacionDiversionCategoriaArray: string[] = [
+    '-- Seleccione --',
+    'Primera',
+    'Segunda',
+    'Tercera',
+    'Cuarta',
+    'Quinta'
+  ];
+  public transporteTuristicoCategoriaArray: string[] = ['-- Seleccione --', 'Ninguna'];
 
   // Variables de Google Maps
   public zoom = 17; // google maps zoom level
@@ -78,6 +115,7 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
   public spiner = false;
   private servicioSubscription: Subscription;
   private authSubscription: Subscription;
+  private inputTipoDeActividadSubcription: Subscription;
   private inputLatSubcription: Subscription;
   private inputLngSubcription: Subscription;
   private inputSiempreAbiertoSubcription: Subscription;
@@ -105,9 +143,19 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
         this.servicio.creadorUid = auth.uid;
       }
     });
-    this.cambioDeTipoDeActividad();
     this.keyServicio = this.activatedRoute.snapshot.paramMap.get('id');
     if (this.keyServicio) {
+      this.subTipoDeActividad = this.agenciadeViajesArray.concat(
+        this.alojamientoArray,
+        this.comidaBebidasArray,
+        this.recreacionDiversionArray,
+        this.transporteTuristicoArray
+      );
+      this.categoria = this.agenciadeViajesCategoriaArray.concat(
+        this.alojamientoCategoriaArray,
+        this.comidaBebidasCategoriaArray,
+        this.transporteTuristicoCategoriaArray
+      );
       this.modoEdicion = true;
       this.servicioSubscription = this.servicioService
         .obtenerServicioPorKey(this.keyServicio)
@@ -130,6 +178,7 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
+    this.inputTipoDeActividadSubcription.unsubscribe();
     this.inputLatSubcription.unsubscribe();
     this.inputLngSubcription.unsubscribe();
     this.inputSiempreAbiertoSubcription.unsubscribe();
@@ -152,8 +201,9 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       this.obtenerHorarioDeFormulario();
       this.servicio.nombre = this.frmRegistro.value.nombre;
       this.servicio.alias = this.frmRegistro.value.alias;
-      this.servicio.categoria = this.frmRegistro.value.categoria;
       this.servicio.tipoDeActividad = this.frmRegistro.value.tipoDeActividad;
+      this.servicio.subTipoDeActividad = this.frmRegistro.value.subTipoDeActividad;
+      this.servicio.categoria = this.frmRegistro.value.categoria;
       this.servicio.direccion = this.frmRegistro.value.direccion;
       this.servicio.posicion = this.georeferencia;
       this.servicio.contacto = this.frmRegistro.value.contacto || 'Ninguno';
@@ -197,7 +247,7 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     this.horario.Lunes = {
       abierto: this.frmRegistro.value.lunesAbierto || false,
       horaInicio: this.frmRegistro.value.lunesHoraInicio || '00:00',
-      horaSalida: this.frmRegistro.value.lunesHoraFinal || '00:00',
+      horaSalida: this.frmRegistro.value.lunesHoraFinal || '00:00'
     };
     this.horario.Martes = {
       abierto: this.frmRegistro.value.martesAbierto || false,
@@ -239,8 +289,9 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     this.frmRegistro = this.formBuilder.group({
       nombre: ['', Validators.required],
       alias: ['', Validators.required],
-      categoria: ['', [Validators.required, ValidateDropdown]],
       tipoDeActividad: ['', [Validators.required, ValidateDropdown]],
+      subTipoDeActividad: ['', [Validators.required, ValidateDropdown]],
+      categoria: ['', [Validators.required, ValidateDropdown]],
       direccion: ['', [Validators.required]],
       contacto: [''],
       correo: [''],
@@ -285,6 +336,51 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     this.frmRegistro.controls['sabadoHoraFinal'].disable();
     this.frmRegistro.controls['domingoHoraInicio'].disable();
     this.frmRegistro.controls['domingoHoraFinal'].disable();
+    this.inputTipoDeActividadSubcription = this.frmRegistro.controls[
+      'tipoDeActividad'
+    ].valueChanges.subscribe(value => {
+      switch (value) {
+        case 'Agencia de viajes': {
+          this.subTipoDeActividad = this.agenciadeViajesArray;
+          this.categoria = this.agenciadeViajesCategoriaArray;
+          break;
+        }
+        case 'Alojamiento': {
+          this.subTipoDeActividad = this.alojamientoArray;
+          this.categoria = this.alojamientoCategoriaArray;
+          break;
+        }
+        case 'Comidas y bebidas': {
+          this.subTipoDeActividad = this.comidaBebidasArray;
+          this.categoria = this.comidaBebidasCategoriaArray;
+          break;
+        }
+        case 'Recreación, diversión, esparcimiento': {
+          this.subTipoDeActividad = this.recreacionDiversionArray;
+          this.categoria = this.recreacionDiversionCategoriaArray;
+          break;
+        }
+        case 'Transporte turístico': {
+          this.subTipoDeActividad = this.transporteTuristicoArray;
+          this.categoria = this.transporteTuristicoCategoriaArray;
+          break;
+        }
+        default: {
+          this.subTipoDeActividad = this.agenciadeViajesArray.concat(
+            this.alojamientoArray,
+            this.comidaBebidasArray,
+            this.recreacionDiversionArray,
+            this.transporteTuristicoArray
+          );
+          this.categoria = this.agenciadeViajesCategoriaArray.concat(
+            this.alojamientoCategoriaArray,
+            this.comidaBebidasCategoriaArray,
+            this.transporteTuristicoCategoriaArray
+          );
+          break;
+        }
+      }
+    });
     this.inputLatSubcription = this.frmRegistro.controls[
       'latitud'
     ].valueChanges.subscribe(value => {
@@ -422,8 +518,9 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
     this.frmRegistro.setValue({
       nombre: servicio.nombre,
       alias: servicio.alias,
-      categoria: servicio.categoria,
       tipoDeActividad: servicio.tipoDeActividad,
+      subTipoDeActividad: servicio.subTipoDeActividad,
+      categoria: servicio.categoria,
       direccion: servicio.direccion,
       contacto: servicio.contacto || 'Ninguna',
       correo: servicio.correo || 'Ninguna',
@@ -454,7 +551,6 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       latitud: servicio.posicion.lat,
       longitud: servicio.posicion.lng
     });
-    this.cambioDeTipoDeActividad();
     this.servicio = servicio;
   }
   // Limpiar los campos del formulario
@@ -476,35 +572,6 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
       }
     });
     this.spiner = false;
-  }
-
-  // Poner la lista correcta del tipo de actividad
-  cambioDeTipoDeActividad() {
-    if (this.frmRegistro.controls['categoria'].value === 'Agencia de viajes') {
-      this.tipodeActivdad = this.agenciadeViajesArray;
-    } else if (this.frmRegistro.controls['categoria'].value === 'Alojamiento') {
-      this.tipodeActivdad = this.alojamientoArray;
-    } else if (
-      this.frmRegistro.controls['categoria'].value === 'Comidas y bebidas'
-    ) {
-      this.tipodeActivdad = this.comidaBebidasArray;
-    } else if (
-      this.frmRegistro.controls['categoria'].value ===
-      'Recreación, diversión, esparcimiento'
-    ) {
-      this.tipodeActivdad = this.recreacionDiversionArray;
-    } else if (
-      this.frmRegistro.controls['categoria'].value === 'Transporte turístico'
-    ) {
-      this.tipodeActivdad = this.transporteTuristicoArray;
-    } else {
-      this.tipodeActivdad = this.agenciadeViajesArray.concat(
-        this.alojamientoArray,
-        this.comidaBebidasArray,
-        this.recreacionDiversionArray,
-        this.transporteTuristicoArray
-      );
-    }
   }
 
   // ====================================================

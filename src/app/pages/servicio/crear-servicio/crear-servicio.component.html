@@ -32,11 +32,11 @@
             </span>
           </div>
           <div class="form-group">
-            <label>Categoria</label>
-            <select class="form-control" formControlName="categoria" name="categoria" (change)="cambioDeTipoDeActividad()">
-              <option *ngFor="let cat of categorias">{{cat}}</option>
+            <label>Tipo de actividad</label>
+            <select class="form-control" formControlName="tipoDeActividad" name="tipoDeActividad">
+              <option *ngFor="let tda of tipoDeActividad">{{tda}}</option>
             </select>
-            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.categoria.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.tipoDeActividad.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
@@ -45,11 +45,24 @@
             </span>
           </div>
           <div class="form-group">
-            <label>Tipo de actividad</label>
-            <select class="form-control" formControlName="tipoDeActividad" name="tipoDeActividad">
-              <option *ngFor="let item of tipodeActivdad">{{item}}</option>
+            <label>Sub tipo de actividad</label>
+            <select class="form-control" formControlName="subTipoDeActividad" name="subTipoDeActividad">
+              <option *ngFor="let stda of subTipoDeActividad">{{stda}}</option>
             </select>
-            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.tipoDeActividad.errors">
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.subTipoDeActividad.errors">
+              <small>
+                <p class="text-danger">
+                  El campo es requerido
+                </p>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select class="form-control" formControlName="categoria" name="categoria">
+              <option *ngFor="let c of categoria">{{c}}</option>
+            </select>
+            <span class="help-block text-muted" *ngIf="!!frmRegistro.controls.categoria.errors">
               <small>
                 <p class="text-danger">
                   El campo es requerido
