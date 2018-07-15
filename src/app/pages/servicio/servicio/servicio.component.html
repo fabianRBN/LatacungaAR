@@ -13,7 +13,7 @@
             </div>
             <div class="btn-group btn-group col-12" role="group" aria-label="Basic example">
               <button type="button" class="btn btn-secondary" (click)="cambiarValorDeOrden('nombre')">Nombre</button>
-              <button type="button" class="btn btn-secondary" (click)="cambiarValorDeOrden('categoria')">Categoria</button>
+              <button type="button" class="btn btn-secondary" (click)="cambiarValorDeOrden('tipoDeActividad')">Tipo de actividad</button>
             </div>
           </div>
         </div>
@@ -29,8 +29,8 @@
       <div class="card-body">
         <h4 class="card-title">{{servicio.nombre}}</h4>
         <hr>
-        <h5 class="card-text block-ellipsis">{{servicio.categoria}}</h5>
-        <h6 class="card-text block-ellipsis">{{servicio.tipoDeActividad}}</h6>
+        <h5 class="card-text block-ellipsis">{{servicio.tipoDeActividad}}</h5>
+        <h6 class="card-text block-ellipsis">{{servicio.subTipoDeActividad}}</h6>
         <div aling="center">
           <div class="button-group">
             <a href="#" class="btn btn-sm btn-primary" [routerLink]="['/detalle-servicio', servicio.key ]">Detalle</a>

@@ -5,7 +5,7 @@ export function ValidateDropdown(control: AbstractControl) {
         return  {  defaultValue : true };
     } else if (control.value === '') {
         return  {  defaultValue : true };
-    } else if ( control.value ==='-- Seleccione --'){
+    } else if ( control.value === '-- Seleccione --') {
         return  {  defaultValue : true };
     }
     return null;

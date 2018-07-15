@@ -10,16 +10,17 @@ export class ServicioService {
   crearServicio(servicio: Servicio) {
     return this.afDatabase.object('servicio/' + servicio.key).set({
       nombre: servicio.nombre,
-      categoria: servicio.categoria,
+      alias: servicio.alias,
       tipoDeActividad: servicio.tipoDeActividad,
+      subTipoDeActividad: servicio.subTipoDeActividad,
+      categoria: servicio.categoria,
       direccion: servicio.direccion,
-      posicion: servicio.posicion,
       contacto: servicio.contacto,
       correo: servicio.correo,
       web: servicio.web,
       facebookPage: servicio.facebookPage,
+      posicion: servicio.posicion,
       horario: servicio.horario,
-      alias: servicio.alias,
       creadorUid: servicio.creadorUid
     });
   }
@@ -37,16 +38,17 @@ export class ServicioService {
   actualizarServicio(servicio: Servicio) {
     return this.afDatabase.list('servicio/').set(servicio.key, {
       nombre: servicio.nombre,
-      categoria: servicio.categoria,
+      alias: servicio.alias,
       tipoDeActividad: servicio.tipoDeActividad,
+      subTipoDeActividad: servicio.subTipoDeActividad,
+      categoria: servicio.categoria,
       direccion: servicio.direccion,
-      posicion: servicio.posicion,
       contacto: servicio.contacto,
       correo: servicio.correo,
       web: servicio.web,
       facebookPage: servicio.facebookPage,
+      posicion: servicio.posicion,
       horario: servicio.horario,
-      alias: servicio.alias,
       creadorUid: servicio.creadorUid
     });
   }
@@ -73,6 +75,7 @@ export class ServicioService {
   borrarServicio(key: string) {
     return this.afDatabase.list('servicio/').remove(key);
   }
+
   listadeServicios() {
     return this.afDatabase.list('servicio/');
   }
