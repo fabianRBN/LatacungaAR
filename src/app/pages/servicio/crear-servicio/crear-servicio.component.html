@@ -122,15 +122,16 @@
           <!-- ============================================= -->
           <div class="form-group">
             <label>Posición</label>
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
+            <agm-map [latitude]="camera.lat" [longitude]="camera.lng" [zoom]="camera.zoom" [disableDefaultUI]="false" [zoomControl]="true"
+              [fullscreenControl]="true" [gestureHandling]="'cooperative'" (mapClick)="mapClicked($event)">
               <agm-marker (markerClick)="clickedMarker(marcador.label)" [latitude]="marcador.lat" [longitude]="marcador.lng" [label]="marcador.label"
                 [markerDraggable]="marcador.draggable" (dragEnd)="markerDragEnd(marcador, $event)">
                 <agm-info-window>
                   <strong>{{marcador.lat}}</strong>
                 </agm-info-window>
               </agm-marker>
-              <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
-              </agm-circle>
+              <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
+              </agm-circle> -->
             </agm-map>
           </div>
           <div class="row">
@@ -182,12 +183,14 @@
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                Apertura <input class="form-control" formControlName="lunesHoraInicio" type="time">
+                Apertura
+                <input class="form-control" formControlName="lunesHoraInicio" type="time">
               </div>
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                Cierre <input class="form-control" formControlName="lunesHoraFinal" type="time">
+                Cierre
+                <input class="form-control" formControlName="lunesHoraFinal" type="time">
               </div>
             </div>
           </div>
@@ -197,15 +200,17 @@
               <label for="martesAbierto">Martes</label>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
-                  Apertura <input class="form-control" formControlName="martesHoraInicio" type="time">
-                </div>
+              <div class="form-group">
+                Apertura
+                <input class="form-control" formControlName="martesHoraInicio" type="time">
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  Cierre <input class="form-control" formControlName="martesHoraFinal" type="time">
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre
+                <input class="form-control" formControlName="martesHoraFinal" type="time">
               </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -213,15 +218,17 @@
               <label for="miercolesAbierto">Miércoles</label>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
-                  Apertura <input class="form-control" formControlName="miercolesHoraInicio" type="time">
-                </div>
+              <div class="form-group">
+                Apertura
+                <input class="form-control" formControlName="miercolesHoraInicio" type="time">
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  Cierre <input class="form-control" formControlName="miercolesHoraFinal" type="time">
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre
+                <input class="form-control" formControlName="miercolesHoraFinal" type="time">
               </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -229,15 +236,17 @@
               <label for="juevesAbierto">Jueves</label>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
-                  Apertura <input class="form-control" formControlName="juevesHoraInicio" type="time">
-                </div>
+              <div class="form-group">
+                Apertura
+                <input class="form-control" formControlName="juevesHoraInicio" type="time">
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  Cierre <input class="form-control" formControlName="juevesHoraFinal" type="time">
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre
+                <input class="form-control" formControlName="juevesHoraFinal" type="time">
               </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -245,15 +254,17 @@
               <label for="viernesAbierto">Viernes</label>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
-                  Apertura <input class="form-control" formControlName="viernesHoraInicio" type="time">
-                </div>
+              <div class="form-group">
+                Apertura
+                <input class="form-control" formControlName="viernesHoraInicio" type="time">
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  Cierre <input class="form-control" formControlName="viernesHoraFinal" type="time">
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre
+                <input class="form-control" formControlName="viernesHoraFinal" type="time">
               </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -261,15 +272,17 @@
               <label for="sabadoAbierto">Sábado</label>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
-                  Apertura <input class="form-control" formControlName="sabadoHoraInicio" type="time">
-                </div>
+              <div class="form-group">
+                Apertura
+                <input class="form-control" formControlName="sabadoHoraInicio" type="time">
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  Cierre <input class="form-control" formControlName="sabadoHoraFinal" type="time">
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre
+                <input class="form-control" formControlName="sabadoHoraFinal" type="time">
               </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -277,15 +290,17 @@
               <label for="domingoAbierto">Domingo</label>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
-                  Apertura <input class="form-control" formControlName="domingoHoraInicio" type="time">
-                </div>
+              <div class="form-group">
+                Apertura
+                <input class="form-control" formControlName="domingoHoraInicio" type="time">
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  Cierre <input class="form-control" formControlName="domingoHoraFinal" type="time">
-                </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                Cierre
+                <input class="form-control" formControlName="domingoHoraFinal" type="time">
               </div>
+            </div>
           </div>
           <!-- ============================================= -->
           <!--        Fin de horario                         -->

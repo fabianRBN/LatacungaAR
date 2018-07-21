@@ -100,9 +100,11 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
   public transporteTuristicoCategoriaArray: string[] = ['-- Seleccione --', 'Ninguna'];
 
   // Variables de Google Maps
-  public zoom = 17; // google maps zoom level
-  public lat = -0.9356373;
-  public lng = -78.6118114; // initial center position for the map
+  public camera: MapCamera = {
+    lat: -0.93368927,
+    lng: -78.61496687,
+    zoom: 16
+  };
   marcador: Marker = {
     lat: 51.673858,
     lng: 7.815982,
@@ -169,8 +171,8 @@ export class CrearServicioComponent implements OnInit, OnDestroy {
           this.servicioEditable = item as Servicio;
           this.marcador.lat = this.servicioEditable.posicion.lat;
           this.marcador.lng = this.servicioEditable.posicion.lng;
-          this.lat = this.servicioEditable.posicion.lat;
-          this.lng = this.servicioEditable.posicion.lng;
+          this.camera.lat = this.servicioEditable.posicion.lat;
+          this.camera.lng = this.servicioEditable.posicion.lng;
           this.formValue(this.servicioEditable);
         });
     }
@@ -610,4 +612,10 @@ interface Marker {
   lng: number;
   label?: string;
   draggable: boolean;
+}
+
+interface MapCamera {
+  lat: number;
+  lng: number;
+  zoom: number;
 }

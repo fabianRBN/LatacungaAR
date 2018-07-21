@@ -53,7 +53,8 @@
 
                 <div class="form-group">
 
-                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" mapDraggable="false" [disableDefaultUI]="false" [zoomControl]="false">
+                    <agm-map [latitude]="camera.lat" [longitude]="camera.lng" [zoom]="camera.zoom" [mapDraggable]="false" [disableDefaultUI]="false"
+                        [zoomControl]="false" [scrollwheel]="false">
 
                         <agm-marker [latitude]="markers.lat" [longitude]="markers.lng" [label]="markers.label">
 
@@ -63,8 +64,8 @@
 
                         </agm-marker>
 
-                        <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true">
-                        </agm-circle>
+                        <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true">
+                        </agm-circle> -->
 
                     </agm-map>
                 </div>
@@ -75,10 +76,10 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            
+
             <div class="card-body">
-                    <h4 class="card-title">
-                            <span class="lstick"></span> Comentarios</h4>
+                <h4 class="card-title">
+                    <span class="lstick"></span> Comentarios</h4>
                 <div class="comment-widgets">
                     <app-comentarios [idAtractivo]='idAtractivo'> </app-comentarios>
                 </div>
