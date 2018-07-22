@@ -74,15 +74,15 @@
       <div class="card-body">
         <h4 class="card-title">Posición</h4>
         <div class="form-group">
-          <agm-map [latitude]="marcador.lat" [longitude]="marcador.lng" [zoom]="zoom" mapDraggable="false" [disableDefaultUI]="false"
-            [zoomControl]="false">
+          <agm-map [latitude]="camera.lat" [longitude]="camera.lng" [zoom]="camera.zoom" [mapDraggable]="false" [disableDefaultUI]="false"
+            [zoomControl]="false" [scrollwheel]="false">
             <agm-marker [latitude]="marcador.lat" [longitude]="marcador.lng" [label]="marcador.label">
               <agm-info-window>
                 <strong>{{servicio.nombre}}</strong>
               </agm-info-window>
             </agm-marker>
-            <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true">
-            </agm-circle>
+            <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true">
+            </agm-circle> -->
           </agm-map>
         </div>
       </div>

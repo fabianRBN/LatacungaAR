@@ -32,43 +32,43 @@
                     </div>
 
                     <div class="form-group">
-                            <label>Categoria</label>
-                            <select class="form-control" formControlName="categoria" name="categoria">
-                                <option *ngFor="let opcion of categoriaAtractivos " >{{opcion}}</option>
-                            </select>
-                            <span class="help-block text-muted" *ngIf="frmRegistro.controls.categoria.errors">
-                                <small>
-                                    <p class="text-danger">
-                                        El campo es requerido
-                                    </p>
-                                </small>
-                            </span>
+                        <label>Categoria</label>
+                        <select class="form-control" formControlName="categoria" name="categoria">
+                            <option *ngFor="let opcion of categoriaAtractivos ">{{opcion}}</option>
+                        </select>
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.categoria.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
                     </div>
                     <div class="form-group">
-                            <label>Tipo</label>
-                            <select class="form-control" formControlName="tipo" name="tipo">
-                                <option *ngFor="let opcion of tipoAtractivo " >{{opcion}}</option>
-                            </select>
-                            <span class="help-block text-muted" *ngIf="frmRegistro.controls.tipo.errors">
-                                <small>
-                                    <p class="text-danger">
-                                        El campo es requerido
-                                    </p>
-                                </small>
-                            </span>
+                        <label>Tipo</label>
+                        <select class="form-control" formControlName="tipo" name="tipo">
+                            <option *ngFor="let opcion of tipoAtractivo ">{{opcion}}</option>
+                        </select>
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.tipo.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
                     </div>
                     <div class="form-group">
-                            <label>Subtipo</label>
-                            <select class="form-control" formControlName="subtipo" name="subtipo">
-                                <option *ngFor="let opcion of subtipoAtractivo " >{{opcion}}</option>
-                            </select>
-                            <span class="help-block text-muted" *ngIf="frmRegistro.controls.subtipo.errors">
-                                <small>
-                                    <p class="text-danger">
-                                        El campo es requerido
-                                    </p>
-                                </small>
-                            </span>
+                        <label>Subtipo</label>
+                        <select class="form-control" formControlName="subtipo" name="subtipo">
+                            <option *ngFor="let opcion of subtipoAtractivo ">{{opcion}}</option>
+                        </select>
+                        <span class="help-block text-muted" *ngIf="frmRegistro.controls.subtipo.errors">
+                            <small>
+                                <p class="text-danger">
+                                    El campo es requerido
+                                </p>
+                            </small>
+                        </span>
                     </div>
        
                     
@@ -144,22 +144,23 @@
                     <!-- ============================================= -->
                     <div class="form-group">
                         <label>Posición</label>
-                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"  [zoomControl]="false" (mapClick)="mapClicked($event)">
+                        <agm-map [latitude]="camera.lat" [longitude]="camera.lng" [zoom]="camera.zoom" [disableDefaultUI]="false" [zoomControl]="true"
+                            [fullscreenControl]="true" [gestureHandling]="'cooperative'" (mapClick)="mapClicked($event)">
                             <agm-marker (markerClick)="clickedMarker(markers.label)" [latitude]="markers.lat" [longitude]="markers.lng" [label]="markers.label"
-                                [markerDraggable]="markers.draggable" (dragEnd)="markerDragEnd(m, $event)">
+                                [markerDraggable]="markers.draggable" (dragEnd)="markerDragEnd(markers, $event)">
                                 <agm-info-window>
                                     <strong>{{markers.lat}}</strong>
                                 </agm-info-window>
                             </agm-marker>
-                            <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
-                            </agm-circle>
-                        </agm-map>  
+                            <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
+                            </agm-circle> -->
+                        </agm-map>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Longitud</label>
-                                <input class="form-control" formControlName="longitud" type="number" step="0.0000001" [min]="-90"  [max]="90">
+                                <input class="form-control" formControlName="longitud" type="number" step="0.0000001" [min]="-90" [max]="90">
                                 <span class="help-block text-muted" *ngIf="frmRegistro.controls.longitud.errors">
                                     <small>
                                         <p class="text-danger">
@@ -173,7 +174,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Latitud</label>
-                                <input class="form-control" formControlName="latitud" type="number" step="0.0000001" [min]="-90"  [max]="90">
+                                <input class="form-control" formControlName="latitud" type="number" step="0.0000001" [min]="-90" [max]="90">
                                 <span class="help-block text-muted" *ngIf="frmRegistro.controls.latitud.errors">
                                     <small>
                                         <p class="text-danger">
@@ -197,124 +198,138 @@
                         </span>
                     </div>
                     <div class="form-group">
-                            <label>Horario</label>
-                          </div>
-                          <div class="form-group">
-                            <input class="filled-in" id="siempreAbierto" formControlName="siempreAbierto" type="checkbox">
-                            <label for="siempreAbierto">Siempre abierto</label>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="lunesAbierto" formControlName="lunesAbierto" type="checkbox">
-                              <label for="lunesAbierto">Lunes</label>
+                        <label>Horario</label>
+                    </div>
+                    <div class="form-group">
+                        <input class="filled-in" id="siempreAbierto" formControlName="siempreAbierto" type="checkbox">
+                        <label for="siempreAbierto">Siempre abierto</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="lunesAbierto" formControlName="lunesAbierto" type="checkbox">
+                            <label for="lunesAbierto">Lunes</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="lunesHoraInicio" type="time">
                             </div>
-                            <div class="col-md-2">
-                              <div class="form-group">
-                                Apertura <input class="form-control" formControlName="lunesHoraInicio" type="time">
-                              </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="lunesHoraFinal" type="time">
                             </div>
-                            <div class="col-md-2">
-                              <div class="form-group">
-                                Cierre <input class="form-control" formControlName="lunesHoraFinal" type="time">
-                              </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="martesAbierto" formControlName="martesAbierto" type="checkbox">
+                            <label for="martesAbierto">Martes</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="martesHoraInicio" type="time">
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="martesAbierto" formControlName="martesAbierto" type="checkbox">
-                              <label for="martesAbierto">Martes</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="martesHoraFinal" type="time">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  Apertura <input class="form-control" formControlName="martesHoraInicio" type="time">
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <div class="form-group">
-                                  Cierre <input class="form-control" formControlName="martesHoraFinal" type="time">
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="miercolesAbierto" formControlName="miercolesAbierto" type="checkbox">
-                              <label for="miercolesAbierto">Miércoles</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="miercolesAbierto" formControlName="miercolesAbierto" type="checkbox">
+                            <label for="miercolesAbierto">Miércoles</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="miercolesHoraInicio" type="time">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  Apertura <input class="form-control" formControlName="miercolesHoraInicio" type="time">
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <div class="form-group">
-                                  Cierre <input class="form-control" formControlName="miercolesHoraFinal" type="time">
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="juevesAbierto" formControlName="juevesAbierto" type="checkbox">
-                              <label for="juevesAbierto">Jueves</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="miercolesHoraFinal" type="time">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  Apertura <input class="form-control" formControlName="juevesHoraInicio" type="time">
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <div class="form-group">
-                                  Cierre <input class="form-control" formControlName="juevesHoraFinal" type="time">
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="viernesAbierto" formControlName="viernesAbierto" type="checkbox">
-                              <label for="viernesAbierto">Viernes</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="juevesAbierto" formControlName="juevesAbierto" type="checkbox">
+                            <label for="juevesAbierto">Jueves</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="juevesHoraInicio" type="time">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  Apertura <input class="form-control" formControlName="viernesHoraInicio" type="time">
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <div class="form-group">
-                                  Cierre <input class="form-control" formControlName="viernesHoraFinal" type="time">
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="sabadoAbierto" formControlName="sabadoAbierto" type="checkbox">
-                              <label for="sabadoAbierto">Sábado</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="juevesHoraFinal" type="time">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  Apertura <input class="form-control" formControlName="sabadoHoraInicio" type="time">
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <div class="form-group">
-                                  Cierre <input class="form-control" formControlName="sabadoHoraFinal" type="time">
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <input class="filled-in" id="domingoAbierto" formControlName="domingoAbierto" type="checkbox">
-                              <label for="domingoAbierto">Domingo</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="viernesAbierto" formControlName="viernesAbierto" type="checkbox">
+                            <label for="viernesAbierto">Viernes</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="viernesHoraInicio" type="time">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                  Apertura <input class="form-control" formControlName="domingoHoraInicio" type="time">
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <div class="form-group">
-                                  Cierre <input class="form-control" formControlName="domingoHoraFinal" type="time">
-                                </div>
-                              </div>
-                          </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="viernesHoraFinal" type="time">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="sabadoAbierto" formControlName="sabadoAbierto" type="checkbox">
+                            <label for="sabadoAbierto">Sábado</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="sabadoHoraInicio" type="time">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="sabadoHoraFinal" type="time">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input class="filled-in" id="domingoAbierto" formControlName="domingoAbierto" type="checkbox">
+                            <label for="domingoAbierto">Domingo</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Apertura
+                                <input class="form-control" formControlName="domingoHoraInicio" type="time">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                Cierre
+                                <input class="form-control" formControlName="domingoHoraFinal" type="time">
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -413,11 +428,10 @@
 
                     
                             </div>
+                            <!-- Card -->
                         </div>
-                        <!-- Card -->
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>

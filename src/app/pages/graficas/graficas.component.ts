@@ -175,15 +175,15 @@ export class GraficasComponent implements OnInit {
       
       item.forEach((element, index) => {
         const servicios:any = element.payload.toJSON();
-        if(servicios.categoria == this.categoriaServicios[0]){
+        if(servicios.tipoDeActividad == this.categoriaServicios[0]){
           this.categoriServiciosCont[0] ++;
-        }else if (servicios.categoria == this.categoriaServicios[1]){
+        }else if (servicios.tipoDeActividad == this.categoriaServicios[1]){
           this.categoriServiciosCont[1] ++;
-        }else if(servicios.categoria == this.categoriaServicios[2]){
+        }else if(servicios.tipoDeActividad == this.categoriaServicios[2]){
           this.categoriServiciosCont[2] ++;
-        }else if (servicios.categoria == this.categoriaServicios[3]){
+        }else if (servicios.tipoDeActividad == this.categoriaServicios[3]){
           this.categoriServiciosCont[3] ++;
-        }else if(servicios.categoria == this.categoriaServicios[4]){
+        }else if(servicios.tipoDeActividad == this.categoriaServicios[4]){
           this.categoriServiciosCont[4] ++;
         }
       })

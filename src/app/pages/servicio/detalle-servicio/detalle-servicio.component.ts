@@ -16,9 +16,11 @@ import { Horario } from '../../../models/horario.model';
 })
 export class DetalleServicioComponent implements OnInit, OnDestroy {
   // Variables de Google Maps
-  public zoom = 18; // google maps zoom level
-  public lat = -0.9356373;
-  public lng = -78.6118114; // initial center position for the map
+  public camera: MapCamera = {
+    lat: -0.93368927,
+    lng: -78.61496687,
+    zoom: 16
+  };
   private marcadorActivado = true;
   marcador: Marker = {
     lat: 51.673858,
@@ -58,6 +60,8 @@ export class DetalleServicioComponent implements OnInit, OnDestroy {
         this.servicio = item as Servicio;
         this.marcador.lat = this.servicio.posicion.lat;
         this.marcador.lng = this.servicio.posicion.lng;
+        this.camera.lat = this.marcador.lat;
+        this.camera.lng = this.marcador.lng;
         this.consultarCreador(this.servicio.creadorUid);
         this.verificarHorario(this.servicio.horario);
       });
@@ -109,4 +113,10 @@ interface Marker {
   lng: number;
   label?: string;
   draggable: boolean;
+}
+
+interface MapCamera {
+  lat: number;
+  lng: number;
+  zoom: number;
 }

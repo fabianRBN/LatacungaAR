@@ -48,7 +48,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   public imagenaSubir = false;
   public imagenTemp: string;
   public archivo: File;
-  public imgTemporales: imagen[] = [];
+  public imgTemporales: Imagen[] = [];
   public marcadorActivado = true;
   public tituloImagen: string;
   public tituloImagenenEdicion: string;
@@ -62,27 +62,27 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   public atractivoEditable = new Atractivo();
   public georeferencia = new Georeferencia();
   public imagenes = new Imagenes();
-  public categoriaAtractivos: string[] =[
-    "-- Seleccione --",
-    "Manifestaciones Culturales",
-    "Sitios Naturales"
+  public categoriaAtractivos: string[] = [
+    '-- Seleccione --',
+    'Manifestaciones Culturales',
+    'Sitios Naturales'
   ];
-  public tipoAtractivo:string[]= [
-    "-- Seleccione --",
-    "Históricas",
-    "Etnográficas",
-    "Realizaciones técnicas y científicas"
+  public tipoAtractivo: string[] = [
+    '-- Seleccione --',
+    'Históricas',
+    'Etnográficas',
+    'Realizaciones técnicas y científicas'
   ];
-  public subtipoAtractivo:string[]= [
-    "-- Seleccione --",
-    "Arquitectura Religiosa",
-    "Arquitectura Civil",
-    "Cuevas",
-    "Museo",
-    "Museos históricos",
-    "Obras Técnicas",
-    "Sectores Históricos",
-    "Manifestaciones Religiosas, Tradiciones y Creencias Populares "
+  public subtipoAtractivo: string[] = [
+    '-- Seleccione --',
+    'Arquitectura Religiosa',
+    'Arquitectura Civil',
+    'Cuevas',
+    'Museo',
+    'Museos históricos',
+    'Obras Técnicas',
+    'Sectores Históricos',
+    'Manifestaciones Religiosas, Tradiciones y Creencias Populares '
   ];
 
 
@@ -123,15 +123,21 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   // ===================================================
   //         Posicion inicial del mapa de google maps
   // ===================================================
-  markers: marker = {
+  public camera: MapCamera = {
+    lat: -0.93368927,
+    lng: -78.61496687,
+    zoom: 16
+  };
+
+  markers: Marker = {
     lat: 51.673858,
     lng: 7.815982,
     label: 'A',
     draggable: true
   };
    // Switch
-   public checkAR: boolean= false;
-   public check360: boolean= true;
+   public checkAR = false;
+   public check360 = true;
 
   constructor(
     public atractivoService: AtractivoService,
@@ -195,7 +201,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     this.frmRegistro.controls['sabadoHoraFinal'].disable();
     this.frmRegistro.controls['domingoHoraInicio'].disable();
     this.frmRegistro.controls['domingoHoraFinal'].disable();
-  
+
 
     this.inputSiempreAbiertoSubcription = this.frmRegistro.controls[
       'siempreAbierto'
@@ -326,7 +332,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
   obtenerHorarioDeFormulario() {
     this.horario.siempreAbierto = this.frmRegistro.value.siempreAbierto || false;
     this.horario.Lunes = {
@@ -436,7 +442,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
   // ===================================================
   //         Evento al mover un marcador de google maps
   // ===================================================
-  markerDragEnd(m: marker, $event: MouseEvent) {
+  markerDragEnd(m: Marker, $event: MouseEvent) {
     console.log('dragEnd', m, $event);
   }
 
@@ -462,7 +468,6 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     if (this.idAtractivo) {
       this.modoedicion = true;
       let imagenTemp = new Imagenes();
-
       this.atractivoList = this.atractivoService
         .obtenerAtractivoPorKey(this.idAtractivo)
         .snapshotChanges();
@@ -470,14 +475,13 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
         .map(item => {
           const key = item[0].payload.key;
           const datos = { key, ...item[0].payload.val() };
-
           return datos;
         })
         .subscribe(item => {
           const imgTemp: Imagenes[] = [];
           this.atractivoEditable = item as Atractivo;
           this.atractivoEditable.galeriaObject = item.galeria;
-          // Recopilacion de todas la imagenes de galeria 
+          // Recopilacion de todas la imagenes de galeria
           Object.keys(item.galeria).forEach(key => {
             imagenTemp = item.galeria[key] as Imagenes;
             imagenTemp.key = key;
@@ -486,26 +490,24 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
           this.atractivoEditable.galeria = imgTemp;
 
 
-          // Validacion para ctualizar el horario en atractivos que no cuenten con horario 
-          if(item.horario){
+          // Validacion para ctualizar el horario en atractivos que no cuenten con horario
+          if (item.horario) {
               this.horario = item.horario as Horario;
-           
-          }else{
-
+          } else {
             this.obtenerHorarioDeFormulario();
             this.atractivoEditable.horario = this.horario;
           }
-      
+
           this.markers = {
             lat: this.atractivoEditable.posicion.lat,
             lng: this.atractivoEditable.posicion.lng,
-
             draggable: false
           };
-
+          this.camera.lat = this.atractivoEditable.posicion.lat;
+          this.camera.lng = this.atractivoEditable.posicion.lng;
           this.formValue(this.atractivoEditable);
         });
-    }else{
+    } else {
       this.obtenerHorarioDeFormulario();
     }
   }
@@ -514,6 +516,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     this.usuarioSubscription.unsubscribe();
     this.inputLatSubcription.unsubscribe();
     this.inputLngSubcription.unsubscribe();
+    this.inputSiempreAbiertoSubcription.unsubscribe();
     this.inputLunesSubscription.unsubscribe();
     this.inputMartesSubscription.unsubscribe();
     this.inputMiercolesSubscription.unsubscribe();
@@ -641,7 +644,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     this.imagenaEditar.descripcion = this.descripcionImagenEdicion ||'';
     this.imagenaEditar.tipo = this.tipoImagenEdicion ||'';
     if (this.imagenTemp) {
-      const imagenNueva: imagen = {
+      const imagenNueva: Imagen = {
         titulo: this.tituloImagenenEdicion,
         descripcion:this.descripcionImagenEdicion,
         tipo:this.tipoImagenEdicion,
@@ -683,7 +686,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
     });
   }
   // se carga una unica imagen(Usada para modificar una imagen en especifico)
-  guardarImgen(imgTem: imagen, index: number) {
+  guardarImgen(imgTem: Imagen, index: number) {
     let progreso = 0;
     if (imgTem.archivo != null) {
       const ubicacion =
@@ -836,7 +839,7 @@ export class CrearAtractivoComponent implements OnInit, OnDestroy {
 //         Interfaces
 // ===================================================
 // Interfaz para imagenes temporales
-interface imagen {
+interface Imagen {
   titulo: string;
   tipo:string;
   descripcion:string;
@@ -846,9 +849,16 @@ interface imagen {
 }
 
 // interfaz para marcadores.
-interface marker {
+interface Marker {
   lat: number;
   lng: number;
   label?: string;
   draggable: boolean;
+}
+
+// interfaz para la camara del mapa
+interface MapCamera {
+  lat: number;
+  lng: number;
+  zoom: number;
 }
