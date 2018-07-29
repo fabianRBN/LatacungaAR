@@ -218,13 +218,21 @@ setFiltro( filtro){
       }
       
     });
-    this.imagenTemporal ={
-      titulo: "",
-      imagenTemp: this.imagenTemp,
-      archivo: this.archivo,
-      progreso: 0
-    };
-    this.guardarImgen(this.imagenTemporal);
+    if(this.check360){
+      this.imagenTemporal ={
+        titulo: "",
+        imagenTemp: this.imagenTemp,
+        archivo: this.archivo,
+        progreso: 0
+      };
+      this.guardarImgen(this.imagenTemporal);
+    }else{
+      this.atractivoService.cargarImagenes360(
+        this.idAtractivo,
+        null
+      );
+    }
+
     
     //let imagen = new Imagenes();
     //this.atractivoService.cargarImagenes360(idAtractivo, imagen);
@@ -280,6 +288,7 @@ setFiltro( filtro){
           }
 
           this.mensajedeConfirmacion('registrado');
+          
 
         }
       );
@@ -297,13 +306,15 @@ setFiltro( filtro){
 mostraModal(modelId, id, pathUrl, funcionAR) {
   this.idAtractivo = id;
   this.imagenTemp = pathUrl;
-  
+  this.archivo = null;
+
+  this.labelImagen = "";
+
   if(this.imagenTemp != ""){
     this.check360 = true;
 
   }else{
     this.check360 = false;
-
   }
   if(funcionAR){
     this.checkAR = true;
@@ -315,9 +326,12 @@ mostraModal(modelId, id, pathUrl, funcionAR) {
 cerrarModal() {
 
   this.modalRef.close();
+  
 }
 
-
+limpiarArchivo(){
+  this.archivo = null;
+}
 
 }
 interface imagen {

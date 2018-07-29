@@ -54,10 +54,15 @@ export class AtractivoService {
     });
   }
   cargarImagenes360(idAtractivo: string, imagen: Imagenes) {
-    return this.afDatabase.object('atractivo/' + idAtractivo + '/imagen360').set({
-      imagenURL: imagen.imagenURL,
-      pathURL: imagen.pathURL
-    });
+    if(imagen!= null){
+      return this.afDatabase.object('atractivo/' + idAtractivo + '/imagen360').set({
+        imagenURL: imagen.imagenURL,
+        pathURL: imagen.pathURL
+      });
+    }else{
+      return this.afDatabase.object('atractivo/' + idAtractivo + '/imagen360').set(null);
+    }
+    
   }
 
   setfuncionAR(idAtractivo: string, funcionAR:boolean){
