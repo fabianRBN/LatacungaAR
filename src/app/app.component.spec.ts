@@ -7,9 +7,7 @@ import { Injectable, Inject } from '@angular/core';
 
 
 describe('AppComponent', () => {
-  
- 
-  
+   
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -23,7 +21,5 @@ describe('AppComponent', () => {
       providers:[]
     }).compileComponents();
   }));
-
-
 
 });

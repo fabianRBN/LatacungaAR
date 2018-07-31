@@ -9,7 +9,4 @@ describe('ArchivoService', () => {
     });
   });
 
-  it('should be created', inject([ArchivoService], (service: ArchivoService) => {
-    expect(service).toBeTruthy();
-  }));
 });
