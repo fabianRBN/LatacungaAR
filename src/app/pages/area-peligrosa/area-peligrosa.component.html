@@ -1,0 +1,66 @@
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      
+      <div class="card-body">
+      
+      <button class="btn btn-primary" style="margin-bottom: 10px;"  (click)="mostraModal(confirmacionBorrarModel )" >Nueva Área</button>
+      
+
+
+
+      <agm-map [latitude]="camera.lat" [longitude]="camera.lng" [zoom]="camera.zoom" [disableDefaultUI]="false" [zoomControl]="true"
+          [fullscreenControl]="true" [gestureHandling]="'cooperative'" (mapClick)="mapClicked($event)">
+
+
+          <agm-circle *ngFor="let circle of circulos "
+            [latitude]="circle.lat" 
+            [longitude]="circle.lng" 
+            [radius]="circle.radius"
+            [fillColor]="'red'"
+            [circleDraggable]="true"
+            [editable]="true">
+          </agm-circle>
+
+          
+          <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
+          </agm-circle> -->
+      </agm-map>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================= -->
+    <!--        Modal    AR                            -->
+    <!-- ============================================= -->
+    <ng-template #confirmacionBorrarModel let-c="close('Close click')" let-d="dismiss('Cross click')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Área</h5>
+                <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-material m-t-40">
+                    <div class="form-group" >
+                        <label>Nombre del Area</label>
+                        <input class="form-control form-control-line" placeholder=""  type="text">
+                    </div>
+                    <div class="form-group" >
+                        <label>Radio del Area</label>
+                        <input class="form-control form-control-line" placeholder=""  type="text">
+                    </div>
+                    
+                    <h4 class="card-title"> Cordenadas </h4>
+
+                    <agm-map [latitude]="camera.lat" [longitude]="camera.lng" [zoom]="camera.zoom" [disableDefaultUI]="false" [zoomControl]="true"
+                    [fullscreenControl]="true" [gestureHandling]="'cooperative'" (mapClick)="mapClicked($event)">
+                    </agm-map>          
+                </form>
+                <button class="btn btn-primary" style="margin-bottom: 10px; width: 100%; margin-top: 20px"   >Guardar Área</button>
+            </div>
+        </div>
+    </ng-template>

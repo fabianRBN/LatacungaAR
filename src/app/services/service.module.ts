@@ -12,7 +12,8 @@ import {
   PersonajeService,
   GeoAtractivoService,
   ComentariosService,
-  ClienteService
+  ClienteService,
+  AreaPeligrosaService
 } from './service.index';
 
 @NgModule({
@@ -30,7 +31,8 @@ import {
     PersonajeService,
     GeoAtractivoService,
     ComentariosService,
-    ClienteService
+    ClienteService,
+    AreaPeligrosaService
   ]
 })
 export class ServiceModule {}

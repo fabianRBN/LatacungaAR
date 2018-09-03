@@ -1,3 +1,4 @@
+
 // ====================================================
 //         Exportecion de todos los servicios
 // ====================================================
@@ -13,4 +14,4 @@ export { PersonajeService } from './personaje/personaje.service';
 export { GeoAtractivoService } from './atractivo/geo-atractivo.service';
 export { ComentariosService } from './comentarios/comentarios.service';
 export { ClienteService } from './cliente/cliente.service';
-
+export { AreaPeligrosaService } from './area-peligrosa/area-peligrosa.service';

@@ -34,6 +34,14 @@ export class SidebarService {
         {titulo: 'Personajes', url: '/personaje'},
         {titulo: 'Registrar', url: '/crear-personaje'},
       ]
+    },
+    {
+      titulo: 'Areas Peligrosas',
+      icon: 'mdi mdi-burst-mode',
+      submenu: [
+
+        {titulo: 'Áreas Peligrosas', url: '/areas-peligrosas'}
+      ]
     }
   ];
 

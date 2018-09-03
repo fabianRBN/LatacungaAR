@@ -7,6 +7,8 @@ import { Imagenes } from "../../../models/imagenes.model";
 import { ArchivoService } from '../../../services/archivo/archivo.service';
 import { GeoAtractivoService } from '../../../services/atractivo/geo-atractivo.service';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/zip";
 import { ComentariosService } from '../../../services/comentarios/comentarios.service';
 import {
   NgbModal,
@@ -302,7 +304,6 @@ setFiltro( filtro){
 //====================================================
 //         Modal
 //====================================================
-
 mostraModal(modelId, id, pathUrl, funcionAR) {
   this.idAtractivo = id;
   this.imagenTemp = pathUrl;

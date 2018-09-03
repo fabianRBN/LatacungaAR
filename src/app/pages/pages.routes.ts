@@ -19,6 +19,7 @@ import { PersonajeComponent } from './personaje/personaje/personaje.component';
 import { CrearPersonajeComponent } from './personaje/crear-personaje/crear-personaje.component';
 import { DetallePersonajeComponent } from './personaje/detalle-personaje/detalle-personaje.component';
 import { NopagefoundComponent } from '../shared/nopagefound/nopagefound.component';
+import { AreaPeligrosaComponent } from './area-peligrosa/area-peligrosa.component';
 
 const pagesRoutes: Routes = [
     {
@@ -45,6 +46,7 @@ const pagesRoutes: Routes = [
             { path: 'crear-personaje', component: CrearPersonajeComponent, data: { titulo: 'Crear Personaje' } },
             { path: 'crear-personaje/:id', component: CrearPersonajeComponent, data: { titulo: 'Editar Personaje' } },
             { path: 'detalle-personaje/:id', component: DetallePersonajeComponent, data: { titulo: 'Detalle Personaje' } },
+            { path: 'areas-peligrosas', component: AreaPeligrosaComponent, data: { titulo: 'Area Peligrosa' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
         ],
     },

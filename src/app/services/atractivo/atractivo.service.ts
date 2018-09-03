@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Http, HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/zip";
 import { Atractivo } from '../../models/atractivo.model';
 import { Imagenes } from '../../models/imagenes.model';
 

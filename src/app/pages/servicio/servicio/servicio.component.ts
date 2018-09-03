@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs/Subscription';
-import { Servicio } from './../../../models/servicio.model';
+import { Servicio } from '../../../models/servicio.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ServicioService } from '../../../services/service.index';

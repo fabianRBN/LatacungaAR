@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs/Subscription';
-import { Personaje } from './../../../models/personaje.model';
+import { Personaje } from '../../../models/personaje.model';
 import { Imagenes } from '../../../models/imagenes.model';
 import { Cliente } from '../../../models/cliente.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';

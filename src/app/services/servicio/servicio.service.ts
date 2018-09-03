@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { Servicio } from './../../models/servicio.model';
+import { Servicio } from '../../models/servicio.model';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 

@@ -31,6 +31,7 @@ import { PersonajeComponent } from './personaje/personaje/personaje.component';
 import { CrearPersonajeComponent } from './personaje/crear-personaje/crear-personaje.component';
 import { ComentariosComponent } from '../components/comentarios/comentarios.component';
 import { HistorialComponent } from '../components/historial/historial.component';
+import { AreaPeligrosaComponent } from './area-peligrosa/area-peligrosa.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { HistorialComponent } from '../components/historial/historial.component'
     CrearPersonajeComponent,
     ComentariosComponent,
     HistorialComponent,
+    AreaPeligrosaComponent,
   ],
   exports: [
 

@@ -1,8 +1,8 @@
-import { Imagenes } from './../../../models/imagenes.model';
+import { Imagenes } from '../../../models/imagenes.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { Personaje } from './../../../models/personaje.model';
+import { Personaje } from '../../../models/personaje.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Usuario } from '../../../models/usuario.model';
 import {

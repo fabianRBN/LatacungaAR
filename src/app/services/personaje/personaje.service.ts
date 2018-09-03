@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
-import { Imagenes } from './../../models/imagenes.model';
-import { Personaje } from './../../models/personaje.model';
+import { Imagenes } from '../../models/imagenes.model';
+import { Personaje } from '../../models/personaje.model';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 

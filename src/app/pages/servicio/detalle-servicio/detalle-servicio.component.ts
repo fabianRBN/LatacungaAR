@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Servicio } from './../../../models/servicio.model';
+import { Servicio } from '../../../models/servicio.model';
 import { Subscription } from 'rxjs/Subscription';
-import { Usuario } from './../../../models/usuario.model';
+import { Usuario } from '../../../models/usuario.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   ServicioService,
